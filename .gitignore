@@ -9,3 +9,6 @@ Homestead.json
 bower_components
 .settings
 .buildpath
+.idea
+.sass-cache
+*.map

@@ -421,6 +421,15 @@ H=h("script,style"),t=e.extend({},z,q,k,u),y=h("background,cite,href,longdesc,sr
 '="'+m[c]+'" ');else m={};!e.isDefined(h)||"target"in m||p.push('target="',h,'" ');p.push('href="',a.replace(/"/g,"&quot;"),'">');k(b);p.push("</a>")}if(null==f||""===f)return f;if(!g(f))throw d("notstring",f);for(var r=f,p=[],s,n;f=r.match(c);)s=f[0],f[2]||f[4]||(s=(f[3]?"http://":"mailto:")+s),n=f.index,k(r.substr(0,n)),q(s,f[0].replace(b,"")),r=r.substring(n+f[0].length);k(r);return a(p.join(""))}}])})(window,window.angular);
 //# sourceMappingURL=angular-sanitize.min.js.map
 
+_slugify_strip_re = /[^\w\s-]/g;
+_slugify_hyphenate_re = /[-\s]+/g;
+String.prototype.slugify = function(s) {
+    var text = this;
+    text = text.replace(_slugify_strip_re, '').trim().toLowerCase();
+    text = text.replace(_slugify_hyphenate_re, '-');
+    return text;
+}
+
 var app = angular.module('ukuleleSongs', ['ngRoute'], function($interpolateProvider) {
 	 $interpolateProvider.startSymbol('<%');
      $interpolateProvider.endSymbol('%>');
@@ -436,6 +445,7 @@ app.factory("Song", function SongFactory($http) {
             return $http.get(API_URL + 'songs/' + id);
         },
         create: function(Song) {
+            Song.slug = Song.title.slugify();
             return $http({
                 method: "POST",
                 url: API_URL + 'songs/',
@@ -451,12 +461,15 @@ app.factory("Song", function SongFactory($http) {
         song: {
         	title: null,
         	artist: null,
+            description: null,
         	song: null,
         	tab: null,
-        	key: null
+        	key: "C"
         }
     }
 });
+
+
 
 app.controller('SongController', 
 	['$scope', '$http', '$route', '$routeParams', '$location', '$sce', 'Song',
@@ -477,6 +490,9 @@ app.controller('SongController',
 		
 		if ($routeParams.id) {
 			$scope.load($routeParams.id);
+		} else if ($scope.action && $scope.action === new) {
+			$scope.keys = ['C','F','B♭','E♭','A♭','D♭','C♯','G♭','F♯','B','E','A','D','G'];
+			$scope.song = Song.song;
 		} else {
 			$scope.load();
 		}
@@ -513,6 +529,17 @@ app.directive('ukulelesong', ['$sce', 'Song', function($sce, Song) {
         controller: 'SongController',
         templateUrl: '/app/templates/songs/index.html',
     };
+}])
+.directive('new-song', ['$sce', 'Song', function($sce, Song) {
+        return {
+            // Restrict it to be an element in this case
+            restrict: 'E',
+            controller: 'SongController',
+            templateUrl: '/app/templates/songs/new.html',
+            scope: {
+                action: 'new',
+            }
+        };
 }]);
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 	$routeProvider
