@@ -13,4 +13,11 @@
 
 Route::controller('song', 'SongController');
 
-Route::get('/', 'SongController@getIndex');
+Route::get('/', function() {
+	return view('index');
+});
+
+Route::get('/api/v1/songs/{id?}', 'SongController@index');
+Route::post('/api/v1/songs', 'SongController@store');
+Route::post('/api/v1/songs/{id}', 'SongController@update');
+Route::delete('/api/v1/songs/{id}', 'SongController@destroy');

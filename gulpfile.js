@@ -12,7 +12,7 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-	var bootstrapPath = 'node_modules/bootstrap-sass/assets';
+	var bootstrapPath = './bower_components/bootstrap-sass/assets';
     mix.sass('app.scss')
     .copy(bootstrapPath + '/fonts', 'public/fonts')
     .copy(bootstrapPath + '/javascripts/bootstrap.min.js', 'public/js');
@@ -25,6 +25,15 @@ elixir(function(mix) {
    ]);
     
     mix.scripts([
-        "ukeGeeks.scriptasaurus.min.js"
+		'./bower_components/jquery/dist/jquery.min.js',
+		bootstrapPath + '/javascripts/bootstrap.min.js',
+        './app/assets/javascript/ukeGeeks.scriptasaurus.min.js',
+        './bower_components/angular/angular.min.js',
+        './bower_components/angular-route/angular-route.min.js',
+        './bower_components/angular-sanitize/angular-sanitize.min.js',
+        './public/app/app.js',
+        './public/app/factories',
+        './public/app/controllers',
+        './public/app/routes.js'
    ])
 });

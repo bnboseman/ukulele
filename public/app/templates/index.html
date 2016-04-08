@@ -1,0 +1,7 @@
+<div class="col-md-12" ng-init="load()">
+    <h1>Songs</h1>
+    
+    <div ng-repeat="song in songs">
+        <a href="#/song/<% song.id %>" ng-click="load(song.id);"><% song.title %></a><br /> 
+    </div>
+</div>

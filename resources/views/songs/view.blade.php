@@ -6,19 +6,21 @@
 		<aside id="ukeChordsCanvas" class="ugs-diagrams-wrap ugs-grouped"></aside>
 		<article id="ukeSongText" class="ugs-source-wrap"><pre>{{ $song->song }}</pre></article>
 	</div>
+@endsection
 
-	<script type="text/javascript">
-		if (false){//isLegacyIe){
-			window.attachEvent('onload',function(){
-				ukeGeeks.scriptasaurus.init(true);
-				ukeGeeks.scriptasaurus.runByClasses();
-			});
-		}
-		else{
-			(function(){
-				ukeGeeks.scriptasaurus.init(false);
-				ukeGeeks.scriptasaurus.runByClasses();
-			})();
-		}
-	</script>
+@section('scripts')
+	{{ Html::script('js/ukeGeeks.scriptasaurus.merged.js') }}
+<script type="text/javascript">
+	if (false){ //isLegacyIe){
+		window.attachEvent('onload',function(){
+			ukeGeeks.scriptasaurus.init(true);
+			ukeGeeks.scriptasaurus.runByClasses();
+		});
+	} else {
+		(function(){
+			ukeGeeks.scriptasaurus.init(false);
+			ukeGeeks.scriptasaurus.runByClasses();
+		})();
+	}
+</script>
 @endsection

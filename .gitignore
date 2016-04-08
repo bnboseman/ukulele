@@ -6,3 +6,6 @@ Homestead.json
 .env
 .DS_Store
 .project
+bower_components
+.settings
+.buildpath
