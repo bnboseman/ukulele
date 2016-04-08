@@ -1,3 +1,12 @@
+_slugify_strip_re = /[^\w\s-]/g;
+_slugify_hyphenate_re = /[-\s]+/g;
+String.prototype.slugify = function(s) {
+    var text = this;
+    text = text.replace(_slugify_strip_re, '').trim().toLowerCase();
+    text = text.replace(_slugify_hyphenate_re, '-');
+    return text;
+}
+
 var app = angular.module('ukuleleSongs', ['ngRoute'], function($interpolateProvider) {
 	 $interpolateProvider.startSymbol('<%');
      $interpolateProvider.endSymbol('%>');

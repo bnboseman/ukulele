@@ -9,7 +9,11 @@ use UkuleleSongs\Song;
 
 class SongController extends Controller
 {
-	public function index($id = null) {
+	public function index() {
+			return Song::all()->load('artist');
+	}
+
+	public function artist($id) {
 		if ($id == null) {
 			return Song::orderBy('title', 'desc')->get();
 		} else {
@@ -31,16 +35,13 @@ class SongController extends Controller
 	}
 	
 	public function show($id) {
-		return Song::find($id);
-	}
-	
-	public function getView($id) {
 		if (is_numeric($id) ) {
 			$song = Song::find($id);
 		} else {
-			$song = Song::where('slug', '=', $id)->first(); 
+			$song = Song::where('slug', '=',$id)->first();
 		}
-		return view('songs.view', ['song' => Song::findOrFail($id)]);
+		$song->load('artist');
+		return $song;
 	}
 	
 	public function update(Request $request, $id) {
@@ -63,6 +64,15 @@ class SongController extends Controller
 		$song->delete();
 	
 		return $title . ' has been successfully deleted.';
+	}
+
+	public function getView($id) {
+		$song = $this->show($id);
+		return view('songs.view', ['song' => $song]);
+	}
+
+	public function getNew() {
+		return view('songs.new');
 	}
 	
 }

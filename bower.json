@@ -1,0 +1,29 @@
+{
+  "name": "ukulele",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Nichole Boseman <brandi.boseman@nhfc.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "ukulele",
+    "music",
+    "songs"
+  ],
+  "homepage": "https://github.com/bnboseman/ukulele",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "^1.5.3",
+    "angular-sanitize": "^1.5.3",
+    "angular": "^1.5.3",
+    "bootstrap-sass": "^3.3.6"
+  }
+}

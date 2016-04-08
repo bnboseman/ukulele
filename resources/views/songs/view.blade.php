@@ -2,7 +2,7 @@
 
 @section('content')
 	<h1 class="ugsSongTitle">{{ $song->title }} </h1>
-	<div id="ukeSongContainer" class="ugsLayoutTwoColumn ugs-song-wrap">
+	<div id="ukeSongContainer" class="ugsLayoutOneColumn ugs-song-wrap">
 		<aside id="ukeChordsCanvas" class="ugs-diagrams-wrap ugs-grouped"></aside>
 		<article id="ukeSongText" class="ugs-source-wrap"><pre>{{ $song->song }}</pre></article>
 	</div>

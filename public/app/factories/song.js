@@ -7,6 +7,7 @@ app.factory("Song", function SongFactory($http) {
             return $http.get(API_URL + 'songs/' + id);
         },
         create: function(Song) {
+            Song.slug = Song.title.slugify();
             return $http({
                 method: "POST",
                 url: API_URL + 'songs/',
@@ -22,9 +23,11 @@ app.factory("Song", function SongFactory($http) {
         song: {
         	title: null,
         	artist: null,
+            description: null,
         	song: null,
         	tab: null,
-        	key: null
+        	key: "C"
         }
     }
 });
+
