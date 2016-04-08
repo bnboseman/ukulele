@@ -18,8 +18,12 @@ Route::get('/', function() {
 	return view('index');
 });
 
+Route::get('/songs/new', 'SongController@getNew');
+
+Route::get('/songs/{slug}', 'SongController@getView')->where('slug', '[A-Za-z\-]+');
 Route::get('/songs/{id}', 'SongController@getView')->where('id', '[0-9]+');
-Route::get('/songs/{id}', 'SongController@getView')->where('id', '[A-Za-z0-9-]+');
+
+
 
 Route::get('/songs/', function() {
 	return view('index');

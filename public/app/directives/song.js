@@ -19,7 +19,7 @@ app.directive('ukulelesong', ['$sce', 'Song', function($sce, Song) {
         }
     };
 }])
-.directive('songs', ['$sce', 'Song', function($sce, Song) {
+.directive('songs', ['$sce', function($sce, Song) {
     return {
         // Restrict it to be an element in this case
         restrict: 'E',
@@ -27,14 +27,14 @@ app.directive('ukulelesong', ['$sce', 'Song', function($sce, Song) {
         templateUrl: '/app/templates/songs/index.html',
     };
 }])
-.directive('new-song', ['$sce', 'Song', function($sce, Song) {
+.directive('song', ['$sce', 'Song', function($sce, Song) {
         return {
             // Restrict it to be an element in this case
             restrict: 'E',
             controller: 'SongController',
             templateUrl: '/app/templates/songs/new.html',
             scope: {
-                action: 'new',
+                action: '@action',
             }
         };
 }]);

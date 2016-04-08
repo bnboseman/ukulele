@@ -34,7 +34,8 @@ class SongController extends Controller
 		return $song->title . ' has been successfully created.';
 	}
 	
-	public function show($id) {
+	public function show($id)
+	{
 		if (is_numeric($id) ) {
 			$song = Song::find($id);
 		} else {

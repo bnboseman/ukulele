@@ -3,7 +3,6 @@ app.controller('SongController',
 	['$scope', '$http', '$route', '$routeParams', '$location', '$sce', 'Song',
 	function($scope, $http, $route, $routeParams, $location, $sce,  Song)  {
 		$scope.songs = null;
-		$scope.song = null;
 		
 		$scope.load = function( id ) {
 			if (id == null) {
@@ -14,17 +13,33 @@ app.controller('SongController',
 			} else {
 				$scope.id = id;
 			}
+		};
+
+		console.log($scope);
+		switch($scope.action) {
+			case "new":
+				$scope.keys = ['C', 'F', 'B♭', 'E♭', 'A♭', 'D♭', 'C♯', 'G♭', 'F♯', 'B', 'E', 'A', 'D', 'G'];
+				$scope.song = Song.song;
+
+				$scope.saveSong = function() {
+					Song.create($scope.song)
+						.success( function(data) {
+							$location.redirectTo('/songs/' + data.id);
+						});
+				};
+
+				break;
+			case "load":
+				if ($scope.id) {
+					$location.redirectTo('/songs/' + $scope.id);
+				} else {
+					$location.redirectTo('/');
+				}
+				break;
+			default:
+				$scope.load();
+				break;
 		}
-		
-		if ($routeParams.id) {
-			$scope.load($routeParams.id);
-		} else if ($scope.action && $scope.action === new) {
-			$scope.keys = ['C','F','B♭','E♭','A♭','D♭','C♯','G♭','F♯','B','E','A','D','G'];
-			$scope.song = Song.song;
-		} else {
-			$scope.load();
-		}
-		
 	
 }]);
 

@@ -21,12 +21,13 @@ app.factory("Song", function SongFactory($http) {
             });
         },
         song: {
-        	title: null,
+         	title: null,
         	artist: null,
             description: null,
         	song: null,
         	tab: null,
-        	key: "C"
+        	key: "C",
+            artist_id: null
         }
     }
 });

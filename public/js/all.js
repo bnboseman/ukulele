@@ -459,12 +459,13 @@ app.factory("Song", function SongFactory($http) {
             });
         },
         song: {
-        	title: null,
+         	title: null,
         	artist: null,
             description: null,
         	song: null,
         	tab: null,
-        	key: "C"
+        	key: "C",
+            artist_id: null
         }
     }
 });
@@ -475,7 +476,6 @@ app.controller('SongController',
 	['$scope', '$http', '$route', '$routeParams', '$location', '$sce', 'Song',
 	function($scope, $http, $route, $routeParams, $location, $sce,  Song)  {
 		$scope.songs = null;
-		$scope.song = null;
 		
 		$scope.load = function( id ) {
 			if (id == null) {
@@ -486,17 +486,33 @@ app.controller('SongController',
 			} else {
 				$scope.id = id;
 			}
+		};
+
+		console.log($scope);
+		switch($scope.action) {
+			case "new":
+				$scope.keys = ['C', 'F', 'B♭', 'E♭', 'A♭', 'D♭', 'C♯', 'G♭', 'F♯', 'B', 'E', 'A', 'D', 'G'];
+				$scope.song = Song.song;
+
+				$scope.saveSong = function() {
+					Song.create($scope.song)
+						.success( function(data) {
+							$location.redirectTo('/songs/' + data.id);
+						});
+				};
+
+				break;
+			case "load":
+				if ($scope.id) {
+					$location.redirectTo('/songs/' + $scope.id);
+				} else {
+					$location.redirectTo('/');
+				}
+				break;
+			default:
+				$scope.load();
+				break;
 		}
-		
-		if ($routeParams.id) {
-			$scope.load($routeParams.id);
-		} else if ($scope.action && $scope.action === new) {
-			$scope.keys = ['C','F','B♭','E♭','A♭','D♭','C♯','G♭','F♯','B','E','A','D','G'];
-			$scope.song = Song.song;
-		} else {
-			$scope.load();
-		}
-		
 	
 }]);
 
@@ -522,7 +538,7 @@ app.directive('ukulelesong', ['$sce', 'Song', function($sce, Song) {
         }
     };
 }])
-.directive('songs', ['$sce', 'Song', function($sce, Song) {
+.directive('songs', ['$sce', function($sce, Song) {
     return {
         // Restrict it to be an element in this case
         restrict: 'E',
@@ -530,18 +546,18 @@ app.directive('ukulelesong', ['$sce', 'Song', function($sce, Song) {
         templateUrl: '/app/templates/songs/index.html',
     };
 }])
-.directive('new-song', ['$sce', 'Song', function($sce, Song) {
+.directive('song', ['$sce', 'Song', function($sce, Song) {
         return {
             // Restrict it to be an element in this case
             restrict: 'E',
             controller: 'SongController',
             templateUrl: '/app/templates/songs/new.html',
             scope: {
-                action: 'new',
+                action: '@action',
             }
         };
 }]);
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
-	$routeProvider
+	
 }]);
 //# sourceMappingURL=all.js.map
