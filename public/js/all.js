@@ -471,31 +471,19 @@ app.controller('SongController',
 					$scope.songs = data;
 				});
 			} else {
-				Song.read(id)
-				.success( function(data) {
-					$scope.song = data;
-					$scope.parsed = $sce.trustAsHtml(ukeGeeks.chordParser().parse(data.song));
-				});
+				$scope.id = id;
 			}
 		}
 		
 		if ($routeParams.id) {
 			$scope.load($routeParams.id);
 		}
+		
 	
 }]);
+
+
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 	$routeProvider
-	.when('/', {
-		templateUrl: '/app/templates/index.html',
-		controller: 'SongController'
-	})
-	.when('/song/:id', {
-		templateUrl: '/app/templates/songs/view.html',
-		controller: 'SongController'
-	})
-	.otherwise({
-		redirectTo: '/'
-	});
 }]);
 //# sourceMappingURL=all.js.map

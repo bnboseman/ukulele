@@ -182,8 +182,10 @@ ukeGeeks.definitions = (function() {
 	 */
 	_public.add = function(data) {
 		if (data.length) {
+			
 			for (var i = 0; i < data.length; i++) {
 				_userChords.push(data[i]);
+				console.log(data[i]);
 			}
 		}
 		return _userChords.length;
@@ -3386,6 +3388,7 @@ ukeGeeks.scriptasaurus = (function() {
 		_errList = [];
 		var song = _runSong(handles);
 		showErrors(_errList[0]);
+		console.log(_errList);
 		return song;
 	};
 

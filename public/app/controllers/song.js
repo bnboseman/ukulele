@@ -12,16 +12,14 @@ app.controller('SongController',
 					$scope.songs = data;
 				});
 			} else {
-				Song.read(id)
-				.success( function(data) {
-					$scope.song = data;
-					$scope.parsed = $sce.trustAsHtml(ukeGeeks.chordParser().parse(data.song));
-				});
+				$scope.id = id;
 			}
 		}
 		
 		if ($routeParams.id) {
 			$scope.load($routeParams.id);
 		}
+		
 	
 }]);
+

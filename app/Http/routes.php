@@ -17,6 +17,8 @@ Route::get('/', function() {
 	return view('index');
 });
 
+Route::get('/songs/{id?}', 'SongController@index');
+
 Route::get('/api/v1/songs/{id?}', 'SongController@index');
 Route::post('/api/v1/songs', 'SongController@store');
 Route::post('/api/v1/songs/{id}', 'SongController@update');

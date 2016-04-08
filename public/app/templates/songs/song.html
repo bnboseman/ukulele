@@ -1,0 +1,13 @@
+<div>
+    <h1><% song.title %></h1>
+	<div id="ukeSongContainer" class="ugsLayoutTwoColumn ugs-song-wrap">
+	    <aside id="ukeChordsCanvas" class="ugs-diagrams-wrap ugs-grouped"></aside>
+	    <article id="ukeSongText" class="ugs-source-wrap">
+	        <pre ng-bind-html="song.song" class="ugsChords"></pre>
+	    </article>
+	</div>
+	<script>
+ukeGeeks.scriptasaurus.init(false);
+ukeGeeks.scriptasaurus.runByClasses();
+</script>
+</div>

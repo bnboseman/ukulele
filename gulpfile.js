@@ -34,6 +34,7 @@ elixir(function(mix) {
         './public/app/app.js',
         './public/app/factories',
         './public/app/controllers',
+        './public/app/directives',
         './public/app/routes.js'
    ])
 });

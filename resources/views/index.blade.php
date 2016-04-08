@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div ng-view></div>
-@endsection
-
-@section('scripts')
-
+	<div class="col-md-12">
+		<h1>Songs</h1>
+		<songs></songs>
+	</div>
 @endsection

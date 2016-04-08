@@ -13,7 +13,7 @@ class SongController extends Controller
 		if ($id == null) {
 			return Song::orderBy('title', 'desc')->get();
 		} else {
-			return $this->show($id);
+			return $this->getView($id);
 		}
 	}
 	
@@ -32,6 +32,15 @@ class SongController extends Controller
 	
 	public function show($id) {
 		return Song::find($id);
+	}
+	
+	public function getView($id) {
+		if (is_numeric($id) ) {
+			$song = Song::find($id);
+		} else {
+			$song = Song::where('slug', '=', $id)->first(); 
+		}
+		return view('songs.view', ['song' => Song::findOrFail($id)]);
 	}
 	
 	public function update(Request $request, $id) {
