@@ -8,6 +8,7 @@ app.config(['$routeProvider', function($routeProvider) {
  		controller: ['$routeParams', function($routeParams){
  	        window.location.replace('/songs/'+$routeParams.id);
  	    }], 
+ 	   template: '<div></div>',
  	})
  	.when('/artist/:id', {
  		templateUrl: '/app/templates/artist/index.html',
