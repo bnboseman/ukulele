@@ -36,3 +36,9 @@ Route::get('/api/v1/songs', 'SongController@index');
 Route::post('/api/v1/songs', 'SongController@store');
 Route::post('/api/v1/songs/{id}', 'SongController@update');
 Route::delete('/api/v1/songs/{id}', 'SongController@destroy');
+
+Route::get('/api/v1/artists', 'ArtistController@index');
+Route::get('/api/v1/artists/{id}', 'ArtistController@show')->where('id', '[0-9]+');
+Route::post('/api/v1/artists', 'ArtistController@store');
+Route::post('/api/v1/artists/{id}', 'ArtistController@update');
+Route::delete('/api/v1/artists/{id}', 'ArtistController@destroy');

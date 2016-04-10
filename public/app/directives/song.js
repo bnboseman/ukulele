@@ -35,6 +35,7 @@ app.directive('ukulelesong', ['$sce', 'Song', function($sce, Song) {
             templateUrl: '/app/templates/songs/new.html',
             scope: {
                 action: '@action',
+                csrf: '@csrf',
             }
         };
 }]);

@@ -1,0 +1,27 @@
+.ugsChords {
+    padding-left: ($padding-large-vertical *2) !important;
+    padding-rightt: ($padding-large-vertical *2) !important;
+}
+
+.search-bar {
+    margin-top: $line-height-computed;
+    margin-bottom: ($line-height-computed / 2);
+}
+
+.thead-inverse {
+	background-color: $darkgreen;
+	font-weight: 600;
+	color: #fff;
+	font-height: ceil(($font-size-base * 1.25));
+}
+
+.ugs-source-wrap pre + h6 {
+	margin: 0 !important;
+}
+
+.ugs-source-wrap h6 {
+	font-family: $font-family-header !important;
+	font-style: normal !important;
+	font-size: $font-size-h3 !important;
+	color: $darkgreen !important;
+}

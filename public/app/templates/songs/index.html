@@ -1,3 +1,23 @@
-<div ng-repeat="song in songs">
-    <a href="/songs/<% song.id %>"><% song.title %></a><br /> 
-</div>
+<table class="table table-responsive table-hover table-bordered">
+    <thead class="thead-inverse">
+		<tr>
+		    <th>Title</th>
+		    <th>Artist</th>
+		    <th>Key</th>
+		</tr>
+    </thead>
+    
+    <tbody>
+	    <tr dir-paginate="song in songs  | itemsPerPage: 10 |filter: search" ng-click="console.log(song);">
+	        <td>
+		        <a ng-show="song.slug.length > 0" href="/songs/<% song.slug %>"><% song.title %></a>
+		        <a ng-show="(!song.slug.length > 0)" href="/songs/<% song.id %>"><% song.title %></a>
+		    </td>
+	        <td><span ng-show="song.artist"><% song.artist.full_name %></span> </td>
+	        <td><% song.key %></td>
+	    </tr>
+    </tbody>
+</table>
+   
+
+<dir-pagination-controls></dir-pagination-controls>

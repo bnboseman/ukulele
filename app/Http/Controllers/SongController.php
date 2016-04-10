@@ -25,7 +25,7 @@ class SongController extends Controller
 		$song = new Song;
 	
 		$song->title = $request->input('title');
-		$song->artist = $request->input('artist');
+		$song->artist_id = $request->input('artist_id');
 		$song->key = $request->input('key');
 		$song->song = $request->input('song');
 		$song->tab = $request->input('tab');

@@ -7,7 +7,7 @@ String.prototype.slugify = function(s) {
     return text;
 }
 
-var app = angular.module('ukuleleSongs', ['ngRoute'], function($interpolateProvider) {
+var app = angular.module('ukuleleSongs', ['ngRoute', 'angularUtils.directives.dirPagination'], function($interpolateProvider) {
 	 $interpolateProvider.startSymbol('<%');
      $interpolateProvider.endSymbol('%>');
 });

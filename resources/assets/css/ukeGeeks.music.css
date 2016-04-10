@@ -167,7 +167,7 @@
 	top:-2em;
 }
 .ugsChords code em {
-	color:#d20;
+	color:#d20 !important;
 	margin:0 -3px;
 }
 .ie .ugsChords {

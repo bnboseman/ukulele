@@ -1,10 +1,20 @@
 <div>
     <form name="song-form">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-12">
             <label for="title">Song Title</label>
             <input class="form-control" ng-model="song.title" name="title" id="title" placeholder="Title" required>
         </div>
-
+        
+        <div class="form-group col-md-12">
+            <label for="subtitle">Subtitle</label>
+            <input class="form-control" ng-model="song.subtitle" name="subtitle" id="subtitle" placeholder="Subtitle">
+        </div>
+        
+        <div class="form-group col-md-12">
+            <label for="album">Album</label>
+            <input class="form-control" ng-model="song.album" name="album" id="album" placeholder="Album">
+        </div>
+        
         <div class="form-group col-md-6">
             <label for="key">Key Signature</label>
 
@@ -38,6 +48,10 @@
         <div class="form-group col-md-12">
             <label for="tab">Tab</label>
             <textarea class="form-control" ng-model="song.tab" name="tab" id="tab" placeholder="Tab"></textarea>
+        </div>
+        
+        <div class="form-group col-md-12">
+            <input type="submit" ng-click="saveSong(song);$event.preventDefault(); $event.stopPropagation();" class="btn btn-l btn-primaryy" />
         </div>
     </form>
 </div>

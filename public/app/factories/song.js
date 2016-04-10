@@ -10,7 +10,7 @@ app.factory("Song", function SongFactory($http) {
             Song.slug = Song.title.slugify();
             return $http({
                 method: "POST",
-                url: API_URL + 'songs/',
+                url: API_URL + 'songs',
                 data: JSON.stringify(Song)
             });
         },
@@ -22,6 +22,8 @@ app.factory("Song", function SongFactory($http) {
         },
         song: {
          	title: null,
+         	subtitle: null,
+         	album: null,
         	artist: null,
             description: null,
         	song: null,
@@ -31,4 +33,3 @@ app.factory("Song", function SongFactory($http) {
         }
     }
 });
-

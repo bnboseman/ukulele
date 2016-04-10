@@ -18,8 +18,6 @@ elixir(function(mix) {
     .copy(bootstrapPath + '/javascripts/bootstrap.min.js', 'public/js');
     
     mix.styles([
-        'yuiReset.css',
-        'basic-page-layout.css',
         'ukeGeeks.music.css',
         'ukeGeeks.musicPrint.css'
    ]);
@@ -28,13 +26,13 @@ elixir(function(mix) {
 		'./bower_components/jquery/dist/jquery.min.js',
 		bootstrapPath + '/javascripts/bootstrap.min.js',
         './app/assets/javascript/ukeGeeks.scriptasaurus.min.js',
-        './bower_components/angular/angular.min.js',
-        './bower_components/angular-route/angular-route.min.js',
-        './bower_components/angular-sanitize/angular-sanitize.min.js',
+        './bower_components/angular/angular.js',
+        './bower_components/angular-route/angular-route.js',
+        './bower_components/angular-sanitize/angular-sanitize.js',
+        './bower_components/angularUtils-pagination/dirPagination.js',
         './public/app/app.js',
         './public/app/factories',
         './public/app/controllers',
         './public/app/directives',
-        './public/app/routes.js'
    ])
 });
