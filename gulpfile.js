@@ -25,7 +25,9 @@ elixir(function(mix) {
     mix.scripts([
 		'./bower_components/jquery/dist/jquery.min.js',
 		bootstrapPath + '/javascripts/bootstrap.min.js',
+		
         './app/assets/javascript/ukeGeeks.scriptasaurus.min.js',
+        './app/assets/javascript/ugsEditorPlus.min.js',
         './bower_components/angular/angular.js',
         './bower_components/angular-route/angular-route.js',
         './bower_components/angular-sanitize/angular-sanitize.js',

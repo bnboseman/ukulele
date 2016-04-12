@@ -22,16 +22,16 @@ app.controller('SongController',
 				$scope.saveSong = function() {
 					Song.create($scope.song)
 						.success( function(data) {
-							console.log(data);
+							window.location.replace('/songs/' + data.slug);
 						});
 				};
 
 				break;
 			case "load":
 				if ($scope.id) {
-					$location.redirectTo('/songs/' + $scope.id);
+					window.location.replace('/songs/' + $scope.id);
 				} else {
-					$location.redirectTo('/');
+					window.location.replace('/');
 				}
 				break;
 			default:

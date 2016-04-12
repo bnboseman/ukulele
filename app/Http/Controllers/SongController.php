@@ -29,19 +29,9 @@ class SongController extends Controller
 		$song->key = $request->input('key');
 		$song->song = $request->input('song');
 		$song->tab = $request->input('tab');
+		$song->resluggify();
 		$song->save();
 	
-		return $song->title . ' has been successfully created.';
-	}
-	
-	public function show($id)
-	{
-		if (is_numeric($id) ) {
-			$song = Song::find($id);
-		} else {
-			$song = Song::where('slug', '=',$id)->first();
-		}
-		$song->load('artist');
 		return $song;
 	}
 	
@@ -55,7 +45,7 @@ class SongController extends Controller
 		$song->tab = $request->input('tab');
 		$song->save();
 	
-		return $song->title . ' has been successfully updated.';
+		return $song;
 	}
 	
 	public function destroy(Request $request) {
@@ -68,7 +58,8 @@ class SongController extends Controller
 	}
 
 	public function getView($id) {
-		$song = $this->show($id);
+		$song = Song::findBySlugOrId($id);
+		$song->load('artist');
 		return view('songs.view', ['song' => $song]);
 	}
 

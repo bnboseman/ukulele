@@ -156,6 +156,7 @@ return [
         UkuleleSongs\Providers\AuthServiceProvider::class,
         UkuleleSongs\Providers\EventServiceProvider::class,
         UkuleleSongs\Providers\RouteServiceProvider::class,
+    	'Cviebrock\EloquentSluggable\SluggableServiceProvider',
 
     ],
 

@@ -34,7 +34,7 @@
 			</div>
 		</div>
 		{{ Html::script('js/ukeGeeks.scriptasaurus.merged.js') }}
-		{{ Html::script('js/ugsEditorPlus.min.js') }}
+		{{ Html::script('js/ugsEditorPlus.merged.js') }}
 		@yield('scripts')
 	</body>
 </html>

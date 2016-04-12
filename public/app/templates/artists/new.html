@@ -1,0 +1,30 @@
+<div>
+    <form name="artist-form">
+        <div class="form-group col-md-12">
+            <label for="first">First Name</label>
+            <input class="form-control" ng-model="artist.first" name="first" id="first" placeholder="First Name" required>
+        </div>
+        
+        <div class="form-group col-md-12">
+            <label for="title">last Name</label>
+            <input class="form-control" ng-model="artist.last" name="last" id="last" placeholder="Last Name" required>
+        </div>
+        
+        <div class="form-group col-md-12">
+            <label for="album">Website</label>
+            <input class="form-control" ng-model="artist.url" name="url" id="url" placeholder="Web Site">
+        </div>
+        
+        <div class="form-group col-md-12">
+            <label for="key">Genres</label>
+            <select name="key" id="key" id="key" ng-model="song.key" class="form-control">
+                <option ng-repeat="key in keys" value="<% key %>"><% key %></option>
+            </select>
+
+        </div>
+        
+        <div class="form-group col-md-12">
+            <input type="submit" ng-click="saveSong(song);$event.preventDefault(); $event.stopPropagation();" class="btn btn-l btn-primaryy" />
+        </div>
+    </form>
+</div>
