@@ -12,14 +12,6 @@ class SongController extends Controller
 	public function index() {
 			return Song::all()->load('artist');
 	}
-
-	public function artist($id) {
-		if ($id == null) {
-			return Song::orderBy('title', 'desc')->get();
-		} else {
-			return $this->getView($id);
-		}
-	}
 	
 	public function store(Request $request) {
 		$song = new Song;
@@ -46,6 +38,10 @@ class SongController extends Controller
 		$song->save();
 	
 		return $song;
+	}
+
+	public function show($id) {
+		return Song::findBySlugOrId($id);
 	}
 	
 	public function destroy(Request $request) {

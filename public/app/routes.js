@@ -1,14 +1,14 @@
 app.config(['$routeProvider', function($routeProvider) {
  	$routeProvider
  	.when('/', {
- 		templateUrl: '/app/templates/songs/index.html',
- 		controller: 'SongController'
+ 		template: '<songs></songs>',
+ 		//controller: 'SongController'
  	})
  	.when('/song/:id', {
- 		controller: ['$routeParams', function($routeParams){
- 	        window.location.replace('/songs/'+$routeParams.id);
- 	    }], 
- 	   template: '<div></div>',
+ 		controller: ['$routeParams', '$scope', 'Song', function($routeParams, $scope, Song){
+ 	        $scope.id = $routeParams.id;
+ 	    }],
+ 	   template: '<song song=id></song>'
  	})
  	.when('/artist/:id', {
  		templateUrl: '/app/templates/artist/index.html',

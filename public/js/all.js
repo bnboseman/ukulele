@@ -31,52 +31,7036 @@ d.parent(".dropdown-menu").length&&(d=d.closest("li.dropdown").addClass("active"
  * @main ukeGeeks
  */
 var ukeGeeks = window.ukeGeeks || {};
-;ukeGeeks.definitions=function(){var a={},g=[],d=[],b=[],f=0,e=[];a.instrument={sopranoUke:0,baritoneUke:5};a.addInstrument=function(c){"object"===typeof c&&(c=c.join("\n"));b.push(c)};a.useInstrument=function(c){c=0<arguments.length?c:a.instrument.sopranoUke;f=parseInt(c,10);0<f&&(e=ukeGeeks.transpose.retune(f));a.setChords(ukeGeeks.chordImport.runBlock(b[0]).chords)};a.get=function(c){var b,a,d;for(b=0;b<g.length;b++)if(c==g[b].name)return g[b];if(1>f)return l(c);d=n(c);for(b in e)if(d==e[b].original&&
-(a=l(e[b].transposed)))return c=new ukeGeeks.data.expandedChord(c),c.dots=a.dots,c.muted=a.muted,c;return null};var c={"A#":"Bb",Db:"C#","D#":"Eb",Gb:"F#",Ab:"G#"},n=function(b){var a=b.substr(0,2);return c[a]?c[a]+b.substr(2):b},l=function(c){var b,a=n(c);for(b=0;b<d.length;b++)if(a==d[b].name)return c=new ukeGeeks.data.expandedChord(c),c.dots=d[b].dots,c.muted=d[b].muted,c;return null};a.add=function(c){if(c.length)for(var b=0;b<c.length;b++)g.push(c[b]);return g.length};a.replace=function(c){g=
-[];return a.add(c)};a.getChords=function(){return d};a.setChords=function(c){d=c};return a}();
-ukeGeeks.settings=function(){var a={fonts:{dot:"9pt Arial Black,Arial",text:"bold 14pt Arial",fret:"bold 13pt Arial"},colors:{fretLines:"#003366",dots:"#ff0000",dotText:"#ffffff",text:"#000000",fretText:"#4a4a4a",xStroke:"#444444"},fretBox:{showText:!0,height:150,width:100,fretSpace:20,stringSpace:20,dotRadius:8,lineWidth:1.6,topLeftPos:{x:22,y:25},xWidth:9,xStroke:1.6*1.6},inlineFretBox:{showText:!1,height:50,width:40,fretSpace:9,stringSpace:7,dotRadius:3,lineWidth:1,topLeftPos:{x:10,y:2},xWidth:0.7*
-7,xStroke:1.4,fonts:{dot:"8pt Arial",text:"8pt Arial",fret:"8pt Arial"}},ids:{songText:"ukeSongText",canvas:"ukeChordsCanvas",container:"ukeSongContainer"},wrapClasses:{wrap:"ugs-song-wrap",diagrams:"ugs-diagrams-wrap",text:"ugs-source-wrap"},opts:{columnsEnabled:!0,retainBrackets:!1,ignoreCommonChords:!1,sortAlphabetical:!1,autoFixOverlaps:!0},inlineDiagrams:!1,numFrets:5,tuning:["G","C","E","A"]};a.defaultInstrument=ukeGeeks.definitions.instrument.sopranoUke;a.tabs={lineSpacing:16,noteSpacing:14,
-lineWidth:1,lineColor:"#999999",labelWidth:12,labelFont:"10pt Arial, Helvetica, Verdana, Geneva, sans-serif",dotColor:"#eaeaea",dotRadius:10,textFont:"bold 12pt Arial, Helvetica, Verdana, Geneva, sans-serif",textColor:"#000000",bottomPadding:10};a.environment={isIe:!1};a.commonChords="A B C D E F G Am".split(" ");var g=function(b,a){if("number"==typeof b)return b*a;if("object"==typeof b)for(var e in b)b[e]=g(b[e],a);return b},d=/\b(\d+)(pt|px)\b/;a.scale=function(b){if(1!=b){for(var a in this.fonts){var e=
-this.fonts,c=a,n;n=this.fonts[a];var l=b,m=n.match(d);2>m.length||(l*=parseInt(m[1],10),n=n.replace(d,l+m[2]));e[c]=n}this.fretBox=g(this.fretBox,b)}};return a}();
-ukeGeeks.data=function(){return{expandedChord:function(a){this.name=a;this.dots=[];this.muted=[]},song:function(){this.body=this.key=this.st2=this.st=this.artist=this.album=this.title="";this.hasChords=!1;this.ugsMeta=[];this.defs=[];this.chords=[]},dot:function(a,g,d){this.string=a;this.fret=g;this.finger=d},instrument:function(a,g,d,b){this.key=a;this.name=g;this.tuning=d;this.chords=b},htmlHandles:function(a,g,d){this.wrap=a;this.diagrams=g;this.text=d}}}();
-ukeGeeks.toolsLite=function(){var a={},g=/\s{2,}/g,d=/^\s+|\s+$/g;a.addClass=function(b,f){a.hasClass(b,f)||(b.className+=" "+f)};a.hasClass=function(b,a){return b.className.match(RegExp("(\\s|^)"+a+"(\\s|$)"))};a.removeClass=function(b,d){a.hasClass(b,d)&&(b.className=b.className.replace(RegExp("(\\s|^)"+d+"(\\s|$)")," "))};a.setClass=function(b,d,e){e?a.addClass(b,d):a.removeClass(b,d)};a.trim=function(b){return b.replace(d,"")};a.pack=function(b){return b.replace(g," ").replace(d,"")};a.getElementsByClass=
-function(b,a,d){var c;a||(a=document);if(a.getElementsByClassName)return a.getElementsByClassName(b);var n=[];d||(d="*");a=a.getElementsByTagName(d);d=a.length;var g=RegExp("(^|\\s)"+b+"(\\s|$)");for(c=b=0;b<d;b++)g.test(a[b].className)&&(n[c]=a[b],c++);return n};return a}();
-ukeGeeks.chordImport=function(){var a={},g=function(c,b){this.define=c;this.adds=b},d=/\s*{?define\s*:(.*?)(}|add:)/i,b=/(add:.*?)(}|add:)/i,f=/(\S+)\s+/,e=/\s+frets\s+([\dx]{4}|(([\dx]{1,2}\s){3})[\dx]{1,2})/i,c=/\s+fingers\s+((\d\s+){3}\d|\d{4})/i,n=/add:\s*string\s*(\S+)\s+fret\s+(\d+)\sfinger\s(\d)/i,l=/{\s*instrument\s*:\s*(.*?)\s*}/i,m=/{\s*tuning\s*:\s*(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*}/i,k=/(\d{1,2}|x)/gi,p=/(.)/g,r=function(c){var a=ukeGeeks.toolsLite.pack(c);if(1<a.length&&"#"!=a[0]&&(c=
-a.match(d))&&1<c.length){c=c[1];for(var e=[],m=a.match(b);m&&1<m.length;)e.push(m[1]),a=a.replace(m[1],""),m=a.match(b);return new g(c,e)}return null},h=function(b,a){var d=[],m=[];var g=b.match(e);if(g)for(var g=4==g[1].length?g[1].match(p):g[1].match(k),h=0;h<g.length;h++){var l="x"==g[h]||"X"==g[h];d[h]=l?0:parseInt(g[h],10);m[h]=l}g=(g=b.match(f))?g[1]:null;(h=b.match(c))?(h=h[1],4==h.length&&(h=h.replace(p,"$1 ")),h=h.split(" ")):h=[];if(null===g||"frets"==g)return s.push('bad "define" instruction: chord name not found: '+
-b),null;if(null===d)return s.push('bad "define" instruction: frets not found: '+b),null;for(var g=new ukeGeeks.data.expandedChord(g),l=h,h=[],r=ukeGeeks.settings.tuning,A=0;A<r.length;A++){var B=parseInt(d[A],10);0<B&&h.push(new ukeGeeks.data.dot(A,B,l.length-1>=A?parseInt(l[A],10):0))}if(a&&!(1>a.length))for(var C in a)(d=a[C].match(n))&&2<d.length&&h.push(new ukeGeeks.data.dot(parseInt(d[1],10)-1,parseInt(d[2],10),parseInt(d[3],10)));g.dots=h;g.muted=m;return g},s=[];a.runLine=function(c){return(c=
-r(c))?h(c.define,c.adds):null};a.runBlock=function(c){var b=c.split("\n");2>b.length&&(b=c.split("{"));var a=b,b=[],d;for(d in a){var e=r(a[d]);e&&b.push(e)}d=(d=c.match(l))?ukeGeeks.toolsLite.pack(d[1]):null;c=(c=c.match(m))?[c[1],c[2],c[3],c[4]]:null;var a=ukeGeeks.data.instrument,e=d.replace(" ","-"),f;for(f in c)e+="-"+c[f];f=e.toLowerCase();var e=[],k=null,g;for(g in b)(k=h(b[g].define,b[g].adds))&&e.push(k);return new a(f,d,c,e)};return a}();
-ukeGeeks.transpose=function(){var a={},g=/^([A-G][#b]?)(.*)/,d={A:0,"A#":1,Bb:1,B:2,C:3,"C#":4,Db:4,D:5,"D#":6,Eb:6,E:7,F:8,"F#":9,Gb:9,G:10,"G#":11,Ab:11};a.shift=function(b,a){var e;e=b.match(g);e=!e||1>e.length?null:{tone:parseInt(d[e[1]],10),prefix:e[1],suffix:e[2]};if(null===e)return null;var c=(e.tone+a)%12;0>c&&(c+=12);for(var n in d)if(c==d[n])return n+e.suffix;return null};a.retune=function(){var b=0<arguments.length?arguments[0]:0,d=ukeGeeks.definitions.getChords(),e=[];if(0===b)for(var c in d)e.push({original:d[c].name,
-transposed:d[c].name});else for(var g in d)e.push({original:d[g].name,transposed:a.shift(d[g].name,b)});return e};a.shiftChords=function(b,d){for(var e=[],c=0;c<b.length;c++)e.push(a.shift(b[c],d));return e};return a}();ukeGeeks.definitions.sopranoUkuleleGcea="{instrument: Soprano Ukulele};{tuning: G C E A};{define: A frets 2 1 0 0 fingers 1 2 0 0};{define: Am frets 2 0 0 0 fingers 1 0 0 0};{define: A7 frets 0 1 0 0 fingers 0 1 0 0};{define: A7sus4 frets 0 2 0 0 fingers 0 2 0 0};{define: Am7 frets 0 0 0 0};{define: Adim frets 2 3 2 3 fingers 1 3 2 4};{define: Amaj7 frets 1 1 0 0 fingers 1 2 0 0};{define: A6 frets 2 4 2 4 fingers 1 3 2 4};{define: Asus2 frets 2 4 5 2 fingers 2 3 4 1};{define: Asus4 frets 2 2 0 0 fingers 1 2 0 0};{define: Aaug frets 2 1 1 4 fingers 2 1 1 4 add: string 1 fret 1 finger 1 add: string 4 fret 1 finger 1};{define: Am6 frets 2 4 2 3 fingers 1 3 1 2 add: string 2 fret 2 finger 1};{define: A9 frets 0 1 0 2 fingers 0 1 0 2};{define: Bb frets 3 2 1 1 fingers 3 2 1 1};{define: Bbm frets 3 1 1 1 fingers 3 1 1 1 add: string 1 fret 1 finger 1};{define: Bb7 frets 1 2 1 1 fingers 1 2 1 1 add: string 2 fret 1 finger 1};{define: Bb7sus4 frets 1 3 1 1 fingers 1 3 1 1 add: string 2 fret 1 finger 1};{define: Bbm7 frets 1 1 1 1 fingers 1 1 1 1};{define: Bbdim frets 0 1 0 1 fingers 0 1 0 2};{define: Bbmaj7 frets 2 2 1 1 fingers 2 2 1 1};{define: Bb6 frets 0 2 1 1 fingers 0 2 1 1};{define: Bbm6 frets 0 1 1 1 fingers 0 1 1 1};{define: Bbsus2 frets 3 0 1 1 fingers 3 0 1 1};{define: Bbsus4 frets 3 3 1 1 fingers 3 3 1 1};{define: Bbaug frets 3 2 2 5 fingers 2 1 1 4 add: string 1 fret 2 finger 1 add: string 4 fret 2 finger 1};{define: Bb9 frets 1 2 1 3 fingers 2 1 4 3};{define: Bbmaj7 frets 2 2 1 1 fingers 2 2 1 1};{define: Bbm7-5 frets 1 1 0 1 fingers 1 2 0 3};{define: B frets 4 3 2 2 fingers 3 2 1 1};{define: Bm frets 4 2 2 2 fingers 3 1 1 1 add: string 1 fret 2 finger 1};{define: Bm6 frets 1 2 2 2 fingers 1 2 3 4};{define: B7 frets 2 3 2 2 fingers 1 2 1 1 add: string 2 fret 2 finger 1};{define: B7sus4 frets 2 4 2 2 fingers 1 3 1 1 add: string 2 fret 2 finger 1};{define: Bm7 frets 2 2 2 2 fingers 1 1 1 1};{define: Bdim frets 1 2 1 2 fingers 1 3 2 4};{define: Bmaj7 frets 3 3 2 2 fingers 2 2 1 1};{define: B6 frets 1 3 2 2 fingers 1 4 2 3};{define: Bsus2 frets 5 1 2 2 fingers 4 1 3 2};{define: Bsus4 frets 4 4 2 2 fingers 2 2 1 1};{define: Baug frets 0 3 3 2 fingers 0 2 2 1};{define: B9 frets 2 3 2 4};{define: C frets 0 0 0 3 fingers 0 0 0 3};{define: Cm frets 0 3 3 3 fingers 0 1 2 3};{define: C7 frets 0 0 0 1 fingers 0 0 0 1};{define: C7sus4 frets 0 0 1 1 fingers 0 0 1 1};{define: Cm7 frets 3 3 3 3 fingers 1 1 1 1};{define: Cdim frets 2 3 2 3 fingers 1 3 2 4};{define: Cmaj7 frets 0 0 0 2 fingers 0 0 0 1};{define: C6 frets 0 0 0 0};{define: Cm6 frets 0 3 5 5 fingers 0 1 3 1};{define: Csus2 frets 0 2 3 3 fingers 0 1 2 2};{define: Csus4 frets 0 0 1 3 fingers 0 0 1 3};{define: Caug frets 1 0 0 3 fingers 1 0 0 4};{define: C9 frets 0 2 0 1 fingers 0 2 0 1};{define: C# frets 1 1 1 4 fingers 1 1 1 4 add: string 4 fret 1 finger 1};{define: C#m frets 1 4 4 4 fingers 1 2 3 3};{define: C#7 frets 1 1 1 2 fingers 1 1 1 2 add: string 4 fret 1 finger 1};{define: C#7sus4 frets 1 1 2 2 fingers 1 1 2 3};{define: C#m7 frets 1 4 4 2 fingers 1 3 3 2};{define: C#dim frets 0 1 0 1 fingers 0 1 0 2};{define: C#maj7 frets 1 1 1 3 fingers 1 1 1 3 add: string 4 fret 1 finger 1};{define: C#6 frets 1 1 1 1 fingers 1 1 1 1};{define: C#m6 frets 1 1 0 1 fingers 1 2 0 3};{define: C#sus2 frets 1 3 4 4 fingers 1 2 3 3};{define: C#sus4 frets 1 1 2 4 fingers 1 1 2 4};{define: C#aug frets 2 1 1 4 fingers 2 1 1 4 add: string 1 fret 1 finger 1 add: string 4 fret 1 finger 1};{define: C#9 frets 1 3 1 2};{define: D frets 2 2 2 0 fingers 1 1 1 0};{define: Dm frets 2 2 1 0 fingers 2 2 1 0};{define: Dm6 frets 0 2 1 2 fingers 0 2 1 3};{define: D7 frets 2 2 2 3 fingers 1 1 1 2 add: string 4 fret 2 finger 1};{define: D7sus4 frets 2 2 3 3 fingers 1 1 2 3};{define: Dm7 frets 2 2 1 3 fingers 2 2 1 3};{define: Ddim frets 1 2 1 2 fingers 1 3 2 4};{define: Dmaj7 frets 2 2 2 4 fingers 1 1 1 2 add: string 4 fret 2 finger 1};{define: D6 frets 2 2 2 2 fingers 2 2 2 2};{define: Dsus2 frets 2 2 0 0 fingers 1 2 0 0};{define: Dsus4 frets 0 2 3 0 fingers 0 1 2 0};{define: Daug frets 3 2 2 5 fingers 2 1 1 4 add: string 1 fret 2 finger 1 add: string 4 fret 2 finger 1};{define: D9 frets 2 4 2 3};{define: Eb frets 0 3 3 1 fingers 0 2 2 1};{define: Ebm frets 3 3 2 1 fingers 3 3 2 1};{define: Eb7 frets 3 3 3 4 fingers 1 1 1 2 add: string 4 fret 3 finger 1};{define: Eb7sus4 frets 3 3 4 4 fingers 1 1 2 3};{define: Ebm7 frets 3 3 2 4 fingers 2 2 1 4};{define: Ebdim frets 2 3 2 3 fingers 1 3 2 4};{define: Ebmaj7 frets 3 3 3 5 fingers 1 1 1 2 add: string 4 fret 3 finger 1};{define: Eb6 frets 3 3 3 3 fingers 1 1 1 1};{define: Ebm6 frets 3 3 2 3 fingers 2 3 1 4};{define: Ebsus2 frets 3 3 1 1 fingers 2 2 1 1};{define: Ebsus4 frets 1 3 4 1 fingers 2 3 4 1};{define: Ebaug frets 0 3 3 2 fingers 0 2 2 1};{define: Eb9 frets 0 1 1 1};{define: E frets 4 4 4 2 fingers 2 3 4 1};{define: Em frets 0 4 3 2 fingers 0 3 2 1};{define: E7 frets 1 2 0 2 fingers 1 2 0 3};{define: E7sus4 frets 2 2 0 2 fingers 2 3 0 4};{define: Em6 frets 4 4 3 4 fingers 2 3 1 4};{define: Em7 frets 0 2 0 2 fingers 0 1 0 2};{define: Edim frets 0 1 0 1 fingers 0 1 0 2};{define: Emaj7 frets 1 3 0 2 fingers 1 3 0 2};{define: E6 frets 4 4 4 4 fingers 1 1 1 1};{define: Esus2 frets 4 4 2 2 fingers 3 3 1 1};{define: Esus4 frets 2 4 0 2 fingers 2 4 0 1};{define: Eaug frets 1 0 0 3 fingers 1 0 0 4};{define: E9 frets 1 2 2 2};{define: F frets 2 0 1 0 fingers 2 0 1 0};{define: Fm frets 1 0 1 3 fingers 1 0 2 4};{define: F7 frets 2 3 1 0 fingers 2 3 1 0};{define: F7sus4 frets 3 3 1 3 fingers 2 3 1 4};{define: Fm6 frets 1 2 1 3 fingers 1 2 1 3 add: string 2 fret 1 finger 1 add: string 4 fret 1 finger 1};{define: Fm7 frets 1 3 1 3 fingers 1 3 2 4};{define: Fdim frets 1 2 1 2 fingers 1 3 2 4};{define: Fmaj7 frets 5 5 0 0 fingers 1 2 0 0};{define: F6 frets 2 2 1 3 fingers 2 2 1 4};{define: Fsus2 frets 0 0 1 3 fingers 0 0 1 3};{define: Fsus4 frets 3 0 1 3 fingers 3 0 1 4};{define: F6sus2 frets 0 0 1 3 fingers 0 0 1 3};{define: F6sus4 frets 3 0 1 1 fingers 3 0 1 1};{define: F6aug frets 2 1 1 4 fingers 2 1 1 4 add: string 1 fret 1 finger 1 add: string 4 fret 1 finger 1};{define: F9 frets 2 3 3 3};{define: Faug frets 2 1 1 0 fingers 3 1 2 0};{define: F# frets 3 1 2 1 fingers 3 1 2 1 add: string 1 fret 1 finger 1 add: string 3 fret 1 finger 1};{define: F#m frets 2 1 2 0 fingers 2 1 3 0};{define: F#7 frets 3 4 2 4 fingers 2 3 1 4};{define: F#7sus4 frets 4 4 2 4 fingers 2 3 1 4};{define: F#m7 frets 2 4 2 4 fingers 1 3 2 4};{define: F#dim frets 2 3 2 3 fingers 1 3 2 4};{define: F#maj7 frets 3 5 2 4 fingers 2 4 1 3};{define: F#m6 frets 2 1 2 4 fingers 2 1 3 4};{define: F#6 frets 3 3 2 4 fingers 2 2 1 4};{define: F#sus2 frets 1 1 2 4 fingers 1 1 2 4};{define: F#sus4 frets 4 1 2 2 fingers 4 1 2 3};{define: F#aug frets 3 2 2 5 fingers 2 1 1 4 add: string 1 fret 2 finger 1 add: string 4 fret 2 finger 1};{define: F#9 frets 1 1 0 1};{define: G frets 0 2 3 2 fingers 0 1 3 2};{define: Gm frets 0 2 3 1 fingers 0 2 3 1};{define: Gm6 frets 0 2 0 1 fingers 0 2 0 1};{define: G7 frets 0 2 1 2 fingers 0 2 1 3};{define: G7sus4 frets 0 2 1 3 fingers 0 2 1 4};{define: Gm7 frets 0 2 1 1 fingers 0 2 1 1};{define: Gdim frets 0 1 0 1 fingers 0 1 0 2};{define: Gmaj7 frets 0 2 2 2 fingers 0 1 2 3};{define: G6 frets 0 2 0 2 fingers 0 1 0 2};{define: Gsus2 frets 0 2 3 0 fingers 0 1 2 0};{define: Gsus4 frets 0 2 3 3 fingers 0 1 2 3};{define: Gaug frets 0 3 3 2 fingers 0 2 2 1};{define: Gsus4 frets 0 2 3 3};{define: G9 frets 2 2 1 2};{define: G# frets 5 3 4 3 fingers 3 1 2 1 add: string 1 fret 3 finger 1 add: string 3 fret 3 finger 1};{define: G#m frets 1 3 4 2 fingers 1 3 4 2};{define: G#7 frets 1 3 2 3 fingers 1 3 2 4};{define: G#7sus4 frets 1 3 2 4 fingers 1 3 2 4};{define: G#m7 frets 1 3 2 2 fingers 1 4 2 3};{define: G#dim frets 1 2 1 2 fingers 1 3 2 4};{define: G#maj7 frets 1 3 3 3 fingers 1 2 2 3};{define: G#6 frets 1 3 1 3 fingers 1 3 2 4};{define: G#m6 frets 1 3 1 2 fingers 1 3 1 2 add: string 2 fret 1 finger 1 add: string 4 fret 1 finger 1};{define: G#sus2 frets 1 3 4 1 fingers 2 3 4 1};{define: G#sus4 frets 1 3 4 4 fingers 1 2 3 3};{define: G#aug frets 1 0 0 3 fingers 1 0 0 4};{define: G#9 frets 1 0 2 1 fingers 1 0 3 2};{define: C-F frets 2 0 1 3};{define: D/A frets 2 2 2 0};{define: Dm/C frets 2 2 1 3};{define: Fm7/C frets 1 3 1 3};{define: G/B frets 0 2 3 2};{define: G/F# frets 0 2 2 2};{define: G/F frets 0 2 1 2};{define: G7/B frets 0 2 1 2}".split(";");
-ukeGeeks.canvasTools=function(){return{drawDot:function(a,g,d,b){a.beginPath();a.arc(g.x,g.y,d,0,2*Math.PI,!0);a.closePath();a.fillStyle=b;a.fill()},drawText:function(a,g,d,b,f,e){a.fillText&&(a.font=b,a.textAlign=e||"center",a.fillStyle=f,a.fillText(d,g.x,g.y))},addCanvas:function(a,g,d){var b=document.createElement("canvas");if(!b)return null;ukeGeeks.settings.environment.isIe&&(b=G_vmlCanvasManager.initElement(b));a.appendChild(b);b.width=g;b.height=d;return(a=b.getContext("2d"))?a:null}}}();
-ukeGeeks.chordBrush=function(){return{init:function(){},plot:function(a,g,d,b,f){var e,c;if(a=ukeGeeks.canvasTools.addCanvas(a,d.width,d.height)){b||(b=ukeGeeks.settings.fonts);f||(f=ukeGeeks.settings.colors);var n=d.topLeftPos.x,l=d.topLeftPos.y,m=f.fretLines,k;e=d.lineWidth/2;c=ukeGeeks.settings.numFrets*d.fretSpace;var p=3*d.stringSpace;a.beginPath();for(k=1;3>k;k++){var r=n+k*d.stringSpace+e;a.moveTo(r,l+e);a.lineTo(r,l+c+e)}for(k=1;k<ukeGeeks.settings.numFrets;k++)r=l+k*d.fretSpace+e,a.moveTo(n+
-e,r),a.lineTo(n+p+e,r);a.rect(n+e,l+e,p,c);a.strokeStyle=m;a.lineWidth=d.lineWidth;a.stroke();a.closePath();m=l+d.dotRadius;k=(d.fretSpace-2*d.dotRadius)/2;e=g.dots;c=-1;p=300;for(r=0;r<e.length;r++)e[r].fret>c&&(c=e[r].fret),e[r].fret<p&&(p=e[r].fret);e=300>p?p:0;c=0<c?c:0;p=5>=c?1:c-4;for(r=0;r<g.dots.length;r++){var h={x:n+g.dots[r].string*d.stringSpace,y:k+m+(g.dots[r].fret-p)*d.fretSpace};ukeGeeks.canvasTools.drawDot(a,h,d.dotRadius,f.dots);0<g.dots[r].finger&&d.showText&&4<d.dotRadius&&ukeGeeks.canvasTools.drawText(a,
-{x:h.x,y:h.y+5},g.dots[r].finger,b.dot,f.dotText)}1!=p&&(m={x:0,y:l+0.96*d.fretSpace*(5-(c-e))},ukeGeeks.canvasTools.drawText(a,m,e,b.fret,f.fretText,"left"),1<c-e&&(m.y=l+4.8*d.fretSpace,ukeGeeks.canvasTools.drawText(a,m,c,b.fret,f.fretText,"left")));d.showText&&ukeGeeks.canvasTools.drawText(a,{x:n+1.5*d.stringSpace,y:l-5},g.name,b.text,f.text);g=g.muted;f=f.xStroke;b=d.topLeftPos.x+d.lineWidth/2;n=d.topLeftPos.y+d.lineWidth/4;for(l=0;l<g.length;l++)g[l]&&(m=a,k=b+l*d.stringSpace,e=n,c=d,p=f,k-=
-c.xWidth/2,e-=c.xWidth/2,m.beginPath(),m.moveTo(k,e),m.lineTo(k+c.xWidth,e+c.xWidth),m.moveTo(k,e+c.xWidth),m.lineTo(k+c.xWidth,e),m.strokeStyle=p,m.lineWidth=c.xStroke,m.stroke(),m.closePath())}}}};
-ukeGeeks.chordParser=function(){var a={},g=[];a.init=function(){};a.parse=function(a){var b,f,e=a.match(/\[(.+?)]/img);if(e){var c=[],n;for(b=0;b<e.length;b++){n=!1;for(f=0;f<c.length;f++)if(c[f]==e[b]){n=!0;break}n||c.push(e[b])}for(f in c)c[f]=c[f].replace("[","").replace("]","");g=c}else g=[];b=g;f=ukeGeeks.settings.opts.retainBrackets?"[":" ";var e=ukeGeeks.settings.opts.retainBrackets?"]":" ",l;for(l in b)for(;a.length!=(a=a.replace("["+b[l]+"]",'<code data-chordName="'+b[l]+'"><strong>'+f+"<em>"+
-b[l]+"</em>"+e+"</strong></code>")).length;);l=a;ukeGeeks.settings.inlineDiagrams?(a=/(<\/strong><\/code>)[ \t]*(<code data-chordName="[^"]*"><strong>)/ig,a=l.replace(a,'$1<span class="ugsInlineSpacer">&nbsp;</span>$2')):(a=/<\/strong><\/code>[ \t]*<code data-chordName="[^"]*"><strong>/ig,a=l.replace(a," "));return a};a.getChords=function(){return g};return a};
-ukeGeeks.cpmParser=function(){var a={},g=1,d=!1,b="";a.init=function(){};a.parse=function(a){var k=new ukeGeeks.data.song;a=a.replace(/<\/?pre>/img,"").replace(/\x3c!--(.|\n)*?--\x3e/gm,"");var p;a=a.split("\n");var r=[],h=null,s,q;for(q in a)0<a[q].length&&"#"==a[q][0]||((s=f.blocks.test(a[q]))||null===h?(null!==h&&r.push(h),h=a[q],h={type:f.chorusBlock.test(h)?c.ChorusBlock:f.tabBlock.test(h)?c.TabBlock:c.TextBlock,lines:[]},s||h.lines.push(a[q])):(s=ukeGeeks.toolsLite.trim(a[q]),0<s.length&&h.lines.push(s)));
-0<h.lines.length&&r.push(h);q=r;a=/\{[^}]+?:.*?\}/im;var r=/\{.+?:(.*)\}/gi,h=/\{(.+?)\s*:.*\}/gi,t;for(t in q)for(var v in q[t].lines)if(a.test(q[t].lines[v])){s=q[t].lines[v].replace(r,"$1");var y=q[t].lines[v].replace(h,"$1").toLowerCase(),y=y.replace(/\r/,""),x={type:"",lines:[]};switch(y){case "title":case "t":x.type=c.Title;break;case "artist":x.type=c.Artist;break;case "subtitle":case "st":x.type=c.Subtitle;break;case "album":x.type=c.Album;break;case "comment":case "c":x.type=c.Comment;break;
-case "key":case "k":x.type=c.Key;break;case "define":x.type=c.ChordDefinition;break;case "ukegeeks-meta":x.type=c.UkeGeeksMeta;break;default:x.type="Undefined-"+y}x.lines[0]=ukeGeeks.toolsLite.trim(s);q[t].lines[v]=x}t=q;v=/\s*{\s*(column_break|colb|np|new_page)\s*}\s*/im;for(var w in t)for(var z in t[w].lines)if(v.test(t[w].lines[z]))switch(t[w].lines[z].replace(v,"$1").toLowerCase()){case "column_break":case "colb":g++;t[w].lines[z]={type:c.ColumnBreak,lines:[]};break;case "new_page":case "np":t[w].lines[z]=
-{type:c.NewPage,lines:[]}}w=t;z=/\[(.+?)]/i;t=/\[(.+?)]/img;for(p in w)if(w[p].type==c.TextBlock||w[p].type==c.ChorusBlock)for(var u in w[p].lines)a=w[p].lines[u],"string"==typeof a&&(v=z.test(a),d=d||v,q=v&&1>ukeGeeks.toolsLite.trim(a.replace(t,"")).length,w[p].lines[u]={type:q?c.ChordOnlyText:v?c.ChordText:c.PlainText,lines:[a]},v&&""===b&&(v=a.match(z))&&(b=v[1]));p=w;k.body=n(p);1<g&&(k.body='<div class="'+e.ColumnWrap+" "+e.ColumnCount+g+'"><div class="'+e.Column+'">'+k.body+"</div></div>");
-k.hasChords=d;u=l(p,c.Title);0<u.length&&(k.title=u[0]);u=l(p,c.Artist);0<u.length&&(k.artist=u[0]);u=l(p,c.Subtitle);0<u.length&&(k.st=u[0]);1<u.length&&(k.st2=u[1]);u=l(p,c.Album);0<u.length&&(k.album=u[0]);u=l(p,c.UkeGeeksMeta);0<u.length&&(k.ugsMeta=u);u=l(p,c.Key);0<u.length?k.key=u[0]:""!==b&&(k.key=b);u=l(p,c.ChordDefinition);if(0<u.length)for(var A in u)k.defs.push(ukeGeeks.chordImport.runLine("{define: "+u[A]+"}"));return k};var f={blocks:/\s*{\s*(start_of_tab|sot|start_of_chorus|soc|end_of_tab|eot|end_of_chorus|eoc)\s*}\s*/im,
-tabBlock:/\s*{\s*(start_of_tab|sot)\s*}\s*/im,chorusBlock:/\s*{\s*(start_of_chorus|soc)\s*}\s*/im},e={Comment:"ugsComment",Tabs:"ugsTabs",Chorus:"ugsChorus",PreChords:"ugsChords",PrePlain:"ugsPlain",NoLyrics:"ugsNoLyrics",ColumnWrap:"ugsWrap",ColumnCount:"ugsColumnCount",Column:"ugsColumn",NewPage:"ugsNewPage"},c={TextBlock:1,ChorusBlock:2,TabBlock:3,Comment:101,Title:102,Subtitle:103,Album:104,ChordDefinition:105,UkeGeeksMeta:106,ColumnBreak:107,Artist:108,NewPage:109,Key:110,ChordText:201,PlainText:202,
-ChordOnlyText:203,Undefined:666},n=function(a){for(var b="",d=0;d<a.length;d++)if(a[d].type==c.Comment)b+='<h6 class="'+e.Comment+'">'+a[d].lines[0]+"</h6>\n";else if(a[d].type==c.NewPage)b+='<hr class="'+e.NewPage+'" />\n';else if(a[d].type==c.ChordText||a[d].type==c.PlainText||a[d].type==c.ChordOnlyText){if(!(1>a[d].lines[0].length)){var f=a[d].type==c.PlainText?e.PrePlain:e.PreChords;a[d].type==c.ChordOnlyText&&(f+=" "+e.NoLyrics);var g=a[d].type,l=0<=d-1?a[d-1].type:c.Undefined,q=d+1<a.length?
-q=a[d+1].type:c.Undefined,b=b+(l!=g?'<pre class="'+f+'">':"\n"),b=b+a[d].lines[0],b=b+(q!=g?"</pre>\n":"")}}else if(a[d].type==c.ChorusBlock)b+='<div class="'+e.Chorus+'">\n',b+=n(a[d].lines),b+="</div>\n";else if(a[d].type==c.TabBlock){var b=b+('<pre class="'+e.Tabs+'">'),t;for(t in a[d].lines)b+=a[d].lines[t]+"\n";b+="</pre>\n"}else a[d].type==c.TextBlock?b+=n(a[d].lines):a[d].type==c.ColumnBreak&&(b+='</div><div class="'+e.Column+'">');return b},l=function(a,b){var d=[],e;for(e in a)if(a[e].type==
-b)d.push(a[e].lines[0]);else if(a[e].type==c.TextBlock)for(var f in a[e].lines)a[e].lines[f].type==b&&d.push(a[e].lines[f].lines[0]);return d};return a};
-ukeGeeks.chordPainter=function(){var a={},g=null,d=[],b=null,f=[],e=/^(n.?\/?c.?|tacet)$/i;a.init=function(a){g=new ukeGeeks.chordBrush;g.init();b=a};a.show=function(a){b.diagrams.innerHTML="";d=[];f=[];ukeGeeks.settings.opts.sortAlphabetical&&a.sort();for(var n=0;n<a.length;n++)if(!e.test(a[n])){var l;if(l=ukeGeeks.settings.opts.ignoreCommonChords)a:{for(l=0;l<ukeGeeks.settings.commonChords.length;l++)if(a[n]==ukeGeeks.settings.commonChords[l]){l=!0;break a}l=!1}l?"function"===typeof Array.prototype.indexOf&&
--1==f.indexOf(a[n])&&f.push(a[n]):(l=ukeGeeks.definitions.get(a[n]))?g.plot(b.diagrams,l,ukeGeeks.settings.fretBox):d.push(a[n])}0<f.length&&(a=document.createElement("p"),a.className="ugsIgnoredChords",a.innerHTML="Also uses: "+f.sort().join(", "),b.diagrams.appendChild(a))};a.showInline=function(a){var d=b.text.getElementsByTagName("code");if(!(1>d.length))for(var e=0;e<a.length;e++){var f=ukeGeeks.definitions.get(a[e]);if(f)for(var k=0;k<d.length;k++)d[k].getAttribute("data-chordName")==f.name&&
-g.plot(d[k],f,ukeGeeks.settings.inlineFretBox,ukeGeeks.settings.inlineFretBox.fonts)}};a.getErrors=function(){return d};a.getIgnoredChords=function(){return f};return a};
-ukeGeeks.tabs=function(){var a=ukeGeeks.settings.tabs,g=function(d,b,f){if(!f)return a.noteSpacing*d[0].length+b+a.dotRadius;f=d[0].length;var e=a.dotRadius;"|"==d[0][f-1]&&(f-=1,e=0);return a.noteSpacing*f+b+e};return{init:function(){},replace:function(d){d=d.getElementsByTagName("pre");for(var b in d)if("ugsTabs"==d[b].className){var f=d[b].innerHTML;d[b].innerHTML="";var e=d[b],f=f.split("\n"),c=[],n=void 0;for(n in f){var l=ukeGeeks.toolsLite.trim(f[n]);0<l.length&&c.push(l);if(4==c.length){var m=
-c,c=e,k=void 0,l=void 0,m="string"==typeof m?m.split("\n"):m;if(!(4>m.length)){if(l="G"==m[3][0])for(var k=m,p=0;4>p;p++)k[p]=k[p].substr(1);for(var k=m,p=/([0-9]+)/g,r=[],h=0;4>h;h++)r[h]=k[h].match(p);for(var k=r,p=m,r=/([0-9]{2})/g,h=/([0-9])/g,s=[],q=0;4>q;q++)s[q]=p[q].replace(r,"-*"),s[q]=s[q].replace(h,"*");p=s;r=0;h=void 0;s=/-+$/gi;for(q=0;q<m.length;q++)h=m[q].trim().replace(s,""),h.length>r&&(r=h.length);h="";for(m=0;m<r;m++)h="|"==p[0][m]?h+"|":h+("*"==p[0][m]||"*"==p[1][m]||"*"==p[2][m]||
-"*"==p[3][m]?"*":"-");m=/--/g;h=h.replace(m,"- ");m=/ -/g;for(s=h;;){h=h.replace(m,"  ");if(h==s)break;s=h}for(var m=p,p=h,h=[],s="",t=q=void 0,v=void 0,y=void 0,t=0;4>t;t++)h.push([]);for(t=0;4>t;t++)for(q=y=v=0;q<r;q++)" "!=p[q]&&("*"==m[t][q]?(s=k[t][y],y++):s="|"==p[q]?"|":"-",h[t][v]=s,v++);k=h;r=l?a.labelWidth:0;m=3*a.lineSpacing+2*a.dotRadius+a.bottomPadding;c="string"==typeof c?document.getElementById(c):c;c=ukeGeeks.canvasTools.addCanvas(c,g(k,r,!1),m);p=a.dotRadius+r;m=1+a.dotRadius;r=g(k,
-r,!0);s=a.lineWidth/2;h=p+s;s=m+s;c.beginPath();for(q=0;4>q;q++)c.moveTo(h,s),c.lineTo(h+r,s),s+=a.lineSpacing;c.strokeStyle=a.lineColor;c.lineWidth=a.lineWidth;c.stroke();c.closePath();a:for(s in q=void 0,h={x:0,y:m},s=void 0,k){if(3<s)break a;h.x=p;for(var x in k[s]){q=k[s][x];if("|"==q){var w=parseInt(x,10),q=c,t=x==k[s].length-1?p+r:h.x,v=m,y=a,w=w+1<k[s].length-1&&"|"==k[s][w+1]||w==k[s].length-1&&"|"==k[s][w-1],z=y.lineWidth/2;q.beginPath();q.moveTo(t+z,v);q.lineTo(t+z,v+3*y.lineSpacing);q.strokeStyle=
-y.lineColor;q.lineWidth=(w?4.5:1)*y.lineWidth;q.stroke();q.closePath()}else isNaN(q)||(ukeGeeks.canvasTools.drawDot(c,h,a.dotRadius,a.dotColor),ukeGeeks.canvasTools.drawText(c,{x:h.x,y:h.y+0.5*a.dotRadius},q,a.textFont,a.textColor));h.x+=a.noteSpacing}h.y+=a.lineSpacing}if(l)for(l=ukeGeeks.settings.tuning.slice(0).reverse(),k=0;4>k;k++)ukeGeeks.canvasTools.drawText(c,{x:1,y:m+(k+0.3)*a.lineSpacing},l[k],a.labelFont,a.lineColor,"left")}c=[]}}}}}};
-ukeGeeks.overlapFixer=function(){var a={},g=function(a){for(var f=a,e={top:0,left:0,right:0,width:0};f&&!isNaN(f.offsetLeft)&&!isNaN(f.offsetTop);)e.left+=f.offsetLeft-f.scrollLeft,e.top+=f.offsetTop-f.scrollTop,f=f.offsetParent;e.width=d(a);if(a=a.getElementsByTagName("em")[0])a=d(a),a>e.width&&(e.width=a+2);e.right=e.left+e.width;return e},d=function(a){return"undefined"!==typeof a.clip?a.clip.width:a.style.pixelWidth?a.style.pixelWidth:a.offsetWidth};a.Fix=function(a){var d=a.getElementsByTagName("code");
-for(a=0;a<d.length;a++)d[a].style.paddingRight="0px";for(a=0;a<d.length-1;a++){var e=d[a],c=d[a+1],n=e.getElementsByTagName("strong")[0],c=c.getElementsByTagName("strong")[0];n&&c&&(n=g(n),c=g(c),n.top!=c.top||c.left>n.right||c.right<n.left?0:c.left>n.left&&c.left<n.right||c.right>n.left&&c.right<n.right)&&(n=n.right-c.left+1,e.style.paddingRight=(1>n?1:n)+"px")}};return a}();
-ukeGeeks.scriptasaurus=function(){var a=[],g=function(d){var b=new ukeGeeks.cpmParser;b.init();b=b.parse(d.text.innerHTML);ukeGeeks.definitions.replace(b.defs);var f=new ukeGeeks.chordParser;f.init();d.text.innerHTML=f.parse(b.body);b.chords=f.getChords();f=new ukeGeeks.chordPainter;f.init(d);f.show(b.chords);ukeGeeks.settings.inlineDiagrams&&(ukeGeeks.toolsLite.addClass(d.wrap,"ugsInlineDiagrams"),f.showInline(b.chords));var e=new ukeGeeks.tabs;e.init();e.replace(d.text);a.push(f.getErrors());(f=
-d.wrap)&&ukeGeeks.toolsLite.setClass(f,"ugsNoChords",!b.hasChords);ukeGeeks.settings.opts.autoFixOverlaps&&ukeGeeks.overlapFixer.Fix(d.text);return b};return{init:function(a){var b=ukeGeeks.definitions;ukeGeeks.settings.environment.isIe=a;b.addInstrument(b.sopranoUkuleleGcea);b.useInstrument(b.instrument.sopranoUke);ukeGeeks.settings.defaultInstrument!=b.instrument.sopranoUke&&b.useInstrument(ukeGeeks.settings.defaultInstrument)},run:function(){var d=new ukeGeeks.data.htmlHandles(document.getElementById(ukeGeeks.settings.ids.container),
-document.getElementById(ukeGeeks.settings.ids.canvas),document.getElementById(ukeGeeks.settings.ids.songText));if(!(d&&d.diagrams&&d.text&&d.wrap))return null;a=[];d=g(d);var b=a[0];if(!(1>b.length)){for(var f="",e=0;e<b.length;e++)f+=0<f.length?", ":"",f+=b[e];alert("Forgive me, but I don't know the following chords: "+f)}return d},runByClasses:function(){for(var a=[],b=ukeGeeks.toolsLite.getElementsByClass(ukeGeeks.settings.wrapClasses.wrap),f=0;f<b.length;f++){var e;e=b[f];var c=ukeGeeks.toolsLite.getElementsByClass(ukeGeeks.settings.wrapClasses.diagrams,
-e),n=ukeGeeks.toolsLite.getElementsByClass(ukeGeeks.settings.wrapClasses.text,e);e=void 0===c||1>c.length||void 0===n||1>n.length?null:new ukeGeeks.data.htmlHandles(e,c[0],n[0]);null!==e&&a.push(g(e))}return a},setTuningOffset:function(a){ukeGeeks.definitions.useInstrument(a)}}}();
+;/**
+ * Defines chords and provides simple lookup (find) tools.
+ * @class definitions
+ * @namespace ukeGeeks
+ * @static
+ * @singleton
+ */
+ukeGeeks.definitions = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/**
+	 * Array of "user" defined chords, in compactChord format. Use "Add" method.
+	 * @property _userChords
+	 * @type array
+	 * @private
+	 */
+	var _userChords = [];
+
+	var _chords = [];
+
+	var _instruments = [];
+
+	var _offset = 0;
+	var _map = [];
+
+	/**
+	 * Enum (simple JSON name/value pairs) defining instrument tunings (offsets from standard Soprano Ukulele)
+	 * @property instrument
+	 * @type JSON
+	 */
+	_public.instrument = {
+		sopranoUke: 0, // GCEA
+		baritoneUke: 5 // DGBA -- Baritone's "A" fingering is the Soprano's "D"
+	};
+
+	/* PUBLIC METHODS
+	------------------------------------ */
+	/**
+	 * Define an instrument's chord dictionary, this makes this instrument avaiable for showing its chord diagrams.
+	 * @method addInstrument
+	 * @param definitions {mixed} (Either string or array of strings) Block of CPM text -- specifically looks for instrurment, tuning, and define statements.
+	 * @return {void}
+	 */
+	_public.addInstrument = function(definitions) {
+		if (typeof definitions === 'object') {
+			// flatten the array
+			definitions = definitions.join("\n");
+		}
+		_instruments.push(definitions);
+	};
+
+	/**
+	 * Choose which instrument's chord dictionary you want used for the chord
+	 * diagrams. NOTE: .
+	 * @method useInstrument
+	 * @param offset {int} (optional) default 0. Number of semitones to shif the tuning.
+	 * @return {void}
+	 */
+	_public.useInstrument = function(offset) {
+		offset = (arguments.length > 0) ? offset : _public.instrument.sopranoUke;
+		_offset = parseInt(offset, 10);
+		if (_offset > 0) {
+			_map = ukeGeeks.transpose.retune(_offset);
+		}
+		_public.setChords(ukeGeeks.chordImport.runBlock(_instruments[0]).chords);
+	};
+
+	/**
+	 * Returns expanded ChordObject for requested "chord"
+	 * @method get
+	 * @param chordName {string} Chord name
+	 * @return {expandedChord}
+	 */
+	_public.get = function(chordName) {
+		var i, c, chrd, name;
+
+		// try User Defined chords first
+		for (i = 0; i < _userChords.length; i++) {
+			if (chordName == _userChords[i].name) {
+				return _userChords[i];
+			}
+		}
+		// next: built-in chords:
+		if (_offset < 1) {
+			return _get(chordName);
+		}
+
+		// user has retuned the chords, need to find chord name "as-is",
+		// but get the fingering from the mapping
+		name = _getAlias(chordName);
+		for (i in _map) {
+			if (name == _map[i].original) {
+				c = _get(_map[i].transposed);
+				if (c) {
+					chrd = new ukeGeeks.data.expandedChord(chordName);
+					chrd.dots = c.dots;
+					chrd.muted = c.muted;
+					return chrd;
+				}
+			}
+		}
+
+		return null;
+	};
+
+	// local substitions (replacements for identical chord shapes)
+	var _aliases = {
+		'A#': 'Bb',
+		'Db': 'C#',
+		'D#': 'Eb',
+		'Gb': 'F#',
+		'Ab': 'G#'
+	};
+
+	/**
+	 * A chord name normalizer: We don't store any chord definitions for A#, Db, D#, Gb, or Ab. Instead
+	 * definitions of the more common notes are stored instead. So for the A# fingering we return the
+	 * Bb fingering and so on.
+	 *
+	 * Returns original chord name if there is no defined alias.
+	 *
+	 * @method _getAlias
+	 * @param  {string} chordName [
+	 * @return {string}
+	 */
+	var _getAlias = function(chordName) {
+		var n = chordName.substr(0, 2);
+		return !_aliases[n] ? chordName : _aliases[n] + chordName.substr(2);
+	};
+
+	/**
+	 * Pass in "standard" chord name, returns match from defined chords or null if not found
+	 * @private
+	 * @method _get
+	 * @param chordName {string} Chord name
+	 * @return {expandedChord}
+	 */
+	var _get = function(chordName) {
+		var i, chrd,
+			name = _getAlias(chordName);
+		for (i = 0; i < _chords.length; i++) {
+			if (name == _chords[i].name) {
+				chrd = new ukeGeeks.data.expandedChord(chordName);
+				chrd.dots = _chords[i].dots;
+				chrd.muted = _chords[i].muted;
+				return chrd;
+			}
+		}
+		return null;
+	};
+
+	/**
+	 * @method add
+	 * @param data {array} array of expanded chord objects
+	 * @return {int}
+	 */
+	_public.add = function(data) {
+		if (data.length) {
+			
+			for (var i = 0; i < data.length; i++) {
+				_userChords.push(data[i]);
+				console.log(data[i]);
+			}
+		}
+		return _userChords.length;
+	};
+
+	/**
+	 * @method replace
+	 * @param data {array} array of expanded chord objects
+	 * @return {int}
+	 */
+	_public.replace = function(data) {
+		_userChords = [];
+		return _public.add(data);
+	};
+
+	/**
+	 * Getter for chord array (compactChord format) -- full library of predefined chords. Mainly used for debugging.
+	 * @method getChords
+	 * @return {arrayChords}
+	 */
+	_public.getChords = function() {
+		return _chords;
+	};
+
+	_public.setChords = function(value) {
+		_chords = value;
+	};
+
+	return _public;
+}());
+;/**
+ * Customize your installation. This JSON object controls appearance and
+ * HTML element names. It's divided into four sections: graphics, ids, layout,
+ * and "options".
+ *
+ * @class settings
+ * @namespace ukeGeeks
+ * @static
+ * @singleton
+ */
+ukeGeeks.settings = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/**
+	 * Chord Diagram Font styles -- font size, font-weight, font-face stack, etc.
+	 * @property fonts
+	 * @type JSON Object
+	 */
+	_public.fonts = {
+		dot: '9pt Arial Black,Arial',
+		text: 'bold 14pt Arial',
+		fret: 'bold 13pt Arial'
+	};
+
+	/**
+	 * Chord Diagram Colors for fretboard's grid lines and text. Don't use shorthand (i.e. "#0ff")
+	 * as this might cause a problem with IE canvas.
+	 * @property colors
+	 * @type JSON Object
+	 */
+	_public.colors = {
+		fretLines: '#003366',
+		dots: '#ff0000',
+		dotText: '#ffffff',
+		text: '#000000',
+		fretText: '#4a4a4a',
+		// a muted string's 'X' stroke color
+		xStroke: '#444444'
+	};
+
+	/* Standard Fretbox Options, these properties documented individually */
+	_public.fretBox = {
+		/**
+		 * True if chord name and finger "number" are to be drawn on canvas.
+		 * By default normal chord diagrams have text (TRUE) whereas inlineDiagrams
+		 * (i.e. chord diagrams shown above lyrics) do NOT as they are too small
+		 * (thus inlineFretbox.showText is FALSE)
+		 * @property fretBox.showText
+		 * @type bool
+		 */
+		showText: true,
+		/**
+		 * Chord Box's Bounding height
+		 * @property fretBox.height
+		 * @type int
+		 */
+		height: 150,
+		/**
+		 * Chord Box's Bounding width
+		 * @property fretBox.width
+		 * @type int
+		 */
+		width: 100,
+		/**
+		 * Row Height -- vertical height between frets (pixels)
+		 * @property fretBox.fretSpace
+		 * @type int
+		 */
+		fretSpace: 20,
+		/**
+		 * String Spacing -- horizontal distance between strings (pixels)
+		 * @property fretBox.stringSpace
+		 * @type int
+		 */
+		stringSpace: 20,
+		/**
+		 * Dot (finger position) radius in pixels
+		 * @property fretBox.dotRadius
+		 * @type int
+		 */
+		dotRadius: 8,
+		/**
+		 * Fretboard line width in pixels
+		 * @property fretBox.lineWidth
+		 * @type decimal
+		 */
+		lineWidth: 1.6,
+		/**
+		 * top-left position -- the offset for chord box. Doing this programatically
+		 * had "issues", decided to make this adjustment manual.
+		 * @property fretBox.topLeftPos
+		 * @type JSON
+		 */
+		topLeftPos: {
+			x: 22,
+			y: 25
+		},
+		/**
+		 * muted string "X" width of the 'X' crossbars. Recommend this be about 0.5 to 0.9 relative to stringSpace.
+		 * @property fretBox.xWidth
+		 * @type decimal
+		 */
+		xWidth: 0.45 * 20,
+		/**
+		 * muted string "X" stroke thickness. Recommend this be about 1.3 to 2.1 relative to lineWidth
+		 * @property fretBox.xStroke
+		 * @type decimal
+		 */
+		xStroke: 1.6 * 1.6
+	};
+
+	/**
+	 * Layout of Chord Digrams when inlineFredBoxes are being used. Identical in
+	 * structure to "fretBox". See fretBox for properties.
+	 * @property layout
+	 * @type JSON Object
+	 */
+	_public.inlineFretBox = {
+		showText: false,
+		height: 50,
+		width: 40,
+		fretSpace: 9,
+		stringSpace: 7,
+		dotRadius: 3,
+		lineWidth: 1,
+		topLeftPos: {
+			x: 10,
+			y: 2
+		},
+		xWidth: 0.7 * 7,
+		xStroke: 1.4 * 1,
+		fonts: {
+			dot: '8pt Arial',
+			text: '8pt Arial',
+			fret: '8pt Arial'
+		}
+	};
+
+	/**
+	 * ID's of key HTML page elements
+	 * @property ids
+	 * @type JSON Object
+	 */
+	_public.ids = {
+		songText: 'ukeSongText', // element holding the song's text
+		canvas: 'ukeChordsCanvas', // canvas
+		container: 'ukeSongContainer' // wraps BOTH Song Text and Chord Canvas
+	};
+
+	/**
+	 * CSS Class names used to find page elements-- be careful if renaming!
+	 * @property wrapClasses
+	 * @type JSON Object
+	 */
+	_public.wrapClasses = {
+		wrap: 'ugs-song-wrap', // wraps BOTH Song Text and Chord Canvas
+		diagrams: 'ugs-diagrams-wrap', // canvas
+		text: 'ugs-source-wrap' // element holding the song's text
+	};
+
+	/**
+	 * Options (Features) you can turn on or off
+	 * @property opts
+	 * @type JSON Object
+	 */
+	_public.opts = {
+		columnsEnabled: true,
+		/**
+		 * the [ and ] surrounding chord names often looks bad in print (usually only good when inline)
+		 * set true to keep then, false to get rid of the buggers.
+		 * @property opts.retainBrackets
+		 * @type Boolean
+		 */
+		retainBrackets: false,
+		/**
+		 * if TRUE chords in the "commonChords" list will be ignored (excluded) from having thier
+		 * master chord diagram drawn
+		 * @property opts.ignoreCommonChords
+		 * @type Boolean
+		 */
+		ignoreCommonChords: false,
+		/**
+		 * If true chord reference diagrams are sorted alphabetically, otherwise chords are shown in the
+		 * order in which they appear within the song.
+		 * @property opts.sortAlphabetical
+		 * @type Boolean
+		 */
+		sortAlphabetical: false,
+		/**
+		 * if TRUE chords that overlap each other (in the music area) will have their spacing adjuste
+		 * to prevent overlapping.
+		 * @property opts.autoFixOverlaps
+		 * @type Boolean
+		 */
+		autoFixOverlaps: true
+	};
+
+	/**
+	 * If TRUE the Chord Digram is drawn ABOVE lyrics
+	 * @property inlineDiagrams
+	 * @type Bool
+	 */
+	_public.inlineDiagrams = false;
+
+	/**
+	 * Number of frets to draw. Default is 5 (as this is as wide as my hand can go and
+	 * I've never seen a chord diagram requiring more than this. But ya never know.
+	 * @property numFrets
+	 * @type int
+	 */
+	_public.numFrets = 5;
+
+	/**
+	 * Array of string names, changes between baritone and soprano
+	 * @property tuning
+	 * @type string Array
+	 */
+	_public.tuning = ['G', 'C', 'E', 'A'];
+
+	/**
+	 * The initial tuning when page first loads, used in scriptasaurus.init.
+	 * @property defaultInstrument
+	 * @type {enum_int}
+	 */
+	_public.defaultInstrument = ukeGeeks.definitions.instrument.sopranoUke;
+
+	/**
+	 * TODO: Clean-up Tab Options!!
+	 * @property tabs
+	 * @type JSON Object
+	 */
+	_public.tabs = {
+		lineSpacing: 16, // pixels between lines (or strings)
+		noteSpacing: 14, // pixels between finger dots
+		lineWidth: 1, // pixels
+		lineColor: '#999999', // hex
+		labelWidth: 12, // pixels, how much room to allow for string names, eg, "G" or "A"
+		labelFont: '10pt Arial, Helvetica, Verdana, Geneva, sans-serif',
+		dotColor: '#eaeaea', // hex
+		dotRadius: 10, // pixels, finger dot's radius
+		textFont: 'bold 12pt Arial, Helvetica, Verdana, Geneva, sans-serif',
+		textColor: '#000000',
+		bottomPadding: 10 // extra blank space added to bottom of diagram
+	};
+
+	// Info about runtime environment. Not really a setting.
+	_public.environment = {
+		/**
+		 * set in scriptasaurus. True if UserAgent is Internet Explorer
+		 * @property environment.isIe
+		 * @type bool
+		 */
+		isIe: false
+	};
+
+	/**
+	 * List of common chords to be "ignored" (won't show master chord diagrams)
+	 * @property commonChords
+	 * @type string Array
+	 */
+	_public.commonChords = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'Am'];
+
+	/**
+	 * TODO: determine minimum value... 1?
+	 * @method _scaleNode
+	 * @private
+	 * @param node {datatype} Description
+	 * @param mulitplier {int} see scale method's parameter
+	 * @return mixed
+	 */
+	var _scaleNode = function(node, mulitplier) {
+		if (typeof(node) == 'number') {
+			return node * mulitplier;
+		}
+		else if (typeof(node) == 'object') {
+			for (var i in node) {
+				node[i] = _scaleNode(node[i], mulitplier);
+			}
+			return node;
+		}
+		return node;
+	};
+
+	var _sizeRe = /\b(\d+)(pt|px)\b/;
+
+	/**
+	 * TODO: determine minimum font size... 5pt/px?
+	 * @method _scaleFont
+	 * @private
+	 * @param font {string} Description
+	 * @param mulitplier {int} see scale method's parameter
+	 * @return {void}
+	 */
+	var _scaleFont = function(font, mulitplier) {
+		var bits = font.match(_sizeRe);
+		if (bits.length < 2) {
+			return font;
+		}
+		var size = parseInt(bits[1], 10) * mulitplier;
+		return font.replace(_sizeRe, size + bits[2]);
+	};
+
+	/**
+	 * Scales the standard chord diagram's dimensions and font sizes by multiplying
+	 * all falues by passed in value. Note: this is currently a destructive change: no
+	 * backup of original values is retained.
+	 * @method scale
+	 * @param mulitplier {int}
+	 * @return {void}
+	 */
+	_public.scale = function(mulitplier) {
+		if (mulitplier == 1.0) {
+			return;
+		}
+
+		for (var i in this.fonts) {
+			this.fonts[i] = _scaleFont(this.fonts[i], mulitplier);
+		}
+
+		// Note getting x/y scaled.
+		this.fretBox = _scaleNode(this.fretBox, mulitplier);
+	};
+
+	/* return our public interface
+	 */
+	return _public;
+}());
+;/**
+ * A container or Models library. ukegeeks.data is really a "Models" namespace. Please refactor.
+ * @class data
+ * @namespace ukeGeeks
+ * @singleton
+ */
+ukeGeeks.data = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/**
+	 * Chord info sutiable for plotting on Canvas; has name and dot positions
+	 * @class expandedChord
+	 * @constructor
+	 * @for ukeGeeks.data
+	 * @namespace ukeGeeks.data
+	 */
+	_public.expandedChord = function(name) {
+		/**
+		 * string, i.e. 'C#6'
+		 * @property name
+		 * @type string
+		 * @for ukeGeeks.data.expandedChord
+		 */
+		this.name = name;
+		/**
+		 * Array of data.dot objects
+		 * @property dots
+		 * @type array
+		 */
+		this.dots = [];
+		/**
+		 * Array of bools, true means that string is not played (muted). i.e. chord.mute[2] means third string is muted.
+		 * @property mute
+		 * @type array
+		 */
+		this.muted = [];
+	};
+
+	/**
+	 * Song object holds all meta info (Title, Subtitles) plus an array of plot
+	 * @class song
+	 * @constructor
+	 * @for ukeGeeks.data
+	 * @namespace ukeGeeks.data
+	 */
+	_public.song = function() {
+		/**
+		 * Song Title
+		 * @property title
+		 * @type string
+		 * @for ukeGeeks.data.song
+		 */
+		this.title = '';
+		/**
+		 * Album
+		 * @property album
+		 * @type string
+		 */
+		this.album = '';
+		/**
+		 * Artist Info
+		 * @property artist
+		 * @type string
+		 */
+		this.artist = '';
+		/**
+		 * Subtitle, often Artist Info
+		 * @property st
+		 * @type string
+		 */
+		this.st = '';
+		/**
+		 * Subtitle Number 2, subtitle2 (not used yet)
+		 * @property st2
+		 * @type string
+		 */
+		this.st2 = '';
+		/**
+		 * Song's Key ('A', 'C', etc)
+		 * @property key
+		 * @type string
+		 */
+		this.key = '';
+		/**
+		 *
+		 * @property body
+		 * @type string
+		 */
+		this.body = '';
+		/**
+		 * True if there is at least one chord in use, false otherwise. Useful for laying out tablature, which might have no chords.
+		 * @property hasChords
+		 * @type bool
+		 */
+		this.hasChords = false;
+
+		this.ugsMeta = [];
+		/**
+		 * array of data.dots
+		 * @property defs
+		 * @type array
+		 */
+		this.defs = [];
+
+		/**
+		 * array of chord names found in current song
+		 * @property chords
+		 * @type array(strings)
+		 */
+		this.chords = [];
+	};
+
+	/**
+	 * A single fretboard fingering "dot" -- the position on the Canvas object that a dot should occupy.
+	 * @class dot
+	 * @constructor
+	 * @for ukeGeeks.data
+	 * @namespace ukeGeeks.data
+	 */
+	_public.dot = function(string, fret, finger) {
+		/**
+		 * The ukulele's string, numbered from "top" (1) to "bottom" (4). Sporano uke strings would be ['G' => 1,'C' => 2,'E' => 3,'A' => 4]
+		 * @property string
+		 * @type int
+		 * @for ukeGeeks.data.dot
+		 */
+		this.string = string;
+		/**
+		 * Fret position, i.e. 0-12
+		 * @property fret
+		 * @type int
+		 */
+		this.fret = fret;
+		/**
+		 * Your finger, 0-4
+		 * @property finger
+		 * @type int
+		 */
+		this.finger = finger;
+	};
+
+	/**
+	 * @class instrument
+	 * @constructor
+	 * @param  {string} key
+	 * @param  {string} name
+	 * @param  {string} tuning
+	 * @param  {array} chords
+	 */
+	_public.instrument = function(key, name, tuning, chords) {
+		this.key = key;
+		this.name = name;
+		this.tuning = tuning;
+		this.chords = chords;
+	};
+
+	_public.htmlHandles = function(wrap, diagrams, text) {
+		this.wrap = wrap;
+		this.diagrams = diagrams;
+		this.text = text;
+	};
+
+	// -----------------------------------------------------------------------------------------
+	// *** DOCUMENTAION ONLY ***
+	// -----------------------------------------------------------------------------------------
+	/**
+	 * Documentation Only (no JS Definition)
+	 * <br />
+	 * <br />The JSON format used for add-in fingerings. Frequently you'll add this to indicate
+	 * "nutting" or "barring" with one or more fingers.
+	 * <br />
+	 * <br />For example, the D7 is often played by laying the index finger across the entire
+	 * second fret and then placing middle finger on 3rd fret of "A" string like this:
+	&gt;pre&lt;
+		G C E A
+		- - - -  (1st fret)
+		X X X X
+		- - - X
+		- - - -  (4th fret)
+	</pre>
+	 * The "A" string has two fingers on it, obviously one does nothing -- except to make the
+	 * chord much easier to play.
+	 *
+	 * @class addInFinger
+	 * @constructor
+	 * @for ukeGeeks.data
+	 * @namespace ukeGeeks.data
+	 */
+	/**
+	 * ex: 'G'
+	 * @property string
+	 * @type char
+	 * @for ukeGeeks.data.addInFinger
+	 */
+	/**
+	 * ex: 0-12
+	 * @property fret
+	 * @type int
+	 * @for ukeGeeks.data.addInFinger
+	 */
+	/**
+	 * ex: 0-4 (where 1 = index finger and 4 = pinky)
+	 * @property  finger
+	 * @type int
+	 * @for ukeGeeks.data.addInFinger
+	 */
+
+	return _public;
+
+}());
+;/**
+ * some jQuery-like tools (very, very crappy. wish we could count on jQuery being on the page.)
+ * if you do want to use jQuery (and why wouldn't you) I'm not offended if you yank this out.
+ * @class toolsLite
+ * @namespace ukeGeeks
+ * @singleton
+ */
+ukeGeeks.toolsLite = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	var regEx = {
+		dbleSpace: /\s{2,}/g,
+		trim: /^\s+|\s+$/g
+	};
+
+	/**
+	 * adds className to element.
+	 * @method addClass
+	 * @param element {DOM_element} target element
+	 * @param className {string} CSS classname to add
+	 * @return {void}
+	 */
+	_public.addClass = function(element, className) {
+		if (!_public.hasClass(element, className)) {
+			element.className += ' ' + className;
+		}
+	};
+
+	_public.hasClass = function(element, className) {
+		return element.className.match(getRegEx(className));
+	};
+
+	_public.removeClass = function(element, className) {
+		if (_public.hasClass(element, className)) {
+			var reg = getRegEx(className);
+			element.className = element.className.replace(reg, ' ');
+		}
+	};
+
+	_public.setClass = function(element, className, isActive) {
+		if (isActive) {
+			_public.addClass(element, className);
+		}
+		else {
+			_public.removeClass(element, className);
+		}
+	};
+
+	var getRegEx = function(className) {
+		return new RegExp('(\\s|^)' + className + '(\\s|$)');
+	};
+
+	/**
+	 * Removes all white space at the begining and end of a string.
+	 * @method trim
+	 * @param str {String} String to trim.
+	 * @return {String} Returns string without leading and following white space characters.
+	 */
+	_public.trim = function(str) {
+		return str.replace(regEx.trim, '');
+	};
+
+	_public.pack = function(value) {
+		return value.replace(regEx.dbleSpace, ' ').replace(regEx.trim, '');
+	};
+
+	/**
+	 * Searches within Node for tags with specified CSS class.
+	 * @method getElementsByClass
+	 * @param searchClass {string}  CSS Classname
+	 * @param node {HtmlNode} parent node to begin search within. Defaults to entire document.
+	 * @param tag {string} restrict search to a specific tag name. defaults to all tags.
+	 * @return {arrayDomElements}
+	 */
+	_public.getElementsByClass = function(searchClass, node, tag) {
+		var i, j;
+		// use falsey -- if ((node === null) || (node === undefined)) {
+		if (!node) {
+			node = document;
+		}
+		if (node.getElementsByClassName) {
+			return node.getElementsByClassName(searchClass);
+		}
+
+		var classElements = [];
+		if (!tag) {
+			tag = '*';
+		}
+		var els = node.getElementsByTagName(tag);
+		var elsLen = els.length;
+		var pattern = new RegExp("(^|\\s)" + searchClass + "(\\s|$)");
+		for (i = 0, j = 0; i < elsLen; i++) {
+			if (pattern.test(els[i].className)) {
+				classElements[j] = els[i];
+				j++;
+			}
+		}
+		return classElements;
+	};
+
+	return _public;
+
+}());
+;/**
+ * Converts text to JSON objects. Accetps either large text blocks or single lines of
+ * text written in CPM syntax (looks for instrument, tuning, and define statements).
+ * @class chordImport
+ * @namespace ukeGeeks
+ * @singleton
+ */
+ukeGeeks.chordImport = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/**
+	 * Internal storage of partially converted "define" statements. The Definition (string) and addIn (array<strings>)
+	 * @class chordImport.chordParts
+	 * @constructor
+	 * @type ClassDefinition
+	 * @private
+	 */
+	var chordParts = function(definition, addIns) {
+		this.define = definition;
+		this.adds = addIns;
+	};
+
+	/**
+	 * All regular expressions used in this class. Note, Changed parsing from "\n" to "{" which means "define: ..." cannot depend on that opening curly-brace!
+	 * @property regEx
+	 * @type JSON Object of Regular Expressions
+	 * @private
+	 */
+	var regEx = {
+		// first pass filters
+		define: /\s*{?define\s*:(.*?)(}|add:)/i,
+		add: /(add:.*?)(}|add:)/i,
+		// chord building filters
+		name: /(\S+)\s+/,
+		frets: /\s+frets\s+([\dx]{4}|(([\dx]{1,2}\s){3})[\dx]{1,2})/i,
+		fingers: /\s+fingers\s+((\d\s+){3}\d|\d{4})/i,
+		muted: /\s+mute\s+(\d\s){0,3}\d?/i,
+		// TODO: ignores "base-fret 1"
+		// filter "add-in" chord fingers
+		addin: /add:\s*string\s*(\S+)\s+fret\s+(\d+)\sfinger\s(\d)/i,
+		// extra commands
+		instr: /{\s*instrument\s*:\s*(.*?)\s*}/i,
+		tuning: /{\s*tuning\s*:\s*(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*}/i,
+		// single digit numbers
+		//num: /(\d)/g,
+		numOrX: /(\d{1,2}|x)/gi,
+		any: /(.)/g
+	};
+
+	/**
+	 * TODO:
+	 * @method _lineToParts
+	 * @private
+	 * @param line {string} Single line (string with one statment)
+	 * @return {array<chordParts>}
+	 */
+	var _lineToParts = function(line) {
+		var s = ukeGeeks.toolsLite.pack(line);
+		if (s.length > 1 && s[0] != '#') {
+			var m = s.match(regEx.define);
+			if (m && m.length > 1) {
+				return new chordParts(m[1], _getAddIns(s));
+			}
+		}
+		return null;
+	};
+
+	/**
+	 * TODO:
+	 * @method _textToParts
+	 * @private
+	 * @param line {array<string>} Array of lines (stings) each wtih one statment
+	 * @return {void}
+	 */
+	var _textToParts = function(lines) {
+		var p = [];
+		for (var i in lines) {
+			var c = _lineToParts(lines[i]);
+			if (c) {
+				p.push(c);
+			}
+		}
+		return p;
+	};
+
+	/**
+	 * TODO:
+	 * @method _getAddIns
+	 * @private
+	 * @param txt {string}
+	 * @return {void}
+	 */
+	var _getAddIns = function(txt) {
+		var finds = [];
+		var m = txt.match(regEx.add);
+		while (m && m.length > 1) {
+			finds.push(m[1]);
+			txt = txt.replace(m[1], '');
+			m = txt.match(regEx.add);
+		}
+		return finds;
+	};
+
+	/**
+	 * TODO:
+	 * @method _getInstrument
+	 * @private
+	 * @param text {string} Single statement to be searched
+	 * @return {string}
+	 */
+	var _getInstrument = function(text) {
+		var c = text.match(regEx.instr);
+		return !c ? null : ukeGeeks.toolsLite.pack(c[1]);
+	};
+
+	/**
+	 * TODO: expects FOUR strings.
+	 * @method _getTuning
+	 * @private
+	 * @param text {string} Single statement to be searched
+	 * @return {string}
+	 */
+	var _getTuning = function(text) {
+		var c = text.match(regEx.tuning);
+		return !c ? null : [c[1], c[2], c[3], c[4]];
+	};
+
+	/**
+	 * TODO:
+	 * @method _getName
+	 * @private
+	 * @param text {string} Single statement to be searched
+	 * @return {string}
+	 */
+	var _getName = function(text) {
+		var c = text.match(regEx.name);
+		return !c ? null : c[1];
+	};
+
+	/**
+	 * TODO:
+	 * @method _getKey
+	 * @private
+	 * @param name {string}
+	 * @param tuning {array<string>}
+	 * @return {string}
+	 */
+	var _getKey = function(name, tuning) {
+		var s = name.replace(' ', '-');
+		for (var i in tuning) {
+			s += '-' + tuning[i];
+		}
+		return s.toLowerCase();
+	};
+
+	/**
+	 * TODO: Change will affect "packed" chord fingers -- spaces required. No longer accepts "frets 1231", it must be "frets 1 2 3 1"
+	 * Replaces _getFrets. Sets frets and muted arrays.
+	 * @method _fretOMatic
+	 * @private
+	 * @param text {string} string to be searched
+	 * @param frets {array<int>}
+	 * @param muted {array<bool>}
+	 * @return {void}
+	 */
+	var _fretOMatic = function(text, frets, muted) {
+		var f = text.match(regEx.frets);
+		if (!f) {
+			return;
+		}
+		var m = (f[1].length == 4) ? f[1].match(regEx.any) : f[1].match(regEx.numOrX);
+		for (var i = 0; i < m.length; i++) {
+			var isX = m[i] == 'x' || m[i] == 'X';
+			frets[i] = isX ? 0 : parseInt(m[i], 10);
+			muted[i] = isX;
+		}
+	};
+
+	/**
+	 * TODO:
+	 * @method _getFingers
+	 * @private
+	 * @param text {string} string to be searched
+	 * @return {array<string>}
+	 */
+	var _getFingers = function(text) {
+		var f = text.match(regEx.fingers);
+		if (!f) {
+			return [];
+		}
+		var x = f[1];
+		if (x.length == 4) {
+			x = x.replace(regEx.any, '$1 ');
+		}
+		return x.split(' ');
+	};
+
+	/**
+	 * Pass in integer arrays, frets is list of frets, plus corresponding fingers array
+	 * @method _toDots
+	 * @private
+	 * @param frets {array}
+	 * @param fingers {array}
+	 * @return {array<ukeGeeks.data.dot>} array of dots
+	 */
+	var _toDots = function(frets, fingers) {
+		var dots = [];
+		var tuning = ukeGeeks.settings.tuning;
+		for (var j = 0; j < tuning.length; j++) {
+			var n = parseInt(frets[j], 10);
+			if (n > 0) {
+				dots.push(new ukeGeeks.data.dot(j, n, (fingers.length - 1 >= j) ? parseInt(fingers[j], 10) : 0));
+			}
+		}
+		return dots;
+	};
+
+	/**
+	 * If a valid "add" instruction is present pushes a new dot object into dots array.
+	 * @method _addInDots
+	 * @private
+	 * @param dots {array<ukeGeeks.data.dot>}
+	 * @param adds {array<string>} array of "add instruction" to be parsed (i.e. "add: string G fret 1 finger 1")
+	 * @return {void}
+	 */
+	var _addInDots = function(dots, adds) {
+		if (!adds || adds.length < 1) {
+			return;
+		}
+		for (var i in adds) {
+			var a = adds[i].match(regEx.addin);
+			if (a && a.length > 2) {
+				dots.push(new ukeGeeks.data.dot(parseInt(a[1], 10) - 1, parseInt(a[2], 10), parseInt(a[3], 10)));
+			}
+		}
+	};
+
+	/**
+	 * TODO:
+	 * @method _getExpandedChord
+	 * @private
+	 * @param text {type}
+	 * @param adds {type}
+	 * @return {void}
+	 */
+	var _getExpandedChord = function(text, adds) {
+		var frets = [];
+		var muted = [];
+		_fretOMatic(text, frets, muted);
+
+		var name = _getName(text);
+		var fingers = _getFingers(text);
+
+		if (name === null || name == 'frets') {
+			_log('bad "define" instruction: chord name not found: ' + text);
+			return null;
+		}
+		if (frets === null) {
+			_log('bad "define" instruction: frets not found: ' + text);
+			return null;
+		}
+		var chrd = new ukeGeeks.data.expandedChord(name);
+		// chrd.name = name;
+		var dots = _toDots(frets, fingers);
+		_addInDots(dots, adds);
+		chrd.dots = dots;
+		chrd.muted = muted;
+		return chrd;
+	};
+
+	/**
+	 * TODO:
+	 * @method _partsToChords
+	 * @private
+	 * @param parts {type}
+	 * @return {void}
+	 */
+	var _partsToChords = function(parts) {
+		var c = [];
+		var x = null;
+		for (var i in parts) {
+			x = _getExpandedChord(parts[i].define, parts[i].adds);
+			if (x) {
+				c.push(x);
+			}
+		}
+		return c;
+	};
+
+
+	/**
+	 * Add an error. As one would with console.log("blah").
+	 * @private
+	 * @method _log
+	 * @param msg {string} Error message to be added
+	 * @return {void}
+	 */
+	var _log = function(msg) {
+		_errs.push(msg);
+	};
+
+	var _errs = [];
+
+	var _echoLog = function() {
+		for (var i in _errs) {
+			console.log(i + '. ' + _errs[i]);
+		}
+	};
+
+	/**
+	 * Returns an expandedChord object (JSON) converted from single statement text input line.
+	 * @method runLine
+	 * @param line {string} Single line (string with one statment)
+	 * @return {ukeGeeks.data.expandedChord}
+	 */
+	_public.runLine = function(line) {
+		var c = _lineToParts(line);
+		return !c ? null : _getExpandedChord(c.define, c.adds);
+	};
+
+	/**
+	 * Returns array of expandedChord objects (JSON), converted from text input.
+	 * @method runBlock
+	 * @param text {string} Multiline text block containing definition, instrument, and tuning statements.
+	 * @return {ukeGeeks.data.instrument}
+	 */
+	_public.runBlock = function(text) {
+		//TODO: newlines get lost in strings, do I always rely on "{"?
+		var linesAry = text.split('\n');
+		if (linesAry.length < 2) {
+			linesAry = text.split('{');
+		}
+		var parts = _textToParts(linesAry);
+		var name = _getInstrument(text);
+		var tuning = _getTuning(text);
+		return new ukeGeeks.data.instrument(
+			_getKey(name, tuning), // key
+			name, // name
+			tuning, // tuning
+			_partsToChords(parts) // chords
+		);
+	};
+
+	return _public;
+
+}());
+;/**
+ * Can shift a single chord or list of chords up/down by a series of steps. Hangles
+ * finding equivalent chord names (i.e. A# is same as Bb)
+ *
+ * @class transpose
+ * @namespace ukeGeeks
+ * @static
+ * @singleton
+ */
+ukeGeeks.transpose = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	var re = /^([A-G][#b]?)(.*)/;
+	var tones = {
+		'A': 0,
+		'A#': 1,
+		'Bb': 1,
+		'B': 2,
+		'C': 3,
+		'C#': 4,
+		'Db': 4,
+		'D': 5,
+		'D#': 6,
+		'Eb': 6,
+		'E': 7,
+		'F': 8,
+		'F#': 9,
+		'Gb': 9,
+		'G': 10,
+		'G#': 11,
+		'Ab': 11
+	};
+
+	/**
+	 * Pass in a chord name returns new chord name for the original chord shifted by "steps" semitones.
+	 * @method shift
+	 * @param name (string) chord name, should be in chord dictionary
+	 * @param steps (int) number of semitones to transpose
+	 * @return string
+	 */
+	_public.shift = function(name, steps) {
+		var t = getTone(name);
+		if (t === null) {
+			return null;
+		}
+		var tone = (t.tone + steps) % 12;
+		// TODO: negative steps are allowed!!!
+		if (tone < 0) {
+			tone = tone + 12;
+		}
+		for (var key in tones) {
+			if (tone == tones[key]) {
+				return key + t.suffix;
+			}
+		}
+		return null;
+	};
+
+	/**
+	 * Returns object with name (A - G with flat/sharp), integer value (0 - 11), and its "suffix" (minor, 7th, etc)
+	 * @method getTone
+	 * @param name (string)
+	 * @return JSON
+	 */
+	var getTone = function(name) {
+		var m = name.match(re);
+		if (!m || m.length < 1) {
+			return null;
+		}
+		return {
+			tone: parseInt(tones[m[1]], 10),
+			prefix: m[1],
+			suffix: m[2]
+		};
+	};
+
+	/**
+	 * Returns a mapping -- an array of JSON with "original" chord name and "transposed" chord names.
+	 * @method retune
+	 * @param offset (int) optional
+	 * @return {array}
+	 */
+	_public.retune = function() {
+		var offset = (arguments.length > 0) ? arguments[0] : 0;
+		var chords = ukeGeeks.definitions.getChords();
+		var s = [];
+		if (offset === 0) {
+			for (var i in chords) {
+				s.push({
+					original: chords[i].name,
+					transposed: chords[i].name
+				});
+			}
+		}
+		else {
+			for (var z in chords) {
+				s.push({
+					original: chords[z].name,
+					transposed: _public.shift(chords[z].name, offset)
+				});
+			}
+		}
+		return s;
+	};
+
+	/**
+	 * returns copy of input string array shifted by number of steps
+	 * @method shiftChords
+	 * @param  array<strings> chords chord names to be shifted
+	 * @param  int steps  number of semitone steps (up or down)
+	 * @return array<strings>
+	 */
+	_public.shiftChords = function(chords, steps) {
+		var newChords = [];
+		for (var i = 0; i < chords.length; i++) {
+			newChords.push(_public.shift(chords[i], steps));
+		}
+		return newChords;
+	};
+
+	// ---------------------------------------
+	// return public interface
+	// ---------------------------------------
+	return _public;
+
+}());
+;// -------------------------------------------------------
+// Scriptasaurus preloads Soprano Uke chord dictionary.
+// Unusual array joined to make multi-lined super string
+// being used to avoid JsLint warnings about JS string
+// continuation character: \
+// -------------------------------------------------------
+ukeGeeks.definitions.sopranoUkuleleGcea = [
+	// Required: Instruement Name and Tuning (string names)
+	// -------------------------------------------------------
+	'{instrument: Soprano Ukulele}',
+	'{tuning: G C E A}',
+	//  Ab returns G#
+	//  A
+	// -------------------------------------------------------
+	'{define: A frets 2 1 0 0 fingers 1 2 0 0}',
+	'{define: Am frets 2 0 0 0 fingers 1 0 0 0}',
+	'{define: A7 frets 0 1 0 0 fingers 0 1 0 0}',
+	'{define: A7sus4 frets 0 2 0 0 fingers 0 2 0 0}',
+	'{define: Am7 frets 0 0 0 0}',
+	'{define: Adim frets 2 3 2 3 fingers 1 3 2 4}',
+	'{define: Amaj7 frets 1 1 0 0 fingers 1 2 0 0}',
+	'{define: A6 frets 2 4 2 4 fingers 1 3 2 4}',
+	'{define: Asus2 frets 2 4 5 2 fingers 2 3 4 1}',
+	'{define: Asus4 frets 2 2 0 0 fingers 1 2 0 0}',
+	'{define: Aaug frets 2 1 1 4 fingers 2 1 1 4 add: string 1 fret 1 finger 1 add: string 4 fret 1 finger 1}',
+	'{define: Am6 frets 2 4 2 3 fingers 1 3 1 2 add: string 2 fret 2 finger 1}',
+	'{define: A9 frets 0 1 0 2 fingers 0 1 0 2}',
+	//  A# retruns Bb
+	//  Bb
+	// -------------------------------------------------------
+	'{define: Bb frets 3 2 1 1 fingers 3 2 1 1}',
+	'{define: Bbm frets 3 1 1 1 fingers 3 1 1 1 add: string 1 fret 1 finger 1}',
+	'{define: Bb7 frets 1 2 1 1 fingers 1 2 1 1 add: string 2 fret 1 finger 1}',
+	'{define: Bb7sus4 frets 1 3 1 1 fingers 1 3 1 1 add: string 2 fret 1 finger 1}',
+	'{define: Bbm7 frets 1 1 1 1 fingers 1 1 1 1}',
+	'{define: Bbdim frets 0 1 0 1 fingers 0 1 0 2}',
+	'{define: Bbmaj7 frets 2 2 1 1 fingers 2 2 1 1}',
+	'{define: Bb6 frets 0 2 1 1 fingers 0 2 1 1}',
+	'{define: Bbm6 frets 0 1 1 1 fingers 0 1 1 1}',
+	'{define: Bbsus2 frets 3 0 1 1 fingers 3 0 1 1}',
+	'{define: Bbsus4 frets 3 3 1 1 fingers 3 3 1 1}',
+	'{define: Bbaug frets 3 2 2 5 fingers 2 1 1 4 add: string 1 fret 2 finger 1 add: string 4 fret 2 finger 1}',
+	'{define: Bb9 frets 1 2 1 3 fingers 2 1 4 3}',
+	'{define: Bbmaj7 frets 2 2 1 1 fingers 2 2 1 1}',
+	'{define: Bbm7-5 frets 1 1 0 1 fingers 1 2 0 3}',
+	//  B
+	// -------------------------------------------------------
+	'{define: B frets 4 3 2 2 fingers 3 2 1 1}',
+	'{define: Bm frets 4 2 2 2 fingers 3 1 1 1 add: string 1 fret 2 finger 1}',
+	'{define: Bm6 frets 1 2 2 2 fingers 1 2 3 4}',
+	'{define: B7 frets 2 3 2 2 fingers 1 2 1 1 add: string 2 fret 2 finger 1}',
+	'{define: B7sus4 frets 2 4 2 2 fingers 1 3 1 1 add: string 2 fret 2 finger 1}',
+	'{define: Bm7 frets 2 2 2 2 fingers 1 1 1 1}',
+	'{define: Bdim frets 1 2 1 2 fingers 1 3 2 4}',
+	'{define: Bmaj7 frets 3 3 2 2 fingers 2 2 1 1}',
+	'{define: B6 frets 1 3 2 2 fingers 1 4 2 3}',
+	'{define: Bsus2 frets 5 1 2 2 fingers 4 1 3 2}',
+	'{define: Bsus4 frets 4 4 2 2 fingers 2 2 1 1}',
+	'{define: Baug frets 0 3 3 2 fingers 0 2 2 1}',
+	'{define: B9 frets 2 3 2 4}',
+	//  C
+	// -------------------------------------------------------
+	'{define: C frets 0 0 0 3 fingers 0 0 0 3}',
+	'{define: Cm frets 0 3 3 3 fingers 0 1 2 3}',
+	'{define: C7 frets 0 0 0 1 fingers 0 0 0 1}',
+	'{define: C7sus4 frets 0 0 1 1 fingers 0 0 1 1}',
+	'{define: Cm7 frets 3 3 3 3 fingers 1 1 1 1}',
+	'{define: Cdim frets 2 3 2 3 fingers 1 3 2 4}',
+	'{define: Cmaj7 frets 0 0 0 2 fingers 0 0 0 1}',
+	'{define: C6 frets 0 0 0 0}',
+	'{define: Cm6 frets 0 3 5 5 fingers 0 1 3 1}',
+	'{define: Csus2 frets 0 2 3 3 fingers 0 1 2 2}',
+	'{define: Csus4 frets 0 0 1 3 fingers 0 0 1 3}',
+	'{define: Caug frets 1 0 0 3 fingers 1 0 0 4}',
+	'{define: C9 frets 0 2 0 1 fingers 0 2 0 1}',
+	//  C#
+	// -------------------------------------------------------
+	'{define: C# frets 1 1 1 4 fingers 1 1 1 4 add: string 4 fret 1 finger 1}',
+	'{define: C#m frets 1 4 4 4 fingers 1 2 3 3}',
+	'{define: C#7 frets 1 1 1 2 fingers 1 1 1 2 add: string 4 fret 1 finger 1}',
+	'{define: C#7sus4 frets 1 1 2 2 fingers 1 1 2 3}',
+	'{define: C#m7 frets 1 4 4 2 fingers 1 3 3 2}',
+	'{define: C#dim frets 0 1 0 1 fingers 0 1 0 2}',
+	'{define: C#maj7 frets 1 1 1 3 fingers 1 1 1 3 add: string 4 fret 1 finger 1}',
+	'{define: C#6 frets 1 1 1 1 fingers 1 1 1 1}',
+	'{define: C#m6 frets 1 1 0 1 fingers 1 2 0 3}',
+	'{define: C#sus2 frets 1 3 4 4 fingers 1 2 3 3}',
+	'{define: C#sus4 frets 1 1 2 4 fingers 1 1 2 4}',
+	'{define: C#aug frets 2 1 1 4 fingers 2 1 1 4 add: string 1 fret 1 finger 1 add: string 4 fret 1 finger 1}',
+	'{define: C#9 frets 1 3 1 2}',
+	//  Db returns C#
+	//  D
+	// -------------------------------------------------------
+	'{define: D frets 2 2 2 0 fingers 1 1 1 0}',
+	'{define: Dm frets 2 2 1 0 fingers 2 2 1 0}',
+	'{define: Dm6 frets 0 2 1 2 fingers 0 2 1 3}',
+	'{define: D7 frets 2 2 2 3 fingers 1 1 1 2 add: string 4 fret 2 finger 1}',
+	'{define: D7sus4 frets 2 2 3 3 fingers 1 1 2 3}',
+	'{define: Dm7 frets 2 2 1 3 fingers 2 2 1 3}',
+	'{define: Ddim frets 1 2 1 2 fingers 1 3 2 4}',
+	'{define: Dmaj7 frets 2 2 2 4 fingers 1 1 1 2 add: string 4 fret 2 finger 1}',
+	'{define: D6 frets 2 2 2 2 fingers 2 2 2 2}',
+	'{define: Dsus2 frets 2 2 0 0 fingers 1 2 0 0}',
+	'{define: Dsus4 frets 0 2 3 0 fingers 0 1 2 0}',
+	'{define: Daug frets 3 2 2 5 fingers 2 1 1 4 add: string 1 fret 2 finger 1 add: string 4 fret 2 finger 1}',
+	'{define: D9 frets 2 4 2 3}',
+	//  D# returns Eb
+	//  Eb
+	// -------------------------------------------------------
+	'{define: Eb frets 0 3 3 1 fingers 0 2 2 1}',
+	'{define: Ebm frets 3 3 2 1 fingers 3 3 2 1}',
+	'{define: Eb7 frets 3 3 3 4 fingers 1 1 1 2 add: string 4 fret 3 finger 1}',
+	'{define: Eb7sus4 frets 3 3 4 4 fingers 1 1 2 3}',
+	'{define: Ebm7 frets 3 3 2 4 fingers 2 2 1 4}',
+	'{define: Ebdim frets 2 3 2 3 fingers 1 3 2 4}',
+	'{define: Ebmaj7 frets 3 3 3 5 fingers 1 1 1 2 add: string 4 fret 3 finger 1}',
+	'{define: Eb6 frets 3 3 3 3 fingers 1 1 1 1}',
+	'{define: Ebm6 frets 3 3 2 3 fingers 2 3 1 4}',
+	'{define: Ebsus2 frets 3 3 1 1 fingers 2 2 1 1}',
+	'{define: Ebsus4 frets 1 3 4 1 fingers 2 3 4 1}',
+	'{define: Ebaug frets 0 3 3 2 fingers 0 2 2 1}',
+	'{define: Eb9 frets 0 1 1 1}',
+	//  E
+	// -------------------------------------------------------
+	'{define: E frets 4 4 4 2 fingers 2 3 4 1}',
+	'{define: Em frets 0 4 3 2 fingers 0 3 2 1}',
+	'{define: E7 frets 1 2 0 2 fingers 1 2 0 3}',
+	'{define: E7sus4 frets 2 2 0 2 fingers 2 3 0 4}',
+	'{define: Em6 frets 4 4 3 4 fingers 2 3 1 4}',
+	'{define: Em7 frets 0 2 0 2 fingers 0 1 0 2}',
+	'{define: Edim frets 0 1 0 1 fingers 0 1 0 2}',
+	'{define: Emaj7 frets 1 3 0 2 fingers 1 3 0 2}',
+	'{define: E6 frets 4 4 4 4 fingers 1 1 1 1}',
+	'{define: Esus2 frets 4 4 2 2 fingers 3 3 1 1}',
+	'{define: Esus4 frets 2 4 0 2 fingers 2 4 0 1}',
+	'{define: Eaug frets 1 0 0 3 fingers 1 0 0 4}',
+	'{define: E9 frets 1 2 2 2}',
+	//  F
+	// -------------------------------------------------------
+	'{define: F frets 2 0 1 0 fingers 2 0 1 0}',
+	'{define: Fm frets 1 0 1 3 fingers 1 0 2 4}',
+	'{define: F7 frets 2 3 1 0 fingers 2 3 1 0}',
+	'{define: F7sus4 frets 3 3 1 3 fingers 2 3 1 4}',
+	'{define: Fm6 frets 1 2 1 3 fingers 1 2 1 3 add: string 2 fret 1 finger 1 add: string 4 fret 1 finger 1}',
+	'{define: Fm7 frets 1 3 1 3 fingers 1 3 2 4}',
+	'{define: Fdim frets 1 2 1 2 fingers 1 3 2 4}',
+	'{define: Fmaj7 frets 5 5 0 0 fingers 1 2 0 0}',
+	'{define: F6 frets 2 2 1 3 fingers 2 2 1 4}',
+	'{define: Fsus2 frets 0 0 1 3 fingers 0 0 1 3}',
+	'{define: Fsus4 frets 3 0 1 3 fingers 3 0 1 4}',
+	'{define: F6sus2 frets 0 0 1 3 fingers 0 0 1 3}',
+	'{define: F6sus4 frets 3 0 1 1 fingers 3 0 1 1}',
+	'{define: F6aug frets 2 1 1 4 fingers 2 1 1 4 add: string 1 fret 1 finger 1 add: string 4 fret 1 finger 1}',
+	'{define: F9 frets 2 3 3 3}',
+	'{define: Faug frets 2 1 1 0 fingers 3 1 2 0}',
+	//  F#
+	// -------------------------------------------------------
+	'{define: F# frets 3 1 2 1 fingers 3 1 2 1 add: string 1 fret 1 finger 1 add: string 3 fret 1 finger 1}',
+	'{define: F#m frets 2 1 2 0 fingers 2 1 3 0}',
+	'{define: F#7 frets 3 4 2 4 fingers 2 3 1 4}',
+	'{define: F#7sus4 frets 4 4 2 4 fingers 2 3 1 4}',
+	'{define: F#m7 frets 2 4 2 4 fingers 1 3 2 4}',
+	'{define: F#dim frets 2 3 2 3 fingers 1 3 2 4}',
+	'{define: F#maj7 frets 3 5 2 4 fingers 2 4 1 3}',
+	'{define: F#m6 frets 2 1 2 4 fingers 2 1 3 4}',
+	'{define: F#6 frets 3 3 2 4 fingers 2 2 1 4}',
+	'{define: F#sus2 frets 1 1 2 4 fingers 1 1 2 4}',
+	'{define: F#sus4 frets 4 1 2 2 fingers 4 1 2 3}',
+	'{define: F#aug frets 3 2 2 5 fingers 2 1 1 4 add: string 1 fret 2 finger 1 add: string 4 fret 2 finger 1}',
+	'{define: F#9 frets 1 1 0 1}',
+	//  Gb returns F#
+	//  G
+	// -------------------------------------------------------
+	'{define: G frets 0 2 3 2 fingers 0 1 3 2}',
+	'{define: Gm frets 0 2 3 1 fingers 0 2 3 1}',
+	'{define: Gm6 frets 0 2 0 1 fingers 0 2 0 1}',
+	'{define: G7 frets 0 2 1 2 fingers 0 2 1 3}',
+	'{define: G7sus4 frets 0 2 1 3 fingers 0 2 1 4}',
+	'{define: Gm7 frets 0 2 1 1 fingers 0 2 1 1}',
+	'{define: Gdim frets 0 1 0 1 fingers 0 1 0 2}',
+	'{define: Gmaj7 frets 0 2 2 2 fingers 0 1 2 3}',
+	'{define: G6 frets 0 2 0 2 fingers 0 1 0 2}',
+	'{define: Gsus2 frets 0 2 3 0 fingers 0 1 2 0}',
+	'{define: Gsus4 frets 0 2 3 3 fingers 0 1 2 3}',
+	'{define: Gaug frets 0 3 3 2 fingers 0 2 2 1}',
+	'{define: Gsus4 frets 0 2 3 3}',
+	'{define: G9 frets 2 2 1 2}',
+	//  G#
+	// -------------------------------------------------------
+	'{define: G# frets 5 3 4 3 fingers 3 1 2 1 add: string 1 fret 3 finger 1 add: string 3 fret 3 finger 1}',
+	'{define: G#m frets 1 3 4 2 fingers 1 3 4 2}',
+	'{define: G#7 frets 1 3 2 3 fingers 1 3 2 4}',
+	'{define: G#7sus4 frets 1 3 2 4 fingers 1 3 2 4}',
+	'{define: G#m7 frets 1 3 2 2 fingers 1 4 2 3}',
+	'{define: G#dim frets 1 2 1 2 fingers 1 3 2 4}',
+	'{define: G#maj7 frets 1 3 3 3 fingers 1 2 2 3}',
+	'{define: G#6 frets 1 3 1 3 fingers 1 3 2 4}',
+	'{define: G#m6 frets 1 3 1 2 fingers 1 3 1 2 add: string 2 fret 1 finger 1 add: string 4 fret 1 finger 1}',
+	'{define: G#sus2 frets 1 3 4 1 fingers 2 3 4 1}',
+	'{define: G#sus4 frets 1 3 4 4 fingers 1 2 3 3}',
+	'{define: G#aug frets 1 0 0 3 fingers 1 0 0 4}',
+	'{define: G#9 frets 1 0 2 1 fingers 1 0 3 2}',
+	//  slash chords & other oddities
+	// -------------------------------------------------------
+	'{define: C-F frets 2 0 1 3}',
+	'{define: D/A frets 2 2 2 0}',
+	'{define: Dm/C frets 2 2 1 3}',
+	'{define: Fm7/C frets 1 3 1 3}',
+	'{define: G/B frets 0 2 3 2}',
+	'{define: G/F# frets 0 2 2 2}',
+	'{define: G/F frets 0 2 1 2}',
+	'{define: G7/B frets 0 2 1 2}'
+];
+;/**
+ * Wraps three common canvas actions: adding canvas element to DOM, drawing a dot, adding text.
+ * @class canvasTools
+ * @namespace ukeGeeks
+ * @static
+ * @singleton
+ * @module ukeGeeks
+ */
+ukeGeeks.canvasTools = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	/**
+	 * @method drawDot
+	 * @param ctx {CanvasContext} Valid Canvas Context handle
+	 * @param centerPos {XyPositionJson} JSON with two properties: x & y ints, position in pixels, format {x: <int>, y: <int>}
+	 * @param radius {int} Dot's Radius
+	 * @param color {string} Hex color
+	 * @return {void}
+	 */
+	_public.drawDot = function(ctx, centerPos, radius, color) {
+		ctx.beginPath();
+		ctx.arc(centerPos.x, centerPos.y, radius, 0, Math.PI * 2, true);
+		ctx.closePath();
+		ctx.fillStyle = color;
+		ctx.fill();
+	};
+
+	/**
+	 * @method drawText
+	 * @param ctx {CanvasContext} Valid Canvas Context handle
+	 * @param pos {XYPosObject} JSON with two properties: x & y ints, position in pixels, format {x: <int>, y: <int>}
+	 * @param text {string} Any string to be places at Pos
+	 * @param font {string} Font, CSS-like definition of size and font-family, i.e.
+	 * @param color {string} Hexadecimal RGB color definition
+	 * @param align {string} (optional) Text will be aligned at position (pos) as [left,right,center]. Default is center.
+	 * @return {void}
+	 */
+	_public.drawText = function(ctx, pos, text, font, color, align) {
+		if (!ctx.fillText) {
+			return; // IE check
+		}
+		ctx.font = font;
+		ctx.textAlign = (align || 'center');
+		ctx.fillStyle = color;
+		ctx.fillText(text, pos.x, pos.y);
+	};
+
+	/**
+	 * Create new canvas DOM element and add it to element. Return convas context handle. Reutns null if there's a problem.
+	 * @method addCanvas
+	 * @param element {DOMEelement} Destination DOM element
+	 * @param width {int} Desired width of new canvas element
+	 * @param height {int} Desired height of new canvas element
+	 * @return {canvasContextHandle}
+	 */
+	_public.addCanvas = function(element, width, height) {
+		// make element
+		var c = document.createElement('canvas');
+		if (!c) {
+			return null;
+		}
+		// because IE is an abomination... must init & place in DOM BEFORE doing anything else
+		if (ukeGeeks.settings.environment.isIe) {
+			c = G_vmlCanvasManager.initElement(c);
+		}
+		element.appendChild(c);
+		c.width = width;
+		c.height = height;
+		// canvas context handle
+		var ctx = c.getContext('2d');
+		if (!ctx) {
+			return null;
+		}
+		return ctx;
+	};
+
+	return _public;
+}());
+;/**
+ * First places a Canvas element within a DOM element, then draws a chord diagram on it.
+ * @class chordBrush
+ * @namespace ukeGeeks
+ */
+ukeGeeks.chordBrush = function() {
+
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/////////////////////////////////////////////////////////////////////////////
+	//
+	// PUBLIC methods
+	//
+	/////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Again this is a constructor replacement
+	 * @method init
+	 * @return {void}
+	 */
+	_public.init = function() {};
+
+	/**
+	 * Puts a new Canvas within ChordBox and draws the chord diagram on it.
+	 * @method plot
+	 * @param chordBox {DOMElement} Handle to the DOM element where the chord is to be drawn.
+	 * @param chord {expandedChord} Chord Diagram to be drawn.
+	 * @param fretBox {JSON} Appropriate ukeGeeks.settings.fretBox -- either "fretBox" or "inlineFretBox"
+	 * @param {JSON} fontSettings (optional) Defaults to settings.fonts
+	 * @param {JSON} colorSettings (optional) Defaults to settings.colors
+	 * @return {void}
+	 */
+	_public.plot = function(chordBox, chord, fretBox, fontSettings, colorSettings) {
+		var ctx = ukeGeeks.canvasTools.addCanvas(chordBox, fretBox.width, fretBox.height);
+		if (!ctx) {
+			return;
+		}
+
+		if (!fontSettings) {
+			fontSettings = ukeGeeks.settings.fonts;
+		}
+		if (!colorSettings) {
+			colorSettings = ukeGeeks.settings.colors;
+		}
+
+		// starting top-left position for chord diagram
+		var pos = {
+			x: fretBox.topLeftPos.x,
+			y: fretBox.topLeftPos.y
+		};
+		_drawFretboard(ctx, pos, fretBox, colorSettings.fretLines);
+		// find where the circle centers should be:
+		var centers = {
+			x: pos.x,
+			y: (pos.y + fretBox.dotRadius)
+		};
+
+		// find the vertical shift by dividing the freespace between top and bottom (freespace is the row height less circle diameter)
+		var fudgeY = (fretBox.fretSpace - 2 * fretBox.dotRadius) / 2;
+		var fretRange = _getFretRange(chord.dots);
+		var firstFret = (fretRange.last <= 5) ? 1 : fretRange.last - 4;
+
+		// now add Dots (with finger numbers, if present)
+		for (var i = 0; i < chord.dots.length; i++) {
+			var s = chord.dots[i].string;
+			var p = {
+				x: (centers.x + s * fretBox.stringSpace),
+				y: (fudgeY + centers.y + (chord.dots[i].fret - firstFret) * fretBox.fretSpace)
+			};
+			ukeGeeks.canvasTools.drawDot(ctx, p, fretBox.dotRadius, colorSettings.dots);
+			// check that the dot's radius isn't stupidly small
+			if (chord.dots[i].finger > 0 && fretBox.showText && fretBox.dotRadius > 4) {
+				ukeGeeks.canvasTools.drawText(ctx, {
+					x: p.x,
+					y: (p.y + 5)
+				}, chord.dots[i].finger, fontSettings.dot, colorSettings.dotText);
+			}
+		}
+
+		// If the chord is above the normal first 5 frets we need to add labels for the first and last frets
+		if (firstFret != 1) {
+			// Label the starting and ending frets (0-12). It's assumed that the fretboard covers frets 1-5.
+			// If instead the top fret is 6, say, well, this is the method called to add that "6".
+			// The Y position calculation is a bit klunky. How big of a fret range is present in the chord?
+			var txtPos = {
+				x: 0,
+				y: pos.y + fretBox.fretSpace * (0.96 * (5.0 - (fretRange.last - fretRange.first)))
+				// Old Y caculcation: pos.y + (0.8 * fretBox.fretSpace)
+			};
+			ukeGeeks.canvasTools.drawText(ctx, txtPos, fretRange.first, fontSettings.fret, colorSettings.fretText, 'left');
+
+			// no point in double plotting a fret (i.e. barred 8th fret) so only add second label if
+			// first and last frets are different. Also, it's odd to see both 8 & 9, so only show if there's
+			// at least one fret between first and last (i.e. 8 & 10)
+			if ((fretRange.last - fretRange.first) > 1) {
+				txtPos.y = pos.y + (4.8 * fretBox.fretSpace);
+				ukeGeeks.canvasTools.drawText(ctx, txtPos, fretRange.last, fontSettings.fret, colorSettings.fretText, 'left');
+			}
+		}
+
+		// TODO: top offset
+		if (fretBox.showText) {
+			ukeGeeks.canvasTools.drawText(ctx, {
+				x: (pos.x + 1.5 * fretBox.stringSpace),
+				y: (pos.y - 5)
+			}, chord.name, fontSettings.text, colorSettings.text);
+		}
+
+		_mutedStrings(ctx, fretBox, chord.muted, colorSettings.xStroke);
+	};
+
+	/////////////////////////////////////////////////////////////////////////////
+	//
+	// PRIVATE methods
+	//
+	/////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * @method _drawFretboard
+	 * @private
+	 * @param ctx {CanvasContext} Valid Canvas Context Handle
+	 * @param pos {XYPosObject} Object with two properties: x & y ints, position in pixels
+	 * @param fretBox {settings}
+	 * @return {void}
+	 */
+	var _drawFretboard = function(ctx, pos, fretBox, fretColor) {
+		// width offset, a "subpixel" adjustment
+		var i, offset = fretBox.lineWidth / 2;
+		// locals
+		var stringHeight = ukeGeeks.settings.numFrets * fretBox.fretSpace;
+		var fretWidth = 3 * fretBox.stringSpace;
+		// build shape
+		ctx.beginPath();
+		// add "C" & "E" strings
+		for (i = 1; i < 3; i++) {
+			var x = pos.x + i * fretBox.stringSpace + offset;
+			ctx.moveTo(x, pos.y + offset);
+			ctx.lineTo(x, pos.y + stringHeight + offset);
+		}
+		// add frets
+		for (i = 1; i < ukeGeeks.settings.numFrets; i++) {
+			var y = pos.y + i * fretBox.fretSpace + offset;
+			ctx.moveTo(pos.x + offset, y);
+			ctx.lineTo(pos.x + fretWidth + offset, y);
+		}
+		//
+		ctx.rect(pos.x + offset, pos.y + offset, fretWidth, stringHeight);
+		// stroke shape
+		ctx.strokeStyle = fretColor;
+		ctx.lineWidth = fretBox.lineWidth;
+		ctx.stroke();
+		ctx.closePath();
+	};
+
+	/**
+	 * TODO: Loop over the muted array, dropping X's whenever a string position is TRUE
+	 * @method _mutedStrings
+	 * @private
+	 * @param  {CanvasContext} ctx  Valid Canvas Context handle
+	 * @param  {JSON} fretBox  See Settings.fretBox
+	 * @param  {bool} muted    Is this string "muted"?
+	 * @param  {string} strokeColor Valid CSS hex color (shorthand not recommended)
+	 * @return {void}
+	 */
+	var _mutedStrings = function(ctx, fretBox, muted, strokeColor) {
+		var x = fretBox.topLeftPos.x + fretBox.lineWidth / 2;
+		var y = fretBox.topLeftPos.y + fretBox.lineWidth / 4;
+		for (var i = 0; i < muted.length; i++) {
+			if (muted[i]) {
+				_drawX(ctx, {
+					x: x + i * fretBox.stringSpace,
+					y: y
+				}, fretBox, strokeColor);
+			}
+		}
+	};
+
+	/**
+	 * Plots an "X" centered at POSITION
+	 * @method _drawX
+	 * @private
+	 * @param {CanvasContext} ctx Valid Canvas Context handle
+	 * @param centerPos {XyPositionJson} JSON with two properties: x & y ints, position in pixels, format {x: <int>, y: <int>}
+	 * @param  {JSON} fretBox  See Settings.fretBox
+	 * @param  {string} strokeColor Valid CSS hex color (shorthand not recommended)
+	 * @return {void}
+	 */
+	var _drawX = function(ctx, pos, fretBox, strokeColor) {
+		pos.x -= fretBox.xWidth / 2;
+		pos.y -= fretBox.xWidth / 2;
+
+		ctx.beginPath();
+
+		ctx.moveTo(pos.x, pos.y);
+		ctx.lineTo(pos.x + fretBox.xWidth, pos.y + fretBox.xWidth);
+		ctx.moveTo(pos.x, pos.y + fretBox.xWidth);
+		ctx.lineTo(pos.x + fretBox.xWidth, pos.y);
+
+		ctx.strokeStyle = strokeColor;
+		ctx.lineWidth = fretBox.xStroke;
+		ctx.stroke();
+		ctx.closePath();
+	};
+
+	/**
+	 * Returns first & last frets, 0 if none found.
+	 * @method _getFretRange
+	 * @private
+	 * @param dots {array<data.dot>} Array of ukeGeeks.data.dot objects
+	 * @return {JSON}
+	 */
+	var _getFretRange = function(dots) {
+		var max = -1;
+		var min = 300;
+
+		for (var i = 0; i < dots.length; i++) {
+			if (dots[i].fret > max) {
+				max = dots[i].fret;
+			}
+			if (dots[i].fret < min) {
+				min = dots[i].fret;
+			}
+		}
+		return {
+			first: (min < 300) ? min : 0,
+			last: (max > 0) ? max : 0
+		};
+	};
+
+	/* return our public interface
+	 */
+	return _public;
+
+};
+;/**
+ * Reads an HTML (text) block looking for chords in format: [Emaj7]
+ * Returns the HTML block with wrapped chords: &lt;code&gt;&lt;strong&gt;&lt;em&gt;
+ * @class chordParser
+ * @namespace ukeGeeks
+ */
+ukeGeeks.chordParser = function() {
+
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	var _chords = [];
+
+	/////////////////////////////////////////////////////////////////////////////
+	//
+	// PUBLIC methods
+	//
+	/////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Again this is a constructor replacement. Just here for consistency. Does nothing.
+	 * @method init
+	 * @return {void}
+	 */
+	_public.init = function() {};
+
+	/**
+	 * This does all of the work -- it's a Wrapper method that calls all of this classes other
+	 * (private) methods in correct order.
+	 * @method parse
+	 * @param text {string} CPM Text Block to be parsed
+	 * @return {string}
+	 */
+	_public.parse = function(text) {
+		_chords = _findChords(text);
+		text = _encloseChords(text, _chords);
+		text = _packChords(text);
+		return text;
+	};
+
+	/**
+	 * Getter method for _chords
+	 * @method getChords
+	 * @return {Array-chords}
+	 */
+	_public.getChords = function() {
+		return _chords;
+	};
+
+	/////////////////////////////////////////////////////////////////////////////
+	//
+	// PRIVATE methods
+	//
+	/////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Returns an array of all of the unique bracket chord names. So even if [D7] appears a
+	 * dozen times you'll only see it once in this list.
+	 * @method _findChords
+	 * @private
+	 * @param text {string} CPM Text Block to be parsed
+	 * @return {StringArray}
+	 */
+	var _findChords = function(text) {
+		var i, j;
+		var re = /\[(.+?)]/img;
+		var m = text.match(re);
+		if (!m) {
+			return [];
+		}
+
+		// why not use associative array?
+		var chords = [];
+		var found;
+		for (i = 0; i < m.length; i++) {
+			found = false;
+			for (j = 0; j < chords.length; j++) {
+				if (chords[j] == m[i]) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				chords.push(m[i]);
+			}
+		}
+		// clean 'em
+		for (j in chords) {
+			chords[j] = chords[j].replace('[', '').replace(']', '');
+		}
+		// done
+		return chords;
+	};
+
+	/**
+	 * Returns the input string having replaced all of the "bracketed chord names" (i.e. [D7]) with HTML
+	 * marked-up version (i.e. &lt;code&gt;&lt;strong&gt;[&lt;em&gt;D7&lt;/em&gt;]&lt;/strong&gt;&lt;/code&gt;)
+	 * @method _encloseChords
+	 * @private
+	 * @param text {string}
+	 * @param chords {StringArray}
+	 * @return {string}
+	 */
+	var _encloseChords = function(text, chords) {
+		var openBracket = ukeGeeks.settings.opts.retainBrackets ? '[' : ' ';
+		var closeBracket = ukeGeeks.settings.opts.retainBrackets ? ']' : ' ';
+		for (var i in chords) {
+			do {}
+			while (text.length != (text = text.replace(
+				'[' + chords[i] + ']',
+				'<code data-chordName="' + chords[i] + '"><strong>' + openBracket + '<em>' + chords[i] + '</em>' + closeBracket + '</strong></code>')).length);
+		}
+		return text;
+		/*
+		// need to handle chords such as: [A7+5]
+		var escapeRegEx = new RegExp('([+])','g');
+		for (var j = 0; j < this.chords.length; j++){
+			var s = this.chords[j].replace(escapeRegEx, '\\\$1')
+			var re = new RegExp('[[]' + s + ']', 'img');
+			text = text.replace(re, '<code data-chordName="' + this.chords[j] + '"><strong>[<em>' + this.chords[j] + '</em>]</strong></code>');
+		}
+		*/
+	};
+
+	/**
+	 * Looks for consecutive chords and strips the whitespace between them -- thus "packing" the
+	 * chords against each other with only a single space separating them.
+	 * @method _packChords
+	 * @private
+	 * @param text {string}
+	 * @return {string}
+	 */
+	var _packChords = function(text) {
+		var re;
+
+		if (ukeGeeks.settings.inlineDiagrams) {
+			/* TODO: problem with packing */
+			re = /(<\/strong><\/code>)[ \t]*(<code data-chordName="[^"]*"><strong>)/ig;
+			return text.replace(re, '$1<span class="ugsInlineSpacer">&nbsp;</span>$2');
+		}
+
+		re = /<\/strong><\/code>[ \t]*<code data-chordName="[^"]*"><strong>/ig;
+		return text.replace(re, ' ');
+	};
+
+	/* return our public interface
+	 */
+	return _public;
+};
+;/**
+ * Reads a text block and returns an object containing whatever ChordPro elements it recognizes.
+ *
+ * A cleaned, HTML version of song is included.
+ *
+ * @class cpmParser
+ * @namespace ukeGeeks
+ */
+ukeGeeks.cpmParser = function() {
+
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/**
+	 * Number of columns defined
+	 * @property _columnCount
+	 * @private
+	 * @type int
+	 */
+	var _columnCount = 1;
+
+	/**
+	 * Under development, bool indicating whether any chords were found within the lyrics.
+	 * Helpful for tablature-only arrangements.
+	 * TODO: do not rely on this!!!
+	 * @property _hasChords
+	 * @private
+	 * @type bool
+	 */
+	var _hasChords = false; // TODO:
+
+	/**
+	 * Song's key. May be set via command tag {key: C} otherwise use the first chord found (if available)
+	 * @property _firstChord
+	 * @private
+	 * @type string
+	 */
+	var _firstChord = '';
+
+	/**
+	 * Again this is a constructor replacement. Just here for consistency. Does nothing.
+	 * @method init
+	 * @return {void}
+	 */
+	_public.init = function() {};
+
+	/**
+	 * Accepts CPM text, returning HTML marked-up text
+	 * @method parse
+	 * @param text {string} string RAW song
+	 * @return {songObject}
+	 */
+	_public.parse = function(text) {
+		var song = new ukeGeeks.data.song();
+		text = _stripHtml(text);
+		var songDom = _domParse(text);
+		songDom = _parseInstr(songDom);
+		songDom = _parseSimpleInstr(songDom);
+		songDom = _markChordLines(songDom);
+		song.body = _export(songDom);
+		if (_columnCount > 1) {
+			song.body = '<div class="' + _classNames.ColumnWrap + ' ' + _classNames.ColumnCount + _columnCount + '">' + '<div class="' + _classNames.Column + '">' + song.body + '</div>' + '</div>';
+		}
+		song.hasChords = _hasChords;
+		var tmp;
+		// Song Title
+		tmp = _getInfo(songDom, _blockTypeEnum.Title);
+		if (tmp.length > 0) {
+			song.title = tmp[0];
+		}
+		// Artist
+		tmp = _getInfo(songDom, _blockTypeEnum.Artist);
+		if (tmp.length > 0) {
+			song.artist = tmp[0];
+		}
+		// Song Subtitle
+		tmp = _getInfo(songDom, _blockTypeEnum.Subtitle);
+		if (tmp.length > 0) {
+			song.st = tmp[0];
+		}
+		if (tmp.length > 1) {
+			song.st2 = tmp[1];
+		}
+		// Album
+		tmp = _getInfo(songDom, _blockTypeEnum.Album);
+		if (tmp.length > 0) {
+			song.album = tmp[0];
+		}
+		// UkeGeeks "Extras"
+		tmp = _getInfo(songDom, _blockTypeEnum.UkeGeeksMeta);
+		if (tmp.length > 0) {
+			song.ugsMeta = tmp;
+		}
+		// Key
+		tmp = _getInfo(songDom, _blockTypeEnum.Key);
+		if (tmp.length > 0) {
+			song.key = tmp[0];
+		}
+		else if (_firstChord !== '') {
+			// Setting Key to first chord found
+			song.key = _firstChord;
+		}
+		// Chord Definitions
+		tmp = _getInfo(songDom, _blockTypeEnum.ChordDefinition);
+		if (tmp.length > 0) {
+			for (var i in tmp) {
+				song.defs.push(ukeGeeks.chordImport.runLine('{define: ' + tmp[i] + '}'));
+			}
+		}
+		return song;
+	};
+
+	/*
+		TODO: add ukeGeeks Meta support:
+		$regEx = "/{(ukegeeks-meta|meta)\s*:\s*(.+?)}/i";
+	*/
+	var _regEx = {
+		blocks: /\s*{\s*(start_of_tab|sot|start_of_chorus|soc|end_of_tab|eot|end_of_chorus|eoc)\s*}\s*/im,
+		tabBlock: /\s*{\s*(start_of_tab|sot)\s*}\s*/im,
+		chorusBlock: /\s*{\s*(start_of_chorus|soc)\s*}\s*/im
+	};
+
+	/**
+	 * All of the CSS classnames used by UkeGeeks JavaScript
+	 * @property _classNames
+	 * @private
+	 * @type JSON
+	 */
+	var _classNames = {
+		Comment: 'ugsComment',
+		Tabs: 'ugsTabs',
+		Chorus: 'ugsChorus',
+		PreChords: 'ugsChords', // preformatted with chords
+		PrePlain: 'ugsPlain', // preformated, no chords
+		NoLyrics: 'ugsNoLyrics', // preformated, chords ONLY -- no lyrics (text) between 'em
+		ColumnWrap: 'ugsWrap',
+		ColumnCount: 'ugsColumnCount',
+		Column: 'ugsColumn',
+		NewPage: 'ugsNewPage'
+	};
+
+	/**
+	 * Enumeration defining the types of nodes used within this class to parse CPM
+	 * @property _blockTypeEnum
+	 * @private
+	 * @type JSON-enum
+	 */
+	var _blockTypeEnum = {
+		// Multiline Nodes
+		TextBlock: 1, // temporary type, should be replaced with Chord Text or Plain Text
+		ChorusBlock: 2,
+		TabBlock: 3,
+		// Single Line "Instruction" Nodes
+		Comment: 101,
+		Title: 102,
+		Subtitle: 103,
+		Album: 104,
+		ChordDefinition: 105,
+		UkeGeeksMeta: 106,
+		ColumnBreak: 107, // Defining this as an instruction instead of a node since I'm not requiring a Begin/End syntax and it simplifies processing
+		Artist: 108,
+		NewPage: 109,
+		Key: 110,
+		// Text Types
+		ChordText: 201,
+		PlainText: 202,
+		ChordOnlyText: 203, //
+		// Undefined
+		Undefined: 666
+	};
+
+	/**
+	 * Retuns the block type (_blockTypeEnum) of passed in line.
+	 * @method _getBlockType
+	 * @private
+	 * @param line {songNode}
+	 * @return {_blockTypeEnum}
+	 */
+	var _getBlockType = function(line) {
+		// TODO: verify line's type in documentation
+		if (_regEx.chorusBlock.test(line)) {
+			return _blockTypeEnum.ChorusBlock;
+		}
+		else if (_regEx.tabBlock.test(line)) {
+			return _blockTypeEnum.TabBlock;
+		}
+		return _blockTypeEnum.TextBlock;
+	};
+
+	/**
+	 * Convert passed in song to HTML block
+	 * @method _export
+	 * @private
+	 * @param song {songNodeArray}
+	 * @return {strings}
+	 */
+	var _export = function(song) {
+		var nl = "\n";
+		var html = '';
+		for (var i = 0; i < song.length; i++) {
+			/*
+			if (song[i].type == _blockTypeEnum.Title){
+				html += '<h1>' + song[i].lines[0] + '</h1>' + nl;
+			}
+			else if (song[i].type == _blockTypeEnum.Subtitle){
+				html += '<h2>' + song[i].lines[0] + '</h2>' + nl;
+			}
+			else if (song[i].type == _blockTypeEnum.Album){
+				html += '<h3 class="ugsAlbum">' + song[i].lines[0] + '</h3>' + nl;
+			}
+			else if (song[i].type == _blockTypeEnum.UkeGeeksMeta){
+				html += '<h3>' + song[i].lines[0] + '</h3>' + nl;
+			}
+			else
+			*/
+			if (song[i].type == _blockTypeEnum.Comment) {
+				html += '<h6 class="' + _classNames.Comment + '">' + song[i].lines[0] + '</h6>' + nl;
+			}
+			else if (song[i].type == _blockTypeEnum.NewPage) {
+				html += '<hr class="' + _classNames.NewPage + '" />' + nl;
+			}
+			else if ((song[i].type == _blockTypeEnum.ChordText) || (song[i].type == _blockTypeEnum.PlainText) || (song[i].type == _blockTypeEnum.ChordOnlyText)) {
+				// TODO: beware undefined's!!!
+				// Repack the text, only open/close <pre> tags when type changes
+				// problem: exacerbates WebKit browsers' first chord position bug.
+				if (song[i].lines[0].length < 1) {
+					// prevent empty blocks (usually caused by comments mixed in header tags)
+					continue;
+				}
+				var myClass = (song[i].type == _blockTypeEnum.PlainText) ? _classNames.PrePlain : _classNames.PreChords;
+				if (song[i].type == _blockTypeEnum.ChordOnlyText) {
+					myClass += ' ' + _classNames.NoLyrics;
+				}
+				var myType = song[i].type;
+				var lastType = ((i - 1) >= 0) ? song[i - 1].type : _blockTypeEnum.Undefined;
+				var nextType = ((i + 1) < song.length) ? nextType = song[i + 1].type : _blockTypeEnum.Undefined;
+				html += (lastType != myType) ? ('<pre class="' + myClass + '">') : nl;
+				html += song[i].lines[0];
+				html += (nextType != myType) ? ('</pre>' + nl) : '';
+			}
+			else if (song[i].type == _blockTypeEnum.ChorusBlock) {
+				html += '<div class="' + _classNames.Chorus + '">' + nl;
+				html += _export(song[i].lines);
+				html += '</div>' + nl;
+			}
+			else if (song[i].type == _blockTypeEnum.TabBlock) {
+				html += '<pre class="' + _classNames.Tabs + '">';
+				for (var j in song[i].lines) {
+					html += song[i].lines[j] + nl;
+				}
+				html += '</pre>' + nl;
+			}
+			else if (song[i].type == _blockTypeEnum.TextBlock) {
+				html += _export(song[i].lines);
+			}
+			else if (song[i].type == _blockTypeEnum.ColumnBreak) {
+				html += '</div><div class="' + _classNames.Column + '">';
+			}
+			// else {}
+		}
+		return html;
+	};
+
+	/**
+	 * Debugging tool for Firebug. Echos the song's structure.
+	 * @method _echo
+	 * @private
+	 * @param song {songNodeArray}
+	 * @return {void}
+	 */
+	var _echo = function(song) {
+		for (var i in song) {
+			console.log('>> ' + i + '. ' + song[i].type + ' node, ' + song[i].lines.length + ' lines');
+			for (var j in song[i].lines) {
+				console.log(song[i].lines[j]);
+			}
+		}
+	};
+
+	/**
+	 * Explodes passed in text block into an array of songNodes ready for further parsing.
+	 * @method _domParse
+	 * @private
+	 * @param text {string}
+	 * @return {songNodeArray}
+	 */
+	var _domParse = function(text) {
+		var lines = text.split('\n');
+		var song = [];
+		var tmpBlk = null;
+		var isMarker; // block marker
+		for (var i in lines) {
+			// strip comments
+			if ((lines[i].length > 0) && (lines[i][0] == '#')) {
+				continue;
+			}
+			isMarker = _regEx.blocks.test(lines[i]);
+			if (isMarker || tmpBlk === null) {
+				// save last block, start new one...
+				if (tmpBlk !== null) {
+					song.push(tmpBlk);
+				}
+				tmpBlk = {
+					type: _getBlockType(lines[i]),
+					lines: []
+				};
+				if (!isMarker) {
+					// Don't miss that first line!
+					tmpBlk.lines.push(lines[i]);
+				}
+			}
+			else {
+				var s = ukeGeeks.toolsLite.trim(lines[i]);
+				if (s.length > 0) {
+					tmpBlk.lines.push(s);
+				}
+			}
+		}
+		if (tmpBlk.lines.length > 0) {
+			song.push(tmpBlk);
+		}
+		return song;
+	};
+
+	/**
+	 * Goes through songNodes, those nodes that are "instructions" are exploded and
+	 * a "the resulting "songDomElement" built, this songDomElement then replaces the
+	 * original line.
+	 *
+	 * The regular expression look for instructions with this format:
+	 * {commandVerb: commandArguments}
+	 *
+	 * @method _parseInstr
+	 * @private
+	 * @param song {songNodeArray}
+	 * @return {songNodeArray}
+	 */
+	var _parseInstr = function(song) {
+		var regEx = {
+			instr: /\{[^}]+?:.*?\}/im,
+			cmdArgs: /\{.+?:(.*)\}/gi,
+			cmdVerb: /\{(.+?)\s*:.*\}/gi
+		};
+		for (var i in song) {
+			for (var j in song[i].lines) {
+				if (regEx.instr.test(song[i].lines[j])) {
+					var args = song[i].lines[j].replace(regEx.cmdArgs, '$1');
+					var verb = song[i].lines[j].replace(regEx.cmdVerb, '$1').toLowerCase();
+					verb = verb.replace(/\r/, ''); // IE7 bug
+					var tmpBlk = {
+						type: '',
+						lines: []
+					};
+					switch (verb) {
+						case 'title':
+						case 't':
+							tmpBlk.type = _blockTypeEnum.Title;
+							break;
+						case 'artist':
+							tmpBlk.type = _blockTypeEnum.Artist;
+							break;
+						case 'subtitle':
+						case 'st':
+							tmpBlk.type = _blockTypeEnum.Subtitle;
+							break;
+						case 'album':
+							tmpBlk.type = _blockTypeEnum.Album;
+							break;
+						case 'comment':
+						case 'c':
+							tmpBlk.type = _blockTypeEnum.Comment;
+							break;
+						case 'key':
+						case 'k':
+							tmpBlk.type = _blockTypeEnum.Key;
+							break;
+						case 'define':
+							tmpBlk.type = _blockTypeEnum.ChordDefinition;
+							break;
+						case 'ukegeeks-meta':
+							tmpBlk.type = _blockTypeEnum.UkeGeeksMeta;
+							break;
+						default:
+							tmpBlk.type = 'Undefined-' + verb;
+							break;
+					}
+					tmpBlk.lines[0] = ukeGeeks.toolsLite.trim(args);
+					song[i].lines[j] = tmpBlk;
+				}
+			}
+		}
+		return song;
+	};
+
+	/**
+	 * A "Simple Instruction" is one that accepts no arguments. Presently this only handles Column Breaks.
+	 * @method _parseSimpleInstr
+	 * @private
+	 * @param song {songNodeArray}
+	 * @return {songNodeArray}
+	 */
+	var _parseSimpleInstr = function(song) {
+		var regEx = {
+			columnBreak: /\s*{\s*(column_break|colb|np|new_page)\s*}\s*/im
+		};
+		for (var i in song) {
+			for (var j in song[i].lines) {
+				if (regEx.columnBreak.test(song[i].lines[j])) {
+					var verb = song[i].lines[j].replace(regEx.columnBreak, '$1').toLowerCase();
+					switch (verb) {
+						case 'column_break':
+						case 'colb':
+							_columnCount++;
+							song[i].lines[j] = {
+								type: _blockTypeEnum.ColumnBreak,
+								lines: []
+							};
+							break;
+						case 'new_page':
+						case 'np':
+							song[i].lines[j] = {
+								type: _blockTypeEnum.NewPage,
+								lines: []
+							};
+							break;
+					}
+				}
+			}
+		}
+		return song;
+	};
+
+	/**
+	 * Runs through songNodes and if the line contains at least one chord it's type is et to
+	 * ChordText, otherwise it's marked as "PlainText", meaning straight lyrics
+	 * @method _markChordLines
+	 * @private
+	 * @param song {songNodeArray}
+	 * @return {songNodeArray}
+	 */
+	var _markChordLines = function(song) {
+		var regEx = {
+			chord: /\[(.+?)]/i,
+			allChords: /\[(.+?)]/img
+		};
+
+		var chordFound,
+			hasOnlyChords,
+			line;
+
+		for (var i in song) {
+			if ((song[i].type != _blockTypeEnum.TextBlock) && (song[i].type != _blockTypeEnum.ChorusBlock)) {
+				continue;
+			}
+			for (var j in song[i].lines) {
+				line = song[i].lines[j];
+				if (typeof(line) != 'string') {
+					continue;
+				}
+
+				chordFound = regEx.chord.test(line);
+				_hasChords = _hasChords || chordFound;
+				hasOnlyChords = chordFound && (ukeGeeks.toolsLite.trim(line.replace(regEx.allChords, '')).length < 1);
+				// need to find
+				song[i].lines[j] = {
+					type: (hasOnlyChords ? _blockTypeEnum.ChordOnlyText : (chordFound ? _blockTypeEnum.ChordText : _blockTypeEnum.PlainText)),
+					lines: [line]
+				};
+
+				if (chordFound && _firstChord === '') {
+					var m = line.match(regEx.chord);
+					if (m) {
+						_firstChord = m[1];
+					}
+				}
+			}
+		}
+		return song;
+	};
+
+	/**
+	 * Searches the songNodes for the specified block type, retunrs all matching node line (text) values.
+	 * @method _getInfo
+	 * @private
+	 * @param song {songNodeArray}
+	 * @param type {_blockTypeEnum}
+	 * @return {array}
+	 */
+	var _getInfo = function(song, type) {
+		var rtn = [];
+		for (var i in song) {
+			if (song[i].type == type) {
+				rtn.push(song[i].lines[0]);
+			}
+			else if (song[i].type == _blockTypeEnum.TextBlock) {
+				for (var j in song[i].lines) {
+					if (song[i].lines[j].type == type) {
+						rtn.push(song[i].lines[j].lines[0]);
+					}
+				}
+			}
+		}
+		return rtn;
+	};
+
+	/**
+	 * Removes HTML "pre" tags and comments.
+	 * @method _stripHtml
+	 * @private
+	 * @param text {string}
+	 * @return {string}
+	 */
+	var _stripHtml = function(text) {
+		var regEx = {
+			pre: /<\/?pre>/img, // HTML <pre></pre>
+			htmlComment: /<!--(.|\n)*?-->/gm // HTML <!-- Comment -->
+		};
+		return text.replace(regEx.pre, '').replace(regEx.htmlComment, '');
+	};
+
+	/* return our public interface */
+	return _public;
+};
+;/**
+ * Draws large chord diagram grid (aka "reference" diagrams) on canvas
+ * @class chordPainter
+ * @namespace ukeGeeks
+ */
+ukeGeeks.chordPainter = function() {
+
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/**
+	 * ukeGeeks.canvas object handle
+	 * @property _brush
+	 * @type ukeGeeks.chordBrush instance handle
+	 * @private
+	 */
+	var _brush = null;
+
+	/**
+	 * keep an array of missing chords (strings)
+	 * @property _errors
+	 * @type array
+	 * @private
+	 */
+	var _errors = [];
+
+	var _handles = null;
+
+	/**
+	 * If ignoreCommonChords option is true then this will contain list of
+	 * matched chords: ones defined in the ignore list that were also found in the song
+	 * @property _ignoreMatchList
+	 * @type {Array}
+	 * @private
+	 */
+	var _ignoreMatchList = [];
+
+	/**
+	 * Ignore "tacet" or "no chord" chords
+	 * @property _tacet
+	 * @type {RegExp}
+	 * @private
+	 */
+	var _tacet = /^(n.?\/?c.?|tacet)$/i;
+
+	/**
+	 * Again this is a constructor replacement
+	 * @method init
+	 * @param htmlHandles {ukeGeeks.data.htmlHandles} DOM Element object
+	 * @return {void}
+	 */
+	_public.init = function(htmlHandles) {
+		_brush = new ukeGeeks.chordBrush();
+		_brush.init();
+		_handles = htmlHandles;
+	};
+
+	/**
+	 * Checks whether speicified chord (name) is on the ignore list.
+	 * @method ignoreChord
+	 * @param  {string} chord Chord name
+	 * @return {boolean}	return TRUE if "chord" is on ignore list.
+	 */
+	var ignoreChord = function(chord) {
+		for (var i = 0; i < ukeGeeks.settings.commonChords.length; i++) {
+			if (chord == ukeGeeks.settings.commonChords[i]) {
+				return true;
+			}
+		}
+		return false;
+	};
+
+	/**
+	 * Plots the passed in chords (array of ) by adding canvas elements inside passed DOM element.
+	 * @method show
+	 * @param chords {array<expandedChord>} Array of chord objects to be plotted
+	 * @return {void}
+	 */
+	_public.show = function(chords) {
+		_handles.diagrams.innerHTML = '';
+		_errors = [];
+		_ignoreMatchList = [];
+
+		if (ukeGeeks.settings.opts.sortAlphabetical) {
+			chords.sort();
+		}
+
+		for (var i = 0; i < chords.length; i++) {
+			if (_tacet.test(chords[i])) {
+				continue;
+			}
+			if (ukeGeeks.settings.opts.ignoreCommonChords && ignoreChord(chords[i])) {
+				if ((typeof Array.prototype.indexOf === 'function') && (_ignoreMatchList.indexOf(chords[i]) == -1)) {
+					_ignoreMatchList.push(chords[i]);
+				}
+				continue;
+			}
+			var chord = ukeGeeks.definitions.get(chords[i]);
+			if (!chord) {
+				_errors.push(chords[i]);
+				continue;
+			}
+			_brush.plot(_handles.diagrams, chord, ukeGeeks.settings.fretBox);
+		}
+
+		if (_ignoreMatchList.length > 0) {
+			var para = document.createElement('p');
+			para.className = 'ugsIgnoredChords';
+			para.innerHTML = 'Also uses: ' + _ignoreMatchList.sort().join(', ');
+			_handles.diagrams.appendChild(para);
+		}
+	};
+
+	/**
+	 * Plots chords "inline" with the lyrics. Searches for &lt;code data-chordName=&quot;Am7&quot;&gt;&lt;/code&gt;.
+	 * When found adds canvas element and draws chord named in data-chordName attribute
+	 * @method showInline
+	 * @param chords {array<expandedChord>} Array of chord objects to be plotted
+	 * @return {void}
+	 */
+	_public.showInline = function(chords) {
+		var e = _handles.text.getElementsByTagName('code');
+		if (e.length < 1) {
+			return;
+		}
+		for (var i = 0; i < chords.length; i++) {
+			var chord = ukeGeeks.definitions.get(chords[i]);
+			if (!chord) {
+				/* TODO: error reporting if not found */
+				// _errors.push(chords[i]);
+				continue;
+			}
+			for (var j = 0; j < e.length; j++) {
+				if (e[j].getAttribute('data-chordName') == chord.name) {
+					_brush.plot(e[j], chord, ukeGeeks.settings.inlineFretBox, ukeGeeks.settings.inlineFretBox.fonts);
+				}
+			}
+		}
+	};
+
+	/**
+	 * returns array of unknown chords
+	 * @method getErrors
+	 * @return {array}
+	 */
+	_public.getErrors = function() {
+		return _errors;
+	};
+
+	/**
+	 * List of chords excluded from the master chord diagrams
+	 * @method getIgnoredChords
+	 * @return {array} array of strings
+	 */
+	_public.getIgnoredChords = function() {
+		return _ignoreMatchList;
+	};
+
+	/* return our public interface
+	 */
+	return _public;
+};
+;/**
+ * Tablature renderer -- reads tab data and draws canvas elements.
+ * Creates "packed" versions of the tabs, including a "key line" that's comprised
+ * only of '-' and '*' -- the asterisks denoting where a dot will eventually be placed.
+ * @class tabs
+ * @constructor
+ * @namespace ukeGeeks
+ */
+ukeGeeks.tabs = function() {
+
+	/**
+	 * alias for external Settings dependencies (helps with complression, too)
+	 * @property tab_settings
+	 * @private
+	 * @type {JSON}
+	 */
+	var tab_settings = ukeGeeks.settings.tabs;
+
+	// TODO: use ukeGeeks.settings.tuning for NUM_STRINGS and LAST_STRING_NAME??
+
+	/**
+	 * (Constant) Number of Strings (dashed lines of tablature notation) expected. (For now
+	 * a constant -- ukueleles "always" have four). Making a variable to help support port
+	 * for other instruments.
+	 * @property NUM_STRINGS
+	 * @private
+	 * @type int
+	 */
+	var NUM_STRINGS= 4;
+
+	/**
+	 * (Constant) Last String Name (Note), as above, on Ukulele is a "G". Here for other instruments.
+	 * @property LAST_STRING_NAME
+	 * @private
+	 * @type string
+	 */
+	var LAST_STRING_NAME= 'G';
+
+	/* PUBLIC METHODS
+	---------------------------------------------- */
+	/**
+	 * Again this is a constructor replacement
+	 * @method init
+	 * @public
+	 * @return {void}
+	 */
+	var init= function() {};
+
+	/**
+	 * Races through all &lt;pre&gt; tags within h, any with the CSS class of "ugsTabs" will be replaced with the canvas element.
+	 * @method replace
+	 * @public
+	 * @param h {DOM-element}
+	 * @return {void}
+	 */
+	var replace= function(h) {
+		var tabBlocks = h.getElementsByTagName('pre');
+		for (var i in tabBlocks) {
+			if (tabBlocks[i].className == 'ugsTabs') {
+				var s = tabBlocks[i].innerHTML;
+				tabBlocks[i].innerHTML = '';
+				loadBlocks(s, tabBlocks[i]);
+			}
+		}
+	};
+
+	/**
+	 *
+	 * @method loadBlocks
+	 * @param text {string} Block of text that contains one or more tablature blocks
+	 * @param outElement {string or DOM} Either: (string) the Id to a DOM element, or DOM element handle where the canvas/converted text will be placed.
+	 * @return {void}
+	 */
+	var loadBlocks= function(text, outElement) {
+		var lines = text.split('\n');
+		var tab = [];
+		for (var i in lines) {
+			var s = ukeGeeks.toolsLite.trim(lines[i]);
+			if (s.length > 0) {
+				tab.push(s);
+			}
+			if (tab.length == NUM_STRINGS) {
+				redraw(tab, outElement);
+				tab = [];
+			}
+		}
+	};
+
+	/**
+	 *
+	 * @method redraw
+	 * @param inTabs {string or array} Block of text or four element array containing tablbature to be parsed
+	 * @param outElement {string or DOM} Either: (string) the Id to a DOM element, or DOM element handle where the canvas/converted text will be placed.
+	 * @return {void}
+	 */
+	var redraw= function(inTabs, outElement) {
+		// validate inTabs input...
+		// TODO: instead of this if it's text pop the entire processing back to loadBlocks!
+		inTabs = (typeof(inTabs) == 'string') ? (inTabs.split('\n')) : inTabs;
+		if (inTabs.length < NUM_STRINGS) {
+			return;
+		}
+		// read tabs
+		var tabInfo = readTabs(inTabs);
+		var labelOffset = (tabInfo.hasLabels) ? tab_settings.labelWidth : 0;
+		var tabs = tabInfo.tabs;
+		// how much space?
+		var height = ((NUM_STRINGS - 1) * tab_settings.lineSpacing) + (2 * tab_settings.dotRadius) + tab_settings.bottomPadding;
+		// prep canvas
+		outElement = (typeof(outElement) == 'string') ? document.getElementById(outElement) : outElement;
+
+		var ctx = ukeGeeks.canvasTools.addCanvas(outElement, getWidth(tabs, labelOffset, false), height);
+		var pos = {
+			x: tab_settings.dotRadius + labelOffset,
+			y: 1 + tab_settings.dotRadius
+		};
+		var lineWidth = getWidth(tabs, labelOffset, true);
+		drawStaff(ctx, pos, lineWidth, tab_settings);
+		drawNotes(ctx, pos, tabs, tab_settings, lineWidth);
+		if (tabInfo.hasLabels) {
+			drawLabels(ctx, pos, tab_settings);
+		}
+	};
+
+	/**
+	 * This is insanely long, insanely kludgy, but, insanely, it works. This will read break a block of text into
+	 * four lines (the ukulele strings), then find which frets are used by each. Then, the hard part, pack un-needed
+	 * dashes. Once it's done that a 2-dimentional array (strings X frets) is created and returned.
+	 * @method readTabs
+	 * @private
+	 * @param ukeStrings {array<string>} Block of tablbabure to be parsed
+	 * @return {2-dimentional array}
+	 */
+	var readTabs= function(ukeStrings) {
+		var hasLabels = ukeStrings[NUM_STRINGS - 1][0] == LAST_STRING_NAME;
+		if (hasLabels) {
+			stripStringLabels(ukeStrings);
+		}
+		var frets = getFretNumbers(ukeStrings);
+		var symbols = getSymbols(ukeStrings);
+		var minLength = getMinLineLength(ukeStrings);
+		var guide = getGuideLine(symbols, minLength);
+
+		return {
+			tabs: getPackedLines(frets, symbols, guide, minLength),
+			hasLabels: hasLabels
+		};
+	};
+
+	/**
+	 * @method getWidth
+	 * @private
+	 * @param tabs {2Darray}
+	 * @param labelOffset {int}
+	 * @param isTruncate {bool} If TRUE returns the length of the line, allowing for a terminating "|" character, othwrwise, it's for canvas width
+	 * @return {int}
+	 */
+	var getWidth= function(tabs, labelOffset, isTruncate) {
+		if (!isTruncate) {
+			return (tab_settings.noteSpacing * tabs[0].length) + labelOffset + tab_settings.dotRadius;
+		}
+
+		var len = tabs[0].length;
+		var plusDot = tab_settings.dotRadius;
+		if (tabs[0][len - 1] == '|') {
+			// TODO: too much??? retest
+			len -= 1;
+			plusDot = 0;
+		}
+
+		return tab_settings.noteSpacing * len + labelOffset + plusDot;
+	};
+
+	/**
+	 * Processes ukeStrings stripping the first character from each line
+	 * @method stripStringLabels
+	 * @private
+	 * @param ukeStrings {array<string>}
+	 * @return {void}
+	 */
+	var stripStringLabels= function(ukeStrings) {
+		for (var i = 0; i < NUM_STRINGS; i++) {
+			ukeStrings[i] = ukeStrings[i].substr(1);
+		}
+	};
+
+	/**
+	 * Finds the frets in used for each line. In other words, ignoring
+	 * spacers ("-" or "|") this returns arrays of numbers, the frets
+	 * in use, for each line.
+	 * @method getFretNumbers
+	 * @private
+	 * @param ukeStrings {array<string>}
+	 * @return {void}
+	 */
+	var getFretNumbers= function(ukeStrings) {
+		// first, get the frets
+		var reInts = /([0-9]+)/g;
+		var frets = [];
+		for (var i = 0; i < NUM_STRINGS; i++) {
+			frets[i] = ukeStrings[i].match(reInts);
+		}
+		return frets;
+	};
+
+	/**
+	 * Returns array of the strings with placeholders instead of the numbers.
+	 * This helps us pack because "12" and "7" now occupy the same space horizontally.
+	 * @method getSymbols
+	 * @private
+	 * @param ukeStrings {array<string>}
+	 * @return {void}
+	 */
+	var getSymbols= function(ukeStrings) {
+		// convert to symbols
+		var reDoubles = /([0-9]{2})/g;
+		var reSingle = /([0-9])/g;
+		var symbols = [];
+		// TODO: verify why using NUM_STRINGS instead of ukeStrings.length (appears in other methods, again, do you recall why?)
+		for (var i = 0; i < NUM_STRINGS; i++) {
+			symbols[i] = ukeStrings[i].replace(reDoubles, '-*');
+			symbols[i] = symbols[i].replace(reSingle, '*');
+		}
+		return symbols;
+	};
+
+	/**
+	 * Run through all of the strings (array) and return the length of the shortest one.
+	 * would prefer the max length, but then I'd need to pad the shorter ones and ... well, it's complicated.
+	 * this gets a TODO: get max!
+	 * @method getMinLineLength
+	 * @private
+	 * @param ukeStrings {array<string>}
+	 * @return {void}
+	 */
+	var getMinLineLength = function(ukeStrings){
+		var minLength = 0;
+		var line;
+		var re = /-+$/gi;
+
+		for (var i = 0; i < ukeStrings.length; i++) {
+			line = ukeStrings[i].trim().replace(re, '');
+			if (line.length > minLength){
+				minLength = line.length;
+			}
+		}
+		return minLength;
+	};
+
+	/**
+	 * OK, having created symbolic representations for the lines in earlier steps
+	 * here we go through and "merge" them into a single, master "guide" -- saying
+	 * "somewhere on this beat you'll pluck (or not) one note". This normalized
+	 * guide will be the master for the next step.
+	 * @method getGuideLine
+	 * @private
+	 * @param symbols {undefined}
+	 * @param minLength {int}
+	 * @return {void}
+	 */
+	var getGuideLine= function(symbols, minLength) {
+		// Build a master pattern "guide" and eliminate double dashes
+		var guide = '';
+		for (var i = 0; i < minLength; i++) {
+			if (symbols[0][i] == '|') {
+				guide += '|';
+			}
+			else {
+				// TODO: assumes 4 strings, use NUM_STRINGS
+				guide += ((symbols[0][i] == '*') || (symbols[1][i] == '*') || (symbols[2][i] == '*') || (symbols[3][i] == '*')) ? '*' : '-';
+			}
+		}
+		var reDash = /--/g;
+		guide = guide.replace(reDash, '- ');
+		reDash = / -/g;
+		var lastGuide = guide;
+		while (true) {
+			guide = guide.replace(reDash, '  ');
+			if (guide == lastGuide) {
+				break;
+			}
+			lastGuide = guide;
+		}
+		return guide;
+	};
+
+	/**
+	 * Using the packed "guide" line we loop over the strings, rebuilding each string
+	 * with either a space, measure marker, or the note -- as an integer! Now the frets
+	 * are the same regardless of whether they are single or double digit numbers:
+	 * a "12" occupies no more horizontal space than a "5".
+	 * @method getPackedLines
+	 * @private
+	 * @param frets {undefined}
+	 * @param symbols {undefined}
+	 * @param guide {undefined}
+	 * @param minLength {int}
+	 * @return {void}
+	 */
+	var getPackedLines= function(frets, symbols, guide, minLength) {
+		// pack it!
+		var packed = [],
+		chrNote = '', // a temp variable to hold the 'note'
+		guideIdx, // loop index for guide string
+		stringIdx, // loop index for instrument's strings (uke's 4)
+		lineIdx,  // index to single line within packed array (along a string)
+		fretCount; // fret marker counter
+
+		for (stringIdx = 0; stringIdx < NUM_STRINGS; stringIdx++) {
+			packed.push([]);
+		}
+
+		for (stringIdx = 0; stringIdx < NUM_STRINGS; stringIdx++) { // loop over lines
+			lineIdx = 0;
+			fretCount = 0;
+			for (guideIdx = 0; guideIdx < minLength; guideIdx++) { // loop over guide
+				if (guide[guideIdx] != ' ') {
+					if (symbols[stringIdx][guideIdx] == '*') {
+						chrNote = frets[stringIdx][fretCount];
+						fretCount++;
+					}
+					else {
+						chrNote = ((guide[guideIdx] == '|')) ? '|' : '-';
+					}
+					packed[stringIdx][lineIdx] = chrNote;
+					lineIdx++;
+				}
+			}
+		}
+		return packed;
+	};
+
+	/**
+	 * Create the staff -- really the four tablature strings
+	 * @method drawStaff
+	 * @private
+	 * @param ctx {canvasContext} Handle to active canvas context
+	 * @param pos {xyPos} JSON (x,y) position
+	 * @param length {int} Length in pixels
+	 * @param settings {settingsObj}
+	 * @return {voie}
+	 */
+	var drawStaff= function(ctx, pos, length, settings) {
+		var offset = settings.lineWidth / 2;
+		var x = pos.x + offset;
+		var y = pos.y + offset;
+		ctx.beginPath();
+		for (var i = 0; i < NUM_STRINGS; i++) {
+			ctx.moveTo(x, y);
+			ctx.lineTo(x + length, y);
+			y += settings.lineSpacing;
+		}
+		ctx.strokeStyle = settings.lineColor;
+		ctx.lineWidth = settings.lineWidth;
+		ctx.stroke();
+		ctx.closePath();
+	};
+
+	/**
+	 * Loop over the normalized tabs emitting the dots/fingers on the passed in canvase
+	 * @method drawNotes
+	 * @private
+	 * @param ctx {canvasContext} Handle to active canvas context
+	 * @param pos {xyPos} JSON (x,y) position
+	 * @param tabs {array} Array of normalized string data -- space (character) or int (fret number)
+	 * @param settings {settingsObj}
+	 * @param lineWidth {int} Length in pixels (used only when line ends with a measure mark)
+	 * @return {void}
+	 */
+	var drawNotes= function(ctx, pos, tabs, settings, lineWidth) {
+		var c;
+		var center = {
+			x: 0,
+			y: pos.y
+		};
+
+		for (var strIdx in tabs) {
+			if (strIdx > 3) {
+				return;
+			}
+			center.x = pos.x;
+			for (var chrIdx in tabs[strIdx]) {
+				c = tabs[strIdx][chrIdx];
+				// (c != '-'){
+				if (c == '|') {
+					var jnum = parseInt(chrIdx, 10);
+					var heavy = (((jnum + 1) < (tabs[strIdx].length - 1)) && (tabs[strIdx][jnum + 1] == '|')) || ((jnum == (tabs[strIdx].length - 1)) && (tabs[strIdx][jnum - 1] == '|'));
+					drawMeasure(ctx, {
+						x: (chrIdx == tabs[strIdx].length - 1) ? pos.x + lineWidth : center.x,
+						y: pos.y
+					}, settings, heavy);
+				}
+				else if (!isNaN(c)) {
+					ukeGeeks.canvasTools.drawDot(ctx, center, settings.dotRadius, settings.dotColor);
+					ukeGeeks.canvasTools.drawText(ctx, {
+						x: center.x,
+						y: (center.y + 0.5 * settings.dotRadius)
+					}, c, settings.textFont, settings.textColor);
+				}
+				center.x += settings.noteSpacing;
+			}
+			center.y += settings.lineSpacing;
+		}
+	};
+
+	/**
+	 * Draws a vertical "measure" demarcation line
+	 * @method drawMeasure
+	 * @private
+	 * @param ctx {canvasContext} Handle to active canvas context
+	 * @param pos {xyPos} JSON (x,y) position
+	 * @param settings {settingsObj}
+	 * @param heavy {bool} if TRUE hevy line
+	 * @return {void}
+	 */
+	var drawMeasure= function(ctx, pos, settings, heavy) {
+		var offset = settings.lineWidth / 2;
+		ctx.beginPath();
+		ctx.moveTo(pos.x + offset, pos.y);
+		ctx.lineTo(pos.x + offset, pos.y + (NUM_STRINGS - 1) * settings.lineSpacing);
+		ctx.strokeStyle = settings.lineColor;
+		ctx.lineWidth = (heavy ? 4.5 : 1) * settings.lineWidth;
+		ctx.stroke();
+		ctx.closePath();
+	};
+
+	/**
+	 * Adds the string letters on the left-side of the canvas, before the tablature string lines
+	 * @method drawLabels
+	 * @private
+	 * @param ctx {canvasContext} Handle to active canvas context
+	 * @param pos {xyPos} JSON (x,y) position
+	 * @param settings {settingsObj}
+	 * @return {void}
+	 */
+	var drawLabels= function(ctx, pos, settings) {
+		// ['A','E','C','G'];
+		var labels = ukeGeeks.settings.tuning.slice(0).reverse();
+		for (var i = 0; i < NUM_STRINGS; i++) {
+			ukeGeeks.canvasTools.drawText(ctx, {
+				x: 1,
+				y: (pos.y + (i + 0.3) * settings.lineSpacing)
+			}, labels[i], settings.labelFont, settings.lineColor, 'left');
+		}
+	};
+
+	/* return our public interface */
+	return {
+		init: init,
+		replace: replace
+	};
+};
+
+;/**
+ * Singleton to correct overlapping chord names/diagrams in songs rendered by UGS
+ * @class overlapFixer
+ * @namespace ukeGeeks
+ * @project UkeGeeks' Scriptasaurus
+ * @singleton
+ */
+ukeGeeks.overlapFixer = (function() {
+
+	// private
+	// ---------------------------
+	var _public = {};
+
+	/**
+	 * returns TRUE if Box A overlaps Box B. Detailed horizontal check, we "cheat" the
+	 * vertical check by assuming that tops must be equal to collide (a simplification
+	 * over a full height check.)
+	 * @method checkOverlap
+	 * @param  {object} "a" box
+	 * @param  {object} "b" box
+	 * @return {boolean}
+	 */
+	var checkOverlap = function(a, b) {
+		// "cheat" vertical check
+		if (a.top != b.top) {
+			return false;
+		}
+
+		if ((b.left > a.right) || (b.right < a.left)) {
+			//overlap not possible
+			return false;
+		}
+		if ((b.left > a.left) && (b.left < a.right)) {
+			return true;
+		}
+		if ((b.right > a.left) && (b.right < a.right)) {
+			return true;
+		}
+		return false;
+	};
+
+
+	/**
+	 * returns object with width and left & right offsets
+	 * @method getBox
+	 * @param  {DOM_element} element to be measured
+	 * @return {object}
+	 */
+	var getBox = function(ele) {
+		var box = getOffsets(ele);
+		box.width = getWidth(ele);
+
+		// due to how CSS & HTML is defined it's possible that the <em> wrapping the
+		// chord name is actually wider than the <strong>, let's check.
+		// BTW: this will happen on the "mini-chord diagram" option
+		var em = ele.getElementsByTagName('em')[0];
+		if (em) {
+			var emWidth = getWidth(em);
+			if (emWidth > box.width) {
+				//console.log('box strong.width: ' + box.width + 'px, em.width: ' + emWidth +'px');
+				box.width = emWidth + 2;
+			}
+		}
+
+		box.right = box.left + box.width;
+		return box;
+	};
+
+	/**
+	 * source: http://www.cjboco.com/blog.cfm/post/determining-an-elements-width-and-height-using-javascript/
+	 * @method getWidth
+	 * @param  {DOM_element} element to be measured
+	 * @return {int}
+	 */
+	var getWidth = function(ele) {
+		if (typeof ele.clip !== "undefined") {
+			return ele.clip.width;
+		}
+
+		return (ele.style.pixelWidth) ? ele.style.pixelWidth : ele.offsetWidth;
+	};
+
+	/**
+	 * Returns JSON with left, right, top, and width properties. ONLY left and top are calculate,
+	 * width & right need to be added later.
+	 * source: http://stackoverflow.com/questions/442404/dynamically-retrieve-the-position-x-y-of-an-html-element
+	 * @method getOffsets
+	 * @param  {DOM_element} element to be measured
+	 * @return {JSON}
+	 */
+	var getOffsets = function(ele) {
+		var box = {
+			top: 0,
+			left: 0,
+			right: 0,
+			width: 0
+		};
+
+		while (ele && !isNaN(ele.offsetLeft) && !isNaN(ele.offsetTop)) {
+			box.left += ele.offsetLeft - ele.scrollLeft;
+			box.top += ele.offsetTop - ele.scrollTop;
+			ele = ele.offsetParent;
+		}
+
+		return box;
+	};
+
+
+	/**
+	 * checks (and fixes if problem is presetn) two code tags
+	 * @method checkChords
+	 * @param  {[DOM_element]} codeA [description]
+	 * @param  {[DOM_element]} codeB [description]
+	 * @return {void}
+	 */
+	var checkChords = function(codeA, codeB) {
+		var strongA = codeA.getElementsByTagName('strong')[0];
+		var strongB = codeB.getElementsByTagName('strong')[0];
+
+		if (!strongA || !strongB) {
+			return;
+		}
+
+		var boxA = getBox(strongA);
+		var boxB = getBox(strongB);
+
+		if (checkOverlap(boxA, boxB)) {
+			var width = boxA.right - boxB.left + 1;
+			codeA.style.paddingRight = (width < 1 ? 1 : width) + 'px';
+		}
+	};
+
+	/**
+	 * Runs through the element looking for UkeGeek chords (based on HTML) and
+	 * adjust the horizontal spacing if any of the chords overlap.
+	 * @method Fix
+	 * @param  {DOM_element} element containing the UGS HTML song
+	 */
+	_public.Fix = function(ele) {
+		var i,
+			elements = ele.getElementsByTagName('code');
+
+		for (i = 0; i < elements.length; i++) {
+			elements[i].style.paddingRight = '0px';
+		}
+
+		for (i = 0; i < (elements.length - 1); i++) {
+			checkChords(elements[i], elements[i + 1]);
+		}
+	};
+
+	return _public;
+})();
+;/**
+ * Finds page HTML elements & creates ukeGeek objects;
+ * Reads song text, parses, draws choard diagrams.
+ *
+ * @class scriptasaurus
+ * @namespace ukeGeeks
+ * @static
+ * @singleton
+ */
+ukeGeeks.scriptasaurus = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/**
+	 * Preps this class for running
+	 * @method init
+	 * @param isIeFamily {bool} TRUE if UserAgent (Browser to you and me) is Internet Explorer
+	 * @return {void}
+	 */
+	_public.init = function(isIeFamily) {
+		var defs = ukeGeeks.definitions;
+
+		ukeGeeks.settings.environment.isIe = isIeFamily;
+		// TODO: known problem -- need to preload Sorprano chord libarary then we can retune if needed
+		defs.addInstrument(defs.sopranoUkuleleGcea);
+		defs.useInstrument(defs.instrument.sopranoUke);
+		if (ukeGeeks.settings.defaultInstrument != defs.instrument.sopranoUke) {
+			defs.useInstrument(ukeGeeks.settings.defaultInstrument);
+		}
+	};
+
+	/**
+	 * Runs all Scriptasaurus methods using the element Ids defined in the settings class.
+	 * This is your "Do All". See data.song for structure.
+	 * @method run
+	 * @return {songObject}
+	 */
+	_public.run = function() {
+		//console.log('run (Classic Mode)');
+		var handles = _getHandlesFromId();
+		if (!handles || !handles.diagrams || !handles.text || !handles.wrap) {
+			return null;
+		}
+		_errList = [];
+		var song = _runSong(handles);
+		showErrors(_errList[0]);
+		console.log(_errList);
+		return song;
+	};
+
+	/**
+	 * Same as "run" except runs using class names, this allows you to have multiple songs on a single page.
+	 * @method runByClasses
+	 * @return {Array of songObject}
+	 */
+	_public.runByClasses = function() {
+		var songs = [];
+		var songWraps = ukeGeeks.toolsLite.getElementsByClass(ukeGeeks.settings.wrapClasses.wrap);
+		for (var i = 0; i < songWraps.length; i++) {
+			var handles = _getHandlesFromClass(songWraps[i]);
+			if (handles === null) {
+				continue;
+			}
+			songs.push(_runSong(handles));
+		}
+		return songs;
+	};
+
+	/**
+	 * Is this really nececessary?
+	 * @method setTuningOffset
+	 * @param offset {int} (optional) default 0. Number of semitones to shift the tuning. See ukeGeeks.definitions.instrument.
+	 */
+	_public.setTuningOffset = function(offset) {
+		ukeGeeks.definitions.useInstrument(offset);
+	};
+
+	var _errList = [];
+	// song
+
+	/**
+	 *
+	 * @method _runSong
+	 * @private
+	 * @param handles {ukeGeeks.data.htmlHandles}
+	 * @return {songObj}
+	 */
+	var _runSong = function(handles) {
+		// console.log('run Song');
+
+		// read Music, find chords, generate HTML version of song:
+		var cpm = new ukeGeeks.cpmParser();
+		cpm.init();
+		var song = cpm.parse(handles.text.innerHTML);
+		ukeGeeks.definitions.replace(song.defs);
+
+		var chrdPrsr = new ukeGeeks.chordParser();
+		chrdPrsr.init();
+		handles.text.innerHTML = chrdPrsr.parse(song.body);
+		song.chords = chrdPrsr.getChords();
+
+		// Draw the Chord Diagrams:
+		var painter = new ukeGeeks.chordPainter();
+		painter.init(handles);
+		painter.show(song.chords);
+		// Show chord diagrams inline with lyrics
+		if (ukeGeeks.settings.inlineDiagrams) {
+			ukeGeeks.toolsLite.addClass(handles.wrap, 'ugsInlineDiagrams');
+			painter.showInline(song.chords);
+		}
+
+		// Do Tablature:
+		var tabs = new ukeGeeks.tabs();
+		tabs.init();
+		tabs.replace(handles.text);
+
+		// error reporting:
+		_errList.push(painter.getErrors());
+
+		var container = handles.wrap;
+		if (container) {
+			ukeGeeks.toolsLite.setClass(container, 'ugsNoChords', !song.hasChords);
+		}
+
+		if (ukeGeeks.settings.opts.autoFixOverlaps) {
+			ukeGeeks.overlapFixer.Fix(handles.text);
+		}
+
+		// done!
+		return song;
+	};
+
+	/**
+	 * Shows a JavaScript alert box containing list of unknown chords.
+	 * @method showErrors
+	 * @return {void}
+	 */
+	var showErrors = function(errs) {
+		if (errs.length < 1) {
+			return;
+		}
+
+		//console.log(typeof(errs[0]));
+		var s = '';
+		for (var i = 0; i < errs.length; i++) {
+			s += (s.length > 0) ? ', ' : '';
+			s += errs[i];
+		}
+		alert('Forgive me, but I don\'t know the following chords: ' + s);
+	};
+
+	/**
+	 *
+	 * @method _getHandlesFromClass
+	 * @private
+	 * @param wrap {domElement}
+	 * @return {ukeGeeks.data.htmlHandles}
+	 */
+	var _getHandlesFromClass = function(wrap) {
+		var diagrams = ukeGeeks.toolsLite.getElementsByClass(ukeGeeks.settings.wrapClasses.diagrams, wrap);
+		var text = ukeGeeks.toolsLite.getElementsByClass(ukeGeeks.settings.wrapClasses.text, wrap);
+		if ((diagrams === undefined) || (diagrams.length < 1) || (text === undefined) || (text.length < 1)) {
+			return null;
+		}
+		return new ukeGeeks.data.htmlHandles(wrap, diagrams[0], text[0]);
+	};
+
+	/**
+	 *
+	 * @method _getHandlesFromId
+	 * @private
+	 * @return {ukeGeeks.data.htmlHandles}
+	 */
+	var _getHandlesFromId = function() {
+		return new ukeGeeks.data.htmlHandles(
+			document.getElementById(ukeGeeks.settings.ids.container),
+			document.getElementById(ukeGeeks.settings.ids.canvas),
+			document.getElementById(ukeGeeks.settings.ids.songText)
+		);
+	};
+
+	return _public;
+}());
+/**
+ * <ul>
+ * <li>Project: UkeGeeks' Scriptasaurus</li>
+ * <li>Version: 1.4.3</li>
+ * <li>Homepage: http://ukegeeks.com</li>
+ * <li>Project Repository: https://github.com/buzcarter/UkeGeeks</li>
+ * <li>Author: Buz Carter</li>
+ * <li>Contact: buz@ukegeeks.com</li>
+ * <li>Copyright: Copyright 2010-2014 Buz Carter.</li>
+ * <li>License GNU General Public License (http://www.gnu.org/licenses/gpl.html)</li>
+ * </ul>
+ *
+ * <h3>Overview</h3>
+ * <p>Reads marked-up music (lyrics + chords) extracting all of the chords used;
+ * Generates a chord diagrams using HTML5 &lt;canvas&gt; and rewrites the music with
+ * standard HTML wrapping the chords.</p>
+ *
+ * @module ukeGeeks
+ * @main ukeGeeks
+ */
+var ukeGeeks = window.ukeGeeks || {};
+;/**
+ * Defines chords and provides simple lookup (find) tools.
+ * @class definitions
+ * @namespace ukeGeeks
+ * @static
+ * @singleton
+ */
+ukeGeeks.definitions = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/**
+	 * Array of "user" defined chords, in compactChord format. Use "Add" method.
+	 * @property _userChords
+	 * @type array
+	 * @private
+	 */
+	var _userChords = [];
+
+	var _chords = [];
+
+	var _instruments = [];
+
+	var _offset = 0;
+	var _map = [];
+
+	/**
+	 * Enum (simple JSON name/value pairs) defining instrument tunings (offsets from standard Soprano Ukulele)
+	 * @property instrument
+	 * @type JSON
+	 */
+	_public.instrument = {
+		sopranoUke: 0, // GCEA
+		baritoneUke: 5 // DGBA -- Baritone's "A" fingering is the Soprano's "D"
+	};
+
+	/* PUBLIC METHODS
+	------------------------------------ */
+	/**
+	 * Define an instrument's chord dictionary, this makes this instrument avaiable for showing its chord diagrams.
+	 * @method addInstrument
+	 * @param definitions {mixed} (Either string or array of strings) Block of CPM text -- specifically looks for instrurment, tuning, and define statements.
+	 * @return {void}
+	 */
+	_public.addInstrument = function(definitions) {
+		if (typeof definitions === 'object') {
+			// flatten the array
+			definitions = definitions.join("\n");
+		}
+		_instruments.push(definitions);
+	};
+
+	/**
+	 * Choose which instrument's chord dictionary you want used for the chord
+	 * diagrams. NOTE: .
+	 * @method useInstrument
+	 * @param offset {int} (optional) default 0. Number of semitones to shif the tuning.
+	 * @return {void}
+	 */
+	_public.useInstrument = function(offset) {
+		offset = (arguments.length > 0) ? offset : _public.instrument.sopranoUke;
+		_offset = parseInt(offset, 10);
+		if (_offset > 0) {
+			_map = ukeGeeks.transpose.retune(_offset);
+		}
+		_public.setChords(ukeGeeks.chordImport.runBlock(_instruments[0]).chords);
+	};
+
+	/**
+	 * Returns expanded ChordObject for requested "chord"
+	 * @method get
+	 * @param chordName {string} Chord name
+	 * @return {expandedChord}
+	 */
+	_public.get = function(chordName) {
+		var i, c, chrd, name;
+
+		// try User Defined chords first
+		for (i = 0; i < _userChords.length; i++) {
+			if (chordName == _userChords[i].name) {
+				return _userChords[i];
+			}
+		}
+		// next: built-in chords:
+		if (_offset < 1) {
+			return _get(chordName);
+		}
+
+		// user has retuned the chords, need to find chord name "as-is",
+		// but get the fingering from the mapping
+		name = _getAlias(chordName);
+		for (i in _map) {
+			if (name == _map[i].original) {
+				c = _get(_map[i].transposed);
+				if (c) {
+					chrd = new ukeGeeks.data.expandedChord(chordName);
+					chrd.dots = c.dots;
+					chrd.muted = c.muted;
+					return chrd;
+				}
+			}
+		}
+
+		return null;
+	};
+
+	// local substitions (replacements for identical chord shapes)
+	var _aliases = {
+		'A#': 'Bb',
+		'Db': 'C#',
+		'D#': 'Eb',
+		'Gb': 'F#',
+		'Ab': 'G#'
+	};
+
+	/**
+	 * A chord name normalizer: We don't store any chord definitions for A#, Db, D#, Gb, or Ab. Instead
+	 * definitions of the more common notes are stored instead. So for the A# fingering we return the
+	 * Bb fingering and so on.
+	 *
+	 * Returns original chord name if there is no defined alias.
+	 *
+	 * @method _getAlias
+	 * @param  {string} chordName [
+	 * @return {string}
+	 */
+	var _getAlias = function(chordName) {
+		var n = chordName.substr(0, 2);
+		return !_aliases[n] ? chordName : _aliases[n] + chordName.substr(2);
+	};
+
+	/**
+	 * Pass in "standard" chord name, returns match from defined chords or null if not found
+	 * @private
+	 * @method _get
+	 * @param chordName {string} Chord name
+	 * @return {expandedChord}
+	 */
+	var _get = function(chordName) {
+		var i, chrd,
+			name = _getAlias(chordName);
+		for (i = 0; i < _chords.length; i++) {
+			if (name == _chords[i].name) {
+				chrd = new ukeGeeks.data.expandedChord(chordName);
+				chrd.dots = _chords[i].dots;
+				chrd.muted = _chords[i].muted;
+				return chrd;
+			}
+		}
+		return null;
+	};
+
+	/**
+	 * @method add
+	 * @param data {array} array of expanded chord objects
+	 * @return {int}
+	 */
+	_public.add = function(data) {
+		if (data.length) {
+			for (var i = 0; i < data.length; i++) {
+				_userChords.push(data[i]);
+			}
+		}
+		return _userChords.length;
+	};
+
+	/**
+	 * @method replace
+	 * @param data {array} array of expanded chord objects
+	 * @return {int}
+	 */
+	_public.replace = function(data) {
+		_userChords = [];
+		return _public.add(data);
+	};
+
+	/**
+	 * Getter for chord array (compactChord format) -- full library of predefined chords. Mainly used for debugging.
+	 * @method getChords
+	 * @return {arrayChords}
+	 */
+	_public.getChords = function() {
+		return _chords;
+	};
+
+	_public.setChords = function(value) {
+		_chords = value;
+	};
+
+	return _public;
+}());
+;/**
+ * Customize your installation. This JSON object controls appearance and
+ * HTML element names. It's divided into four sections: graphics, ids, layout,
+ * and "options".
+ *
+ * @class settings
+ * @namespace ukeGeeks
+ * @static
+ * @singleton
+ */
+ukeGeeks.settings = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/**
+	 * Chord Diagram Font styles -- font size, font-weight, font-face stack, etc.
+	 * @property fonts
+	 * @type JSON Object
+	 */
+	_public.fonts = {
+		dot: '9pt Arial Black,Arial',
+		text: 'bold 14pt Arial',
+		fret: 'bold 13pt Arial'
+	};
+
+	/**
+	 * Chord Diagram Colors for fretboard's grid lines and text. Don't use shorthand (i.e. "#0ff")
+	 * as this might cause a problem with IE canvas.
+	 * @property colors
+	 * @type JSON Object
+	 */
+	_public.colors = {
+		fretLines: '#003366',
+		dots: '#ff0000',
+		dotText: '#ffffff',
+		text: '#000000',
+		fretText: '#4a4a4a',
+		// a muted string's 'X' stroke color
+		xStroke: '#444444'
+	};
+
+	/* Standard Fretbox Options, these properties documented individually */
+	_public.fretBox = {
+		/**
+		 * True if chord name and finger "number" are to be drawn on canvas.
+		 * By default normal chord diagrams have text (TRUE) whereas inlineDiagrams
+		 * (i.e. chord diagrams shown above lyrics) do NOT as they are too small
+		 * (thus inlineFretbox.showText is FALSE)
+		 * @property fretBox.showText
+		 * @type bool
+		 */
+		showText: true,
+		/**
+		 * Chord Box's Bounding height
+		 * @property fretBox.height
+		 * @type int
+		 */
+		height: 150,
+		/**
+		 * Chord Box's Bounding width
+		 * @property fretBox.width
+		 * @type int
+		 */
+		width: 100,
+		/**
+		 * Row Height -- vertical height between frets (pixels)
+		 * @property fretBox.fretSpace
+		 * @type int
+		 */
+		fretSpace: 20,
+		/**
+		 * String Spacing -- horizontal distance between strings (pixels)
+		 * @property fretBox.stringSpace
+		 * @type int
+		 */
+		stringSpace: 20,
+		/**
+		 * Dot (finger position) radius in pixels
+		 * @property fretBox.dotRadius
+		 * @type int
+		 */
+		dotRadius: 8,
+		/**
+		 * Fretboard line width in pixels
+		 * @property fretBox.lineWidth
+		 * @type decimal
+		 */
+		lineWidth: 1.6,
+		/**
+		 * top-left position -- the offset for chord box. Doing this programatically
+		 * had "issues", decided to make this adjustment manual.
+		 * @property fretBox.topLeftPos
+		 * @type JSON
+		 */
+		topLeftPos: {
+			x: 22,
+			y: 25
+		},
+		/**
+		 * muted string "X" width of the 'X' crossbars. Recommend this be about 0.5 to 0.9 relative to stringSpace.
+		 * @property fretBox.xWidth
+		 * @type decimal
+		 */
+		xWidth: 0.45 * 20,
+		/**
+		 * muted string "X" stroke thickness. Recommend this be about 1.3 to 2.1 relative to lineWidth
+		 * @property fretBox.xStroke
+		 * @type decimal
+		 */
+		xStroke: 1.6 * 1.6
+	};
+
+	/**
+	 * Layout of Chord Digrams when inlineFredBoxes are being used. Identical in
+	 * structure to "fretBox". See fretBox for properties.
+	 * @property layout
+	 * @type JSON Object
+	 */
+	_public.inlineFretBox = {
+		showText: false,
+		height: 50,
+		width: 40,
+		fretSpace: 9,
+		stringSpace: 7,
+		dotRadius: 3,
+		lineWidth: 1,
+		topLeftPos: {
+			x: 10,
+			y: 2
+		},
+		xWidth: 0.7 * 7,
+		xStroke: 1.4 * 1,
+		fonts: {
+			dot: '8pt Arial',
+			text: '8pt Arial',
+			fret: '8pt Arial'
+		}
+	};
+
+	/**
+	 * ID's of key HTML page elements
+	 * @property ids
+	 * @type JSON Object
+	 */
+	_public.ids = {
+		songText: 'ukeSongText', // element holding the song's text
+		canvas: 'ukeChordsCanvas', // canvas
+		container: 'ukeSongContainer' // wraps BOTH Song Text and Chord Canvas
+	};
+
+	/**
+	 * CSS Class names used to find page elements-- be careful if renaming!
+	 * @property wrapClasses
+	 * @type JSON Object
+	 */
+	_public.wrapClasses = {
+		wrap: 'ugs-song-wrap', // wraps BOTH Song Text and Chord Canvas
+		diagrams: 'ugs-diagrams-wrap', // canvas
+		text: 'ugs-source-wrap' // element holding the song's text
+	};
+
+	/**
+	 * Options (Features) you can turn on or off
+	 * @property opts
+	 * @type JSON Object
+	 */
+	_public.opts = {
+		columnsEnabled: true,
+		/**
+		 * the [ and ] surrounding chord names often looks bad in print (usually only good when inline)
+		 * set true to keep then, false to get rid of the buggers.
+		 * @property opts.retainBrackets
+		 * @type Boolean
+		 */
+		retainBrackets: false,
+		/**
+		 * if TRUE chords in the "commonChords" list will be ignored (excluded) from having thier
+		 * master chord diagram drawn
+		 * @property opts.ignoreCommonChords
+		 * @type Boolean
+		 */
+		ignoreCommonChords: false,
+		/**
+		 * If true chord reference diagrams are sorted alphabetically, otherwise chords are shown in the
+		 * order in which they appear within the song.
+		 * @property opts.sortAlphabetical
+		 * @type Boolean
+		 */
+		sortAlphabetical: false,
+		/**
+		 * if TRUE chords that overlap each other (in the music area) will have their spacing adjuste
+		 * to prevent overlapping.
+		 * @property opts.autoFixOverlaps
+		 * @type Boolean
+		 */
+		autoFixOverlaps: true
+	};
+
+	/**
+	 * If TRUE the Chord Digram is drawn ABOVE lyrics
+	 * @property inlineDiagrams
+	 * @type Bool
+	 */
+	_public.inlineDiagrams = false;
+
+	/**
+	 * Number of frets to draw. Default is 5 (as this is as wide as my hand can go and
+	 * I've never seen a chord diagram requiring more than this. But ya never know.
+	 * @property numFrets
+	 * @type int
+	 */
+	_public.numFrets = 5;
+
+	/**
+	 * Array of string names, changes between baritone and soprano
+	 * @property tuning
+	 * @type string Array
+	 */
+	_public.tuning = ['G', 'C', 'E', 'A'];
+
+	/**
+	 * The initial tuning when page first loads, used in scriptasaurus.init.
+	 * @property defaultInstrument
+	 * @type {enum_int}
+	 */
+	_public.defaultInstrument = ukeGeeks.definitions.instrument.sopranoUke;
+
+	/**
+	 * TODO: Clean-up Tab Options!!
+	 * @property tabs
+	 * @type JSON Object
+	 */
+	_public.tabs = {
+		lineSpacing: 16, // pixels between lines (or strings)
+		noteSpacing: 14, // pixels between finger dots
+		lineWidth: 1, // pixels
+		lineColor: '#999999', // hex
+		labelWidth: 12, // pixels, how much room to allow for string names, eg, "G" or "A"
+		labelFont: '10pt Arial, Helvetica, Verdana, Geneva, sans-serif',
+		dotColor: '#eaeaea', // hex
+		dotRadius: 10, // pixels, finger dot's radius
+		textFont: 'bold 12pt Arial, Helvetica, Verdana, Geneva, sans-serif',
+		textColor: '#000000',
+		bottomPadding: 10 // extra blank space added to bottom of diagram
+	};
+
+	// Info about runtime environment. Not really a setting.
+	_public.environment = {
+		/**
+		 * set in scriptasaurus. True if UserAgent is Internet Explorer
+		 * @property environment.isIe
+		 * @type bool
+		 */
+		isIe: false
+	};
+
+	/**
+	 * List of common chords to be "ignored" (won't show master chord diagrams)
+	 * @property commonChords
+	 * @type string Array
+	 */
+	_public.commonChords = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'Am'];
+
+	/**
+	 * TODO: determine minimum value... 1?
+	 * @method _scaleNode
+	 * @private
+	 * @param node {datatype} Description
+	 * @param mulitplier {int} see scale method's parameter
+	 * @return mixed
+	 */
+	var _scaleNode = function(node, mulitplier) {
+		if (typeof(node) == 'number') {
+			return node * mulitplier;
+		}
+		else if (typeof(node) == 'object') {
+			for (var i in node) {
+				node[i] = _scaleNode(node[i], mulitplier);
+			}
+			return node;
+		}
+		return node;
+	};
+
+	var _sizeRe = /\b(\d+)(pt|px)\b/;
+
+	/**
+	 * TODO: determine minimum font size... 5pt/px?
+	 * @method _scaleFont
+	 * @private
+	 * @param font {string} Description
+	 * @param mulitplier {int} see scale method's parameter
+	 * @return {void}
+	 */
+	var _scaleFont = function(font, mulitplier) {
+		var bits = font.match(_sizeRe);
+		if (bits.length < 2) {
+			return font;
+		}
+		var size = parseInt(bits[1], 10) * mulitplier;
+		return font.replace(_sizeRe, size + bits[2]);
+	};
+
+	/**
+	 * Scales the standard chord diagram's dimensions and font sizes by multiplying
+	 * all falues by passed in value. Note: this is currently a destructive change: no
+	 * backup of original values is retained.
+	 * @method scale
+	 * @param mulitplier {int}
+	 * @return {void}
+	 */
+	_public.scale = function(mulitplier) {
+		if (mulitplier == 1.0) {
+			return;
+		}
+
+		for (var i in this.fonts) {
+			this.fonts[i] = _scaleFont(this.fonts[i], mulitplier);
+		}
+
+		// Note getting x/y scaled.
+		this.fretBox = _scaleNode(this.fretBox, mulitplier);
+	};
+
+	/* return our public interface
+	 */
+	return _public;
+}());
+;/**
+ * A container or Models library. ukegeeks.data is really a "Models" namespace. Please refactor.
+ * @class data
+ * @namespace ukeGeeks
+ * @singleton
+ */
+ukeGeeks.data = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/**
+	 * Chord info sutiable for plotting on Canvas; has name and dot positions
+	 * @class expandedChord
+	 * @constructor
+	 * @for ukeGeeks.data
+	 * @namespace ukeGeeks.data
+	 */
+	_public.expandedChord = function(name) {
+		/**
+		 * string, i.e. 'C#6'
+		 * @property name
+		 * @type string
+		 * @for ukeGeeks.data.expandedChord
+		 */
+		this.name = name;
+		/**
+		 * Array of data.dot objects
+		 * @property dots
+		 * @type array
+		 */
+		this.dots = [];
+		/**
+		 * Array of bools, true means that string is not played (muted). i.e. chord.mute[2] means third string is muted.
+		 * @property mute
+		 * @type array
+		 */
+		this.muted = [];
+	};
+
+	/**
+	 * Song object holds all meta info (Title, Subtitles) plus an array of plot
+	 * @class song
+	 * @constructor
+	 * @for ukeGeeks.data
+	 * @namespace ukeGeeks.data
+	 */
+	_public.song = function() {
+		/**
+		 * Song Title
+		 * @property title
+		 * @type string
+		 * @for ukeGeeks.data.song
+		 */
+		this.title = '';
+		/**
+		 * Album
+		 * @property album
+		 * @type string
+		 */
+		this.album = '';
+		/**
+		 * Artist Info
+		 * @property artist
+		 * @type string
+		 */
+		this.artist = '';
+		/**
+		 * Subtitle, often Artist Info
+		 * @property st
+		 * @type string
+		 */
+		this.st = '';
+		/**
+		 * Subtitle Number 2, subtitle2 (not used yet)
+		 * @property st2
+		 * @type string
+		 */
+		this.st2 = '';
+		/**
+		 * Song's Key ('A', 'C', etc)
+		 * @property key
+		 * @type string
+		 */
+		this.key = '';
+		/**
+		 *
+		 * @property body
+		 * @type string
+		 */
+		this.body = '';
+		/**
+		 * True if there is at least one chord in use, false otherwise. Useful for laying out tablature, which might have no chords.
+		 * @property hasChords
+		 * @type bool
+		 */
+		this.hasChords = false;
+
+		this.ugsMeta = [];
+		/**
+		 * array of data.dots
+		 * @property defs
+		 * @type array
+		 */
+		this.defs = [];
+
+		/**
+		 * array of chord names found in current song
+		 * @property chords
+		 * @type array(strings)
+		 */
+		this.chords = [];
+	};
+
+	/**
+	 * A single fretboard fingering "dot" -- the position on the Canvas object that a dot should occupy.
+	 * @class dot
+	 * @constructor
+	 * @for ukeGeeks.data
+	 * @namespace ukeGeeks.data
+	 */
+	_public.dot = function(string, fret, finger) {
+		/**
+		 * The ukulele's string, numbered from "top" (1) to "bottom" (4). Sporano uke strings would be ['G' => 1,'C' => 2,'E' => 3,'A' => 4]
+		 * @property string
+		 * @type int
+		 * @for ukeGeeks.data.dot
+		 */
+		this.string = string;
+		/**
+		 * Fret position, i.e. 0-12
+		 * @property fret
+		 * @type int
+		 */
+		this.fret = fret;
+		/**
+		 * Your finger, 0-4
+		 * @property finger
+		 * @type int
+		 */
+		this.finger = finger;
+	};
+
+	/**
+	 * @class instrument
+	 * @constructor
+	 * @param  {string} key
+	 * @param  {string} name
+	 * @param  {string} tuning
+	 * @param  {array} chords
+	 */
+	_public.instrument = function(key, name, tuning, chords) {
+		this.key = key;
+		this.name = name;
+		this.tuning = tuning;
+		this.chords = chords;
+	};
+
+	_public.htmlHandles = function(wrap, diagrams, text) {
+		this.wrap = wrap;
+		this.diagrams = diagrams;
+		this.text = text;
+	};
+
+	// -----------------------------------------------------------------------------------------
+	// *** DOCUMENTAION ONLY ***
+	// -----------------------------------------------------------------------------------------
+	/**
+	 * Documentation Only (no JS Definition)
+	 * <br />
+	 * <br />The JSON format used for add-in fingerings. Frequently you'll add this to indicate
+	 * "nutting" or "barring" with one or more fingers.
+	 * <br />
+	 * <br />For example, the D7 is often played by laying the index finger across the entire
+	 * second fret and then placing middle finger on 3rd fret of "A" string like this:
+	&gt;pre&lt;
+		G C E A
+		- - - -  (1st fret)
+		X X X X
+		- - - X
+		- - - -  (4th fret)
+	</pre>
+	 * The "A" string has two fingers on it, obviously one does nothing -- except to make the
+	 * chord much easier to play.
+	 *
+	 * @class addInFinger
+	 * @constructor
+	 * @for ukeGeeks.data
+	 * @namespace ukeGeeks.data
+	 */
+	/**
+	 * ex: 'G'
+	 * @property string
+	 * @type char
+	 * @for ukeGeeks.data.addInFinger
+	 */
+	/**
+	 * ex: 0-12
+	 * @property fret
+	 * @type int
+	 * @for ukeGeeks.data.addInFinger
+	 */
+	/**
+	 * ex: 0-4 (where 1 = index finger and 4 = pinky)
+	 * @property  finger
+	 * @type int
+	 * @for ukeGeeks.data.addInFinger
+	 */
+
+	return _public;
+
+}());
+;/**
+ * some jQuery-like tools (very, very crappy. wish we could count on jQuery being on the page.)
+ * if you do want to use jQuery (and why wouldn't you) I'm not offended if you yank this out.
+ * @class toolsLite
+ * @namespace ukeGeeks
+ * @singleton
+ */
+ukeGeeks.toolsLite = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	var regEx = {
+		dbleSpace: /\s{2,}/g,
+		trim: /^\s+|\s+$/g
+	};
+
+	/**
+	 * adds className to element.
+	 * @method addClass
+	 * @param element {DOM_element} target element
+	 * @param className {string} CSS classname to add
+	 * @return {void}
+	 */
+	_public.addClass = function(element, className) {
+		if (!_public.hasClass(element, className)) {
+			element.className += ' ' + className;
+		}
+	};
+
+	_public.hasClass = function(element, className) {
+		return element.className.match(getRegEx(className));
+	};
+
+	_public.removeClass = function(element, className) {
+		if (_public.hasClass(element, className)) {
+			var reg = getRegEx(className);
+			element.className = element.className.replace(reg, ' ');
+		}
+	};
+
+	_public.setClass = function(element, className, isActive) {
+		if (isActive) {
+			_public.addClass(element, className);
+		}
+		else {
+			_public.removeClass(element, className);
+		}
+	};
+
+	var getRegEx = function(className) {
+		return new RegExp('(\\s|^)' + className + '(\\s|$)');
+	};
+
+	/**
+	 * Removes all white space at the begining and end of a string.
+	 * @method trim
+	 * @param str {String} String to trim.
+	 * @return {String} Returns string without leading and following white space characters.
+	 */
+	_public.trim = function(str) {
+		return str.replace(regEx.trim, '');
+	};
+
+	_public.pack = function(value) {
+		return value.replace(regEx.dbleSpace, ' ').replace(regEx.trim, '');
+	};
+
+	/**
+	 * Searches within Node for tags with specified CSS class.
+	 * @method getElementsByClass
+	 * @param searchClass {string}  CSS Classname
+	 * @param node {HtmlNode} parent node to begin search within. Defaults to entire document.
+	 * @param tag {string} restrict search to a specific tag name. defaults to all tags.
+	 * @return {arrayDomElements}
+	 */
+	_public.getElementsByClass = function(searchClass, node, tag) {
+		var i, j;
+		// use falsey -- if ((node === null) || (node === undefined)) {
+		if (!node) {
+			node = document;
+		}
+		if (node.getElementsByClassName) {
+			return node.getElementsByClassName(searchClass);
+		}
+
+		var classElements = [];
+		if (!tag) {
+			tag = '*';
+		}
+		var els = node.getElementsByTagName(tag);
+		var elsLen = els.length;
+		var pattern = new RegExp("(^|\\s)" + searchClass + "(\\s|$)");
+		for (i = 0, j = 0; i < elsLen; i++) {
+			if (pattern.test(els[i].className)) {
+				classElements[j] = els[i];
+				j++;
+			}
+		}
+		return classElements;
+	};
+
+	return _public;
+
+}());
+;/**
+ * Converts text to JSON objects. Accetps either large text blocks or single lines of
+ * text written in CPM syntax (looks for instrument, tuning, and define statements).
+ * @class chordImport
+ * @namespace ukeGeeks
+ * @singleton
+ */
+ukeGeeks.chordImport = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/**
+	 * Internal storage of partially converted "define" statements. The Definition (string) and addIn (array<strings>)
+	 * @class chordImport.chordParts
+	 * @constructor
+	 * @type ClassDefinition
+	 * @private
+	 */
+	var chordParts = function(definition, addIns) {
+		this.define = definition;
+		this.adds = addIns;
+	};
+
+	/**
+	 * All regular expressions used in this class. Note, Changed parsing from "\n" to "{" which means "define: ..." cannot depend on that opening curly-brace!
+	 * @property regEx
+	 * @type JSON Object of Regular Expressions
+	 * @private
+	 */
+	var regEx = {
+		// first pass filters
+		define: /\s*{?define\s*:(.*?)(}|add:)/i,
+		add: /(add:.*?)(}|add:)/i,
+		// chord building filters
+		name: /(\S+)\s+/,
+		frets: /\s+frets\s+([\dx]{4}|(([\dx]{1,2}\s){3})[\dx]{1,2})/i,
+		fingers: /\s+fingers\s+((\d\s+){3}\d|\d{4})/i,
+		muted: /\s+mute\s+(\d\s){0,3}\d?/i,
+		// TODO: ignores "base-fret 1"
+		// filter "add-in" chord fingers
+		addin: /add:\s*string\s*(\S+)\s+fret\s+(\d+)\sfinger\s(\d)/i,
+		// extra commands
+		instr: /{\s*instrument\s*:\s*(.*?)\s*}/i,
+		tuning: /{\s*tuning\s*:\s*(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*}/i,
+		// single digit numbers
+		//num: /(\d)/g,
+		numOrX: /(\d{1,2}|x)/gi,
+		any: /(.)/g
+	};
+
+	/**
+	 * TODO:
+	 * @method _lineToParts
+	 * @private
+	 * @param line {string} Single line (string with one statment)
+	 * @return {array<chordParts>}
+	 */
+	var _lineToParts = function(line) {
+		var s = ukeGeeks.toolsLite.pack(line);
+		if (s.length > 1 && s[0] != '#') {
+			var m = s.match(regEx.define);
+			if (m && m.length > 1) {
+				return new chordParts(m[1], _getAddIns(s));
+			}
+		}
+		return null;
+	};
+
+	/**
+	 * TODO:
+	 * @method _textToParts
+	 * @private
+	 * @param line {array<string>} Array of lines (stings) each wtih one statment
+	 * @return {void}
+	 */
+	var _textToParts = function(lines) {
+		var p = [];
+		for (var i in lines) {
+			var c = _lineToParts(lines[i]);
+			if (c) {
+				p.push(c);
+			}
+		}
+		return p;
+	};
+
+	/**
+	 * TODO:
+	 * @method _getAddIns
+	 * @private
+	 * @param txt {string}
+	 * @return {void}
+	 */
+	var _getAddIns = function(txt) {
+		var finds = [];
+		var m = txt.match(regEx.add);
+		while (m && m.length > 1) {
+			finds.push(m[1]);
+			txt = txt.replace(m[1], '');
+			m = txt.match(regEx.add);
+		}
+		return finds;
+	};
+
+	/**
+	 * TODO:
+	 * @method _getInstrument
+	 * @private
+	 * @param text {string} Single statement to be searched
+	 * @return {string}
+	 */
+	var _getInstrument = function(text) {
+		var c = text.match(regEx.instr);
+		return !c ? null : ukeGeeks.toolsLite.pack(c[1]);
+	};
+
+	/**
+	 * TODO: expects FOUR strings.
+	 * @method _getTuning
+	 * @private
+	 * @param text {string} Single statement to be searched
+	 * @return {string}
+	 */
+	var _getTuning = function(text) {
+		var c = text.match(regEx.tuning);
+		return !c ? null : [c[1], c[2], c[3], c[4]];
+	};
+
+	/**
+	 * TODO:
+	 * @method _getName
+	 * @private
+	 * @param text {string} Single statement to be searched
+	 * @return {string}
+	 */
+	var _getName = function(text) {
+		var c = text.match(regEx.name);
+		return !c ? null : c[1];
+	};
+
+	/**
+	 * TODO:
+	 * @method _getKey
+	 * @private
+	 * @param name {string}
+	 * @param tuning {array<string>}
+	 * @return {string}
+	 */
+	var _getKey = function(name, tuning) {
+		var s = name.replace(' ', '-');
+		for (var i in tuning) {
+			s += '-' + tuning[i];
+		}
+		return s.toLowerCase();
+	};
+
+	/**
+	 * TODO: Change will affect "packed" chord fingers -- spaces required. No longer accepts "frets 1231", it must be "frets 1 2 3 1"
+	 * Replaces _getFrets. Sets frets and muted arrays.
+	 * @method _fretOMatic
+	 * @private
+	 * @param text {string} string to be searched
+	 * @param frets {array<int>}
+	 * @param muted {array<bool>}
+	 * @return {void}
+	 */
+	var _fretOMatic = function(text, frets, muted) {
+		var f = text.match(regEx.frets);
+		if (!f) {
+			return;
+		}
+		var m = (f[1].length == 4) ? f[1].match(regEx.any) : f[1].match(regEx.numOrX);
+		for (var i = 0; i < m.length; i++) {
+			var isX = m[i] == 'x' || m[i] == 'X';
+			frets[i] = isX ? 0 : parseInt(m[i], 10);
+			muted[i] = isX;
+		}
+	};
+
+	/**
+	 * TODO:
+	 * @method _getFingers
+	 * @private
+	 * @param text {string} string to be searched
+	 * @return {array<string>}
+	 */
+	var _getFingers = function(text) {
+		var f = text.match(regEx.fingers);
+		if (!f) {
+			return [];
+		}
+		var x = f[1];
+		if (x.length == 4) {
+			x = x.replace(regEx.any, '$1 ');
+		}
+		return x.split(' ');
+	};
+
+	/**
+	 * Pass in integer arrays, frets is list of frets, plus corresponding fingers array
+	 * @method _toDots
+	 * @private
+	 * @param frets {array}
+	 * @param fingers {array}
+	 * @return {array<ukeGeeks.data.dot>} array of dots
+	 */
+	var _toDots = function(frets, fingers) {
+		var dots = [];
+		var tuning = ukeGeeks.settings.tuning;
+		for (var j = 0; j < tuning.length; j++) {
+			var n = parseInt(frets[j], 10);
+			if (n > 0) {
+				dots.push(new ukeGeeks.data.dot(j, n, (fingers.length - 1 >= j) ? parseInt(fingers[j], 10) : 0));
+			}
+		}
+		return dots;
+	};
+
+	/**
+	 * If a valid "add" instruction is present pushes a new dot object into dots array.
+	 * @method _addInDots
+	 * @private
+	 * @param dots {array<ukeGeeks.data.dot>}
+	 * @param adds {array<string>} array of "add instruction" to be parsed (i.e. "add: string G fret 1 finger 1")
+	 * @return {void}
+	 */
+	var _addInDots = function(dots, adds) {
+		if (!adds || adds.length < 1) {
+			return;
+		}
+		for (var i in adds) {
+			var a = adds[i].match(regEx.addin);
+			if (a && a.length > 2) {
+				dots.push(new ukeGeeks.data.dot(parseInt(a[1], 10) - 1, parseInt(a[2], 10), parseInt(a[3], 10)));
+			}
+		}
+	};
+
+	/**
+	 * TODO:
+	 * @method _getExpandedChord
+	 * @private
+	 * @param text {type}
+	 * @param adds {type}
+	 * @return {void}
+	 */
+	var _getExpandedChord = function(text, adds) {
+		var frets = [];
+		var muted = [];
+		_fretOMatic(text, frets, muted);
+
+		var name = _getName(text);
+		var fingers = _getFingers(text);
+
+		if (name === null || name == 'frets') {
+			_log('bad "define" instruction: chord name not found: ' + text);
+			return null;
+		}
+		if (frets === null) {
+			_log('bad "define" instruction: frets not found: ' + text);
+			return null;
+		}
+		var chrd = new ukeGeeks.data.expandedChord(name);
+		// chrd.name = name;
+		var dots = _toDots(frets, fingers);
+		_addInDots(dots, adds);
+		chrd.dots = dots;
+		chrd.muted = muted;
+		return chrd;
+	};
+
+	/**
+	 * TODO:
+	 * @method _partsToChords
+	 * @private
+	 * @param parts {type}
+	 * @return {void}
+	 */
+	var _partsToChords = function(parts) {
+		var c = [];
+		var x = null;
+		for (var i in parts) {
+			x = _getExpandedChord(parts[i].define, parts[i].adds);
+			if (x) {
+				c.push(x);
+			}
+		}
+		return c;
+	};
+
+
+	/**
+	 * Add an error. As one would with console.log("blah").
+	 * @private
+	 * @method _log
+	 * @param msg {string} Error message to be added
+	 * @return {void}
+	 */
+	var _log = function(msg) {
+		_errs.push(msg);
+	};
+
+	var _errs = [];
+
+	var _echoLog = function() {
+		for (var i in _errs) {
+			console.log(i + '. ' + _errs[i]);
+		}
+	};
+
+	/**
+	 * Returns an expandedChord object (JSON) converted from single statement text input line.
+	 * @method runLine
+	 * @param line {string} Single line (string with one statment)
+	 * @return {ukeGeeks.data.expandedChord}
+	 */
+	_public.runLine = function(line) {
+		var c = _lineToParts(line);
+		return !c ? null : _getExpandedChord(c.define, c.adds);
+	};
+
+	/**
+	 * Returns array of expandedChord objects (JSON), converted from text input.
+	 * @method runBlock
+	 * @param text {string} Multiline text block containing definition, instrument, and tuning statements.
+	 * @return {ukeGeeks.data.instrument}
+	 */
+	_public.runBlock = function(text) {
+		//TODO: newlines get lost in strings, do I always rely on "{"?
+		var linesAry = text.split('\n');
+		if (linesAry.length < 2) {
+			linesAry = text.split('{');
+		}
+		var parts = _textToParts(linesAry);
+		var name = _getInstrument(text);
+		var tuning = _getTuning(text);
+		return new ukeGeeks.data.instrument(
+			_getKey(name, tuning), // key
+			name, // name
+			tuning, // tuning
+			_partsToChords(parts) // chords
+		);
+	};
+
+	return _public;
+
+}());
+;/**
+ * Can shift a single chord or list of chords up/down by a series of steps. Hangles
+ * finding equivalent chord names (i.e. A# is same as Bb)
+ *
+ * @class transpose
+ * @namespace ukeGeeks
+ * @static
+ * @singleton
+ */
+ukeGeeks.transpose = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	var re = /^([A-G][#b]?)(.*)/;
+	var tones = {
+		'A': 0,
+		'A#': 1,
+		'Bb': 1,
+		'B': 2,
+		'C': 3,
+		'C#': 4,
+		'Db': 4,
+		'D': 5,
+		'D#': 6,
+		'Eb': 6,
+		'E': 7,
+		'F': 8,
+		'F#': 9,
+		'Gb': 9,
+		'G': 10,
+		'G#': 11,
+		'Ab': 11
+	};
+
+	/**
+	 * Pass in a chord name returns new chord name for the original chord shifted by "steps" semitones.
+	 * @method shift
+	 * @param name (string) chord name, should be in chord dictionary
+	 * @param steps (int) number of semitones to transpose
+	 * @return string
+	 */
+	_public.shift = function(name, steps) {
+		var t = getTone(name);
+		if (t === null) {
+			return null;
+		}
+		var tone = (t.tone + steps) % 12;
+		// TODO: negative steps are allowed!!!
+		if (tone < 0) {
+			tone = tone + 12;
+		}
+		for (var key in tones) {
+			if (tone == tones[key]) {
+				return key + t.suffix;
+			}
+		}
+		return null;
+	};
+
+	/**
+	 * Returns object with name (A - G with flat/sharp), integer value (0 - 11), and its "suffix" (minor, 7th, etc)
+	 * @method getTone
+	 * @param name (string)
+	 * @return JSON
+	 */
+	var getTone = function(name) {
+		var m = name.match(re);
+		if (!m || m.length < 1) {
+			return null;
+		}
+		return {
+			tone: parseInt(tones[m[1]], 10),
+			prefix: m[1],
+			suffix: m[2]
+		};
+	};
+
+	/**
+	 * Returns a mapping -- an array of JSON with "original" chord name and "transposed" chord names.
+	 * @method retune
+	 * @param offset (int) optional
+	 * @return {array}
+	 */
+	_public.retune = function() {
+		var offset = (arguments.length > 0) ? arguments[0] : 0;
+		var chords = ukeGeeks.definitions.getChords();
+		var s = [];
+		if (offset === 0) {
+			for (var i in chords) {
+				s.push({
+					original: chords[i].name,
+					transposed: chords[i].name
+				});
+			}
+		}
+		else {
+			for (var z in chords) {
+				s.push({
+					original: chords[z].name,
+					transposed: _public.shift(chords[z].name, offset)
+				});
+			}
+		}
+		return s;
+	};
+
+	/**
+	 * returns copy of input string array shifted by number of steps
+	 * @method shiftChords
+	 * @param  array<strings> chords chord names to be shifted
+	 * @param  int steps  number of semitone steps (up or down)
+	 * @return array<strings>
+	 */
+	_public.shiftChords = function(chords, steps) {
+		var newChords = [];
+		for (var i = 0; i < chords.length; i++) {
+			newChords.push(_public.shift(chords[i], steps));
+		}
+		return newChords;
+	};
+
+	// ---------------------------------------
+	// return public interface
+	// ---------------------------------------
+	return _public;
+
+}());
+;// -------------------------------------------------------
+// Scriptasaurus preloads Soprano Uke chord dictionary.
+// Unusual array joined to make multi-lined super string
+// being used to avoid JsLint warnings about JS string
+// continuation character: \
+// -------------------------------------------------------
+ukeGeeks.definitions.sopranoUkuleleGcea = [
+	// Required: Instruement Name and Tuning (string names)
+	// -------------------------------------------------------
+	'{instrument: Soprano Ukulele}',
+	'{tuning: G C E A}',
+	//  Ab returns G#
+	//  A
+	// -------------------------------------------------------
+	'{define: A frets 2 1 0 0 fingers 1 2 0 0}',
+	'{define: Am frets 2 0 0 0 fingers 1 0 0 0}',
+	'{define: A7 frets 0 1 0 0 fingers 0 1 0 0}',
+	'{define: A7sus4 frets 0 2 0 0 fingers 0 2 0 0}',
+	'{define: Am7 frets 0 0 0 0}',
+	'{define: Adim frets 2 3 2 3 fingers 1 3 2 4}',
+	'{define: Amaj7 frets 1 1 0 0 fingers 1 2 0 0}',
+	'{define: A6 frets 2 4 2 4 fingers 1 3 2 4}',
+	'{define: Asus2 frets 2 4 5 2 fingers 2 3 4 1}',
+	'{define: Asus4 frets 2 2 0 0 fingers 1 2 0 0}',
+	'{define: Aaug frets 2 1 1 4 fingers 2 1 1 4 add: string 1 fret 1 finger 1 add: string 4 fret 1 finger 1}',
+	'{define: Am6 frets 2 4 2 3 fingers 1 3 1 2 add: string 2 fret 2 finger 1}',
+	'{define: A9 frets 0 1 0 2 fingers 0 1 0 2}',
+	//  A# retruns Bb
+	//  Bb
+	// -------------------------------------------------------
+	'{define: Bb frets 3 2 1 1 fingers 3 2 1 1}',
+	'{define: Bbm frets 3 1 1 1 fingers 3 1 1 1 add: string 1 fret 1 finger 1}',
+	'{define: Bb7 frets 1 2 1 1 fingers 1 2 1 1 add: string 2 fret 1 finger 1}',
+	'{define: Bb7sus4 frets 1 3 1 1 fingers 1 3 1 1 add: string 2 fret 1 finger 1}',
+	'{define: Bbm7 frets 1 1 1 1 fingers 1 1 1 1}',
+	'{define: Bbdim frets 0 1 0 1 fingers 0 1 0 2}',
+	'{define: Bbmaj7 frets 2 2 1 1 fingers 2 2 1 1}',
+	'{define: Bb6 frets 0 2 1 1 fingers 0 2 1 1}',
+	'{define: Bbm6 frets 0 1 1 1 fingers 0 1 1 1}',
+	'{define: Bbsus2 frets 3 0 1 1 fingers 3 0 1 1}',
+	'{define: Bbsus4 frets 3 3 1 1 fingers 3 3 1 1}',
+	'{define: Bbaug frets 3 2 2 5 fingers 2 1 1 4 add: string 1 fret 2 finger 1 add: string 4 fret 2 finger 1}',
+	'{define: Bb9 frets 1 2 1 3 fingers 2 1 4 3}',
+	'{define: Bbmaj7 frets 2 2 1 1 fingers 2 2 1 1}',
+	'{define: Bbm7-5 frets 1 1 0 1 fingers 1 2 0 3}',
+	//  B
+	// -------------------------------------------------------
+	'{define: B frets 4 3 2 2 fingers 3 2 1 1}',
+	'{define: Bm frets 4 2 2 2 fingers 3 1 1 1 add: string 1 fret 2 finger 1}',
+	'{define: Bm6 frets 1 2 2 2 fingers 1 2 3 4}',
+	'{define: B7 frets 2 3 2 2 fingers 1 2 1 1 add: string 2 fret 2 finger 1}',
+	'{define: B7sus4 frets 2 4 2 2 fingers 1 3 1 1 add: string 2 fret 2 finger 1}',
+	'{define: Bm7 frets 2 2 2 2 fingers 1 1 1 1}',
+	'{define: Bdim frets 1 2 1 2 fingers 1 3 2 4}',
+	'{define: Bmaj7 frets 3 3 2 2 fingers 2 2 1 1}',
+	'{define: B6 frets 1 3 2 2 fingers 1 4 2 3}',
+	'{define: Bsus2 frets 5 1 2 2 fingers 4 1 3 2}',
+	'{define: Bsus4 frets 4 4 2 2 fingers 2 2 1 1}',
+	'{define: Baug frets 0 3 3 2 fingers 0 2 2 1}',
+	'{define: B9 frets 2 3 2 4}',
+	//  C
+	// -------------------------------------------------------
+	'{define: C frets 0 0 0 3 fingers 0 0 0 3}',
+	'{define: Cm frets 0 3 3 3 fingers 0 1 2 3}',
+	'{define: C7 frets 0 0 0 1 fingers 0 0 0 1}',
+	'{define: C7sus4 frets 0 0 1 1 fingers 0 0 1 1}',
+	'{define: Cm7 frets 3 3 3 3 fingers 1 1 1 1}',
+	'{define: Cdim frets 2 3 2 3 fingers 1 3 2 4}',
+	'{define: Cmaj7 frets 0 0 0 2 fingers 0 0 0 1}',
+	'{define: C6 frets 0 0 0 0}',
+	'{define: Cm6 frets 0 3 5 5 fingers 0 1 3 1}',
+	'{define: Csus2 frets 0 2 3 3 fingers 0 1 2 2}',
+	'{define: Csus4 frets 0 0 1 3 fingers 0 0 1 3}',
+	'{define: Caug frets 1 0 0 3 fingers 1 0 0 4}',
+	'{define: C9 frets 0 2 0 1 fingers 0 2 0 1}',
+	//  C#
+	// -------------------------------------------------------
+	'{define: C# frets 1 1 1 4 fingers 1 1 1 4 add: string 4 fret 1 finger 1}',
+	'{define: C#m frets 1 4 4 4 fingers 1 2 3 3}',
+	'{define: C#7 frets 1 1 1 2 fingers 1 1 1 2 add: string 4 fret 1 finger 1}',
+	'{define: C#7sus4 frets 1 1 2 2 fingers 1 1 2 3}',
+	'{define: C#m7 frets 1 4 4 2 fingers 1 3 3 2}',
+	'{define: C#dim frets 0 1 0 1 fingers 0 1 0 2}',
+	'{define: C#maj7 frets 1 1 1 3 fingers 1 1 1 3 add: string 4 fret 1 finger 1}',
+	'{define: C#6 frets 1 1 1 1 fingers 1 1 1 1}',
+	'{define: C#m6 frets 1 1 0 1 fingers 1 2 0 3}',
+	'{define: C#sus2 frets 1 3 4 4 fingers 1 2 3 3}',
+	'{define: C#sus4 frets 1 1 2 4 fingers 1 1 2 4}',
+	'{define: C#aug frets 2 1 1 4 fingers 2 1 1 4 add: string 1 fret 1 finger 1 add: string 4 fret 1 finger 1}',
+	'{define: C#9 frets 1 3 1 2}',
+	//  Db returns C#
+	//  D
+	// -------------------------------------------------------
+	'{define: D frets 2 2 2 0 fingers 1 1 1 0}',
+	'{define: Dm frets 2 2 1 0 fingers 2 2 1 0}',
+	'{define: Dm6 frets 0 2 1 2 fingers 0 2 1 3}',
+	'{define: D7 frets 2 2 2 3 fingers 1 1 1 2 add: string 4 fret 2 finger 1}',
+	'{define: D7sus4 frets 2 2 3 3 fingers 1 1 2 3}',
+	'{define: Dm7 frets 2 2 1 3 fingers 2 2 1 3}',
+	'{define: Ddim frets 1 2 1 2 fingers 1 3 2 4}',
+	'{define: Dmaj7 frets 2 2 2 4 fingers 1 1 1 2 add: string 4 fret 2 finger 1}',
+	'{define: D6 frets 2 2 2 2 fingers 2 2 2 2}',
+	'{define: Dsus2 frets 2 2 0 0 fingers 1 2 0 0}',
+	'{define: Dsus4 frets 0 2 3 0 fingers 0 1 2 0}',
+	'{define: Daug frets 3 2 2 5 fingers 2 1 1 4 add: string 1 fret 2 finger 1 add: string 4 fret 2 finger 1}',
+	'{define: D9 frets 2 4 2 3}',
+	//  D# returns Eb
+	//  Eb
+	// -------------------------------------------------------
+	'{define: Eb frets 0 3 3 1 fingers 0 2 2 1}',
+	'{define: Ebm frets 3 3 2 1 fingers 3 3 2 1}',
+	'{define: Eb7 frets 3 3 3 4 fingers 1 1 1 2 add: string 4 fret 3 finger 1}',
+	'{define: Eb7sus4 frets 3 3 4 4 fingers 1 1 2 3}',
+	'{define: Ebm7 frets 3 3 2 4 fingers 2 2 1 4}',
+	'{define: Ebdim frets 2 3 2 3 fingers 1 3 2 4}',
+	'{define: Ebmaj7 frets 3 3 3 5 fingers 1 1 1 2 add: string 4 fret 3 finger 1}',
+	'{define: Eb6 frets 3 3 3 3 fingers 1 1 1 1}',
+	'{define: Ebm6 frets 3 3 2 3 fingers 2 3 1 4}',
+	'{define: Ebsus2 frets 3 3 1 1 fingers 2 2 1 1}',
+	'{define: Ebsus4 frets 1 3 4 1 fingers 2 3 4 1}',
+	'{define: Ebaug frets 0 3 3 2 fingers 0 2 2 1}',
+	'{define: Eb9 frets 0 1 1 1}',
+	//  E
+	// -------------------------------------------------------
+	'{define: E frets 4 4 4 2 fingers 2 3 4 1}',
+	'{define: Em frets 0 4 3 2 fingers 0 3 2 1}',
+	'{define: E7 frets 1 2 0 2 fingers 1 2 0 3}',
+	'{define: E7sus4 frets 2 2 0 2 fingers 2 3 0 4}',
+	'{define: Em6 frets 4 4 3 4 fingers 2 3 1 4}',
+	'{define: Em7 frets 0 2 0 2 fingers 0 1 0 2}',
+	'{define: Edim frets 0 1 0 1 fingers 0 1 0 2}',
+	'{define: Emaj7 frets 1 3 0 2 fingers 1 3 0 2}',
+	'{define: E6 frets 4 4 4 4 fingers 1 1 1 1}',
+	'{define: Esus2 frets 4 4 2 2 fingers 3 3 1 1}',
+	'{define: Esus4 frets 2 4 0 2 fingers 2 4 0 1}',
+	'{define: Eaug frets 1 0 0 3 fingers 1 0 0 4}',
+	'{define: E9 frets 1 2 2 2}',
+	//  F
+	// -------------------------------------------------------
+	'{define: F frets 2 0 1 0 fingers 2 0 1 0}',
+	'{define: Fm frets 1 0 1 3 fingers 1 0 2 4}',
+	'{define: F7 frets 2 3 1 0 fingers 2 3 1 0}',
+	'{define: F7sus4 frets 3 3 1 3 fingers 2 3 1 4}',
+	'{define: Fm6 frets 1 2 1 3 fingers 1 2 1 3 add: string 2 fret 1 finger 1 add: string 4 fret 1 finger 1}',
+	'{define: Fm7 frets 1 3 1 3 fingers 1 3 2 4}',
+	'{define: Fdim frets 1 2 1 2 fingers 1 3 2 4}',
+	'{define: Fmaj7 frets 5 5 0 0 fingers 1 2 0 0}',
+	'{define: F6 frets 2 2 1 3 fingers 2 2 1 4}',
+	'{define: Fsus2 frets 0 0 1 3 fingers 0 0 1 3}',
+	'{define: Fsus4 frets 3 0 1 3 fingers 3 0 1 4}',
+	'{define: F6sus2 frets 0 0 1 3 fingers 0 0 1 3}',
+	'{define: F6sus4 frets 3 0 1 1 fingers 3 0 1 1}',
+	'{define: F6aug frets 2 1 1 4 fingers 2 1 1 4 add: string 1 fret 1 finger 1 add: string 4 fret 1 finger 1}',
+	'{define: F9 frets 2 3 3 3}',
+	'{define: Faug frets 2 1 1 0 fingers 3 1 2 0}',
+	//  F#
+	// -------------------------------------------------------
+	'{define: F# frets 3 1 2 1 fingers 3 1 2 1 add: string 1 fret 1 finger 1 add: string 3 fret 1 finger 1}',
+	'{define: F#m frets 2 1 2 0 fingers 2 1 3 0}',
+	'{define: F#7 frets 3 4 2 4 fingers 2 3 1 4}',
+	'{define: F#7sus4 frets 4 4 2 4 fingers 2 3 1 4}',
+	'{define: F#m7 frets 2 4 2 4 fingers 1 3 2 4}',
+	'{define: F#dim frets 2 3 2 3 fingers 1 3 2 4}',
+	'{define: F#maj7 frets 3 5 2 4 fingers 2 4 1 3}',
+	'{define: F#m6 frets 2 1 2 4 fingers 2 1 3 4}',
+	'{define: F#6 frets 3 3 2 4 fingers 2 2 1 4}',
+	'{define: F#sus2 frets 1 1 2 4 fingers 1 1 2 4}',
+	'{define: F#sus4 frets 4 1 2 2 fingers 4 1 2 3}',
+	'{define: F#aug frets 3 2 2 5 fingers 2 1 1 4 add: string 1 fret 2 finger 1 add: string 4 fret 2 finger 1}',
+	'{define: F#9 frets 1 1 0 1}',
+	//  Gb returns F#
+	//  G
+	// -------------------------------------------------------
+	'{define: G frets 0 2 3 2 fingers 0 1 3 2}',
+	'{define: Gm frets 0 2 3 1 fingers 0 2 3 1}',
+	'{define: Gm6 frets 0 2 0 1 fingers 0 2 0 1}',
+	'{define: G7 frets 0 2 1 2 fingers 0 2 1 3}',
+	'{define: G7sus4 frets 0 2 1 3 fingers 0 2 1 4}',
+	'{define: Gm7 frets 0 2 1 1 fingers 0 2 1 1}',
+	'{define: Gdim frets 0 1 0 1 fingers 0 1 0 2}',
+	'{define: Gmaj7 frets 0 2 2 2 fingers 0 1 2 3}',
+	'{define: G6 frets 0 2 0 2 fingers 0 1 0 2}',
+	'{define: Gsus2 frets 0 2 3 0 fingers 0 1 2 0}',
+	'{define: Gsus4 frets 0 2 3 3 fingers 0 1 2 3}',
+	'{define: Gaug frets 0 3 3 2 fingers 0 2 2 1}',
+	'{define: Gsus4 frets 0 2 3 3}',
+	'{define: G9 frets 2 2 1 2}',
+	//  G#
+	// -------------------------------------------------------
+	'{define: G# frets 5 3 4 3 fingers 3 1 2 1 add: string 1 fret 3 finger 1 add: string 3 fret 3 finger 1}',
+	'{define: G#m frets 1 3 4 2 fingers 1 3 4 2}',
+	'{define: G#7 frets 1 3 2 3 fingers 1 3 2 4}',
+	'{define: G#7sus4 frets 1 3 2 4 fingers 1 3 2 4}',
+	'{define: G#m7 frets 1 3 2 2 fingers 1 4 2 3}',
+	'{define: G#dim frets 1 2 1 2 fingers 1 3 2 4}',
+	'{define: G#maj7 frets 1 3 3 3 fingers 1 2 2 3}',
+	'{define: G#6 frets 1 3 1 3 fingers 1 3 2 4}',
+	'{define: G#m6 frets 1 3 1 2 fingers 1 3 1 2 add: string 2 fret 1 finger 1 add: string 4 fret 1 finger 1}',
+	'{define: G#sus2 frets 1 3 4 1 fingers 2 3 4 1}',
+	'{define: G#sus4 frets 1 3 4 4 fingers 1 2 3 3}',
+	'{define: G#aug frets 1 0 0 3 fingers 1 0 0 4}',
+	'{define: G#9 frets 1 0 2 1 fingers 1 0 3 2}',
+	//  slash chords & other oddities
+	// -------------------------------------------------------
+	'{define: C-F frets 2 0 1 3}',
+	'{define: D/A frets 2 2 2 0}',
+	'{define: Dm/C frets 2 2 1 3}',
+	'{define: Fm7/C frets 1 3 1 3}',
+	'{define: G/B frets 0 2 3 2}',
+	'{define: G/F# frets 0 2 2 2}',
+	'{define: G/F frets 0 2 1 2}',
+	'{define: G7/B frets 0 2 1 2}'
+];
+;/**
+ * Wraps three common canvas actions: adding canvas element to DOM, drawing a dot, adding text.
+ * @class canvasTools
+ * @namespace ukeGeeks
+ * @static
+ * @singleton
+ * @module ukeGeeks
+ */
+ukeGeeks.canvasTools = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	/**
+	 * @method drawDot
+	 * @param ctx {CanvasContext} Valid Canvas Context handle
+	 * @param centerPos {XyPositionJson} JSON with two properties: x & y ints, position in pixels, format {x: <int>, y: <int>}
+	 * @param radius {int} Dot's Radius
+	 * @param color {string} Hex color
+	 * @return {void}
+	 */
+	_public.drawDot = function(ctx, centerPos, radius, color) {
+		ctx.beginPath();
+		ctx.arc(centerPos.x, centerPos.y, radius, 0, Math.PI * 2, true);
+		ctx.closePath();
+		ctx.fillStyle = color;
+		ctx.fill();
+	};
+
+	/**
+	 * @method drawText
+	 * @param ctx {CanvasContext} Valid Canvas Context handle
+	 * @param pos {XYPosObject} JSON with two properties: x & y ints, position in pixels, format {x: <int>, y: <int>}
+	 * @param text {string} Any string to be places at Pos
+	 * @param font {string} Font, CSS-like definition of size and font-family, i.e.
+	 * @param color {string} Hexadecimal RGB color definition
+	 * @param align {string} (optional) Text will be aligned at position (pos) as [left,right,center]. Default is center.
+	 * @return {void}
+	 */
+	_public.drawText = function(ctx, pos, text, font, color, align) {
+		if (!ctx.fillText) {
+			return; // IE check
+		}
+		ctx.font = font;
+		ctx.textAlign = (align || 'center');
+		ctx.fillStyle = color;
+		ctx.fillText(text, pos.x, pos.y);
+	};
+
+	/**
+	 * Create new canvas DOM element and add it to element. Return convas context handle. Reutns null if there's a problem.
+	 * @method addCanvas
+	 * @param element {DOMEelement} Destination DOM element
+	 * @param width {int} Desired width of new canvas element
+	 * @param height {int} Desired height of new canvas element
+	 * @return {canvasContextHandle}
+	 */
+	_public.addCanvas = function(element, width, height) {
+		// make element
+		var c = document.createElement('canvas');
+		if (!c) {
+			return null;
+		}
+		// because IE is an abomination... must init & place in DOM BEFORE doing anything else
+		if (ukeGeeks.settings.environment.isIe) {
+			c = G_vmlCanvasManager.initElement(c);
+		}
+		element.appendChild(c);
+		c.width = width;
+		c.height = height;
+		// canvas context handle
+		var ctx = c.getContext('2d');
+		if (!ctx) {
+			return null;
+		}
+		return ctx;
+	};
+
+	return _public;
+}());
+;/**
+ * First places a Canvas element within a DOM element, then draws a chord diagram on it.
+ * @class chordBrush
+ * @namespace ukeGeeks
+ */
+ukeGeeks.chordBrush = function() {
+
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/////////////////////////////////////////////////////////////////////////////
+	//
+	// PUBLIC methods
+	//
+	/////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Again this is a constructor replacement
+	 * @method init
+	 * @return {void}
+	 */
+	_public.init = function() {};
+
+	/**
+	 * Puts a new Canvas within ChordBox and draws the chord diagram on it.
+	 * @method plot
+	 * @param chordBox {DOMElement} Handle to the DOM element where the chord is to be drawn.
+	 * @param chord {expandedChord} Chord Diagram to be drawn.
+	 * @param fretBox {JSON} Appropriate ukeGeeks.settings.fretBox -- either "fretBox" or "inlineFretBox"
+	 * @param {JSON} fontSettings (optional) Defaults to settings.fonts
+	 * @param {JSON} colorSettings (optional) Defaults to settings.colors
+	 * @return {void}
+	 */
+	_public.plot = function(chordBox, chord, fretBox, fontSettings, colorSettings) {
+		var ctx = ukeGeeks.canvasTools.addCanvas(chordBox, fretBox.width, fretBox.height);
+		if (!ctx) {
+			return;
+		}
+
+		if (!fontSettings) {
+			fontSettings = ukeGeeks.settings.fonts;
+		}
+		if (!colorSettings) {
+			colorSettings = ukeGeeks.settings.colors;
+		}
+
+		// starting top-left position for chord diagram
+		var pos = {
+			x: fretBox.topLeftPos.x,
+			y: fretBox.topLeftPos.y
+		};
+		_drawFretboard(ctx, pos, fretBox, colorSettings.fretLines);
+		// find where the circle centers should be:
+		var centers = {
+			x: pos.x,
+			y: (pos.y + fretBox.dotRadius)
+		};
+
+		// find the vertical shift by dividing the freespace between top and bottom (freespace is the row height less circle diameter)
+		var fudgeY = (fretBox.fretSpace - 2 * fretBox.dotRadius) / 2;
+		var fretRange = _getFretRange(chord.dots);
+		var firstFret = (fretRange.last <= 5) ? 1 : fretRange.last - 4;
+
+		// now add Dots (with finger numbers, if present)
+		for (var i = 0; i < chord.dots.length; i++) {
+			var s = chord.dots[i].string;
+			var p = {
+				x: (centers.x + s * fretBox.stringSpace),
+				y: (fudgeY + centers.y + (chord.dots[i].fret - firstFret) * fretBox.fretSpace)
+			};
+			ukeGeeks.canvasTools.drawDot(ctx, p, fretBox.dotRadius, colorSettings.dots);
+			// check that the dot's radius isn't stupidly small
+			if (chord.dots[i].finger > 0 && fretBox.showText && fretBox.dotRadius > 4) {
+				ukeGeeks.canvasTools.drawText(ctx, {
+					x: p.x,
+					y: (p.y + 5)
+				}, chord.dots[i].finger, fontSettings.dot, colorSettings.dotText);
+			}
+		}
+
+		// If the chord is above the normal first 5 frets we need to add labels for the first and last frets
+		if (firstFret != 1) {
+			// Label the starting and ending frets (0-12). It's assumed that the fretboard covers frets 1-5.
+			// If instead the top fret is 6, say, well, this is the method called to add that "6".
+			// The Y position calculation is a bit klunky. How big of a fret range is present in the chord?
+			var txtPos = {
+				x: 0,
+				y: pos.y + fretBox.fretSpace * (0.96 * (5.0 - (fretRange.last - fretRange.first)))
+				// Old Y caculcation: pos.y + (0.8 * fretBox.fretSpace)
+			};
+			ukeGeeks.canvasTools.drawText(ctx, txtPos, fretRange.first, fontSettings.fret, colorSettings.fretText, 'left');
+
+			// no point in double plotting a fret (i.e. barred 8th fret) so only add second label if
+			// first and last frets are different. Also, it's odd to see both 8 & 9, so only show if there's
+			// at least one fret between first and last (i.e. 8 & 10)
+			if ((fretRange.last - fretRange.first) > 1) {
+				txtPos.y = pos.y + (4.8 * fretBox.fretSpace);
+				ukeGeeks.canvasTools.drawText(ctx, txtPos, fretRange.last, fontSettings.fret, colorSettings.fretText, 'left');
+			}
+		}
+
+		// TODO: top offset
+		if (fretBox.showText) {
+			ukeGeeks.canvasTools.drawText(ctx, {
+				x: (pos.x + 1.5 * fretBox.stringSpace),
+				y: (pos.y - 5)
+			}, chord.name, fontSettings.text, colorSettings.text);
+		}
+
+		_mutedStrings(ctx, fretBox, chord.muted, colorSettings.xStroke);
+	};
+
+	/////////////////////////////////////////////////////////////////////////////
+	//
+	// PRIVATE methods
+	//
+	/////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * @method _drawFretboard
+	 * @private
+	 * @param ctx {CanvasContext} Valid Canvas Context Handle
+	 * @param pos {XYPosObject} Object with two properties: x & y ints, position in pixels
+	 * @param fretBox {settings}
+	 * @return {void}
+	 */
+	var _drawFretboard = function(ctx, pos, fretBox, fretColor) {
+		// width offset, a "subpixel" adjustment
+		var i, offset = fretBox.lineWidth / 2;
+		// locals
+		var stringHeight = ukeGeeks.settings.numFrets * fretBox.fretSpace;
+		var fretWidth = 3 * fretBox.stringSpace;
+		// build shape
+		ctx.beginPath();
+		// add "C" & "E" strings
+		for (i = 1; i < 3; i++) {
+			var x = pos.x + i * fretBox.stringSpace + offset;
+			ctx.moveTo(x, pos.y + offset);
+			ctx.lineTo(x, pos.y + stringHeight + offset);
+		}
+		// add frets
+		for (i = 1; i < ukeGeeks.settings.numFrets; i++) {
+			var y = pos.y + i * fretBox.fretSpace + offset;
+			ctx.moveTo(pos.x + offset, y);
+			ctx.lineTo(pos.x + fretWidth + offset, y);
+		}
+		//
+		ctx.rect(pos.x + offset, pos.y + offset, fretWidth, stringHeight);
+		// stroke shape
+		ctx.strokeStyle = fretColor;
+		ctx.lineWidth = fretBox.lineWidth;
+		ctx.stroke();
+		ctx.closePath();
+	};
+
+	/**
+	 * TODO: Loop over the muted array, dropping X's whenever a string position is TRUE
+	 * @method _mutedStrings
+	 * @private
+	 * @param  {CanvasContext} ctx  Valid Canvas Context handle
+	 * @param  {JSON} fretBox  See Settings.fretBox
+	 * @param  {bool} muted    Is this string "muted"?
+	 * @param  {string} strokeColor Valid CSS hex color (shorthand not recommended)
+	 * @return {void}
+	 */
+	var _mutedStrings = function(ctx, fretBox, muted, strokeColor) {
+		var x = fretBox.topLeftPos.x + fretBox.lineWidth / 2;
+		var y = fretBox.topLeftPos.y + fretBox.lineWidth / 4;
+		for (var i = 0; i < muted.length; i++) {
+			if (muted[i]) {
+				_drawX(ctx, {
+					x: x + i * fretBox.stringSpace,
+					y: y
+				}, fretBox, strokeColor);
+			}
+		}
+	};
+
+	/**
+	 * Plots an "X" centered at POSITION
+	 * @method _drawX
+	 * @private
+	 * @param {CanvasContext} ctx Valid Canvas Context handle
+	 * @param centerPos {XyPositionJson} JSON with two properties: x & y ints, position in pixels, format {x: <int>, y: <int>}
+	 * @param  {JSON} fretBox  See Settings.fretBox
+	 * @param  {string} strokeColor Valid CSS hex color (shorthand not recommended)
+	 * @return {void}
+	 */
+	var _drawX = function(ctx, pos, fretBox, strokeColor) {
+		pos.x -= fretBox.xWidth / 2;
+		pos.y -= fretBox.xWidth / 2;
+
+		ctx.beginPath();
+
+		ctx.moveTo(pos.x, pos.y);
+		ctx.lineTo(pos.x + fretBox.xWidth, pos.y + fretBox.xWidth);
+		ctx.moveTo(pos.x, pos.y + fretBox.xWidth);
+		ctx.lineTo(pos.x + fretBox.xWidth, pos.y);
+
+		ctx.strokeStyle = strokeColor;
+		ctx.lineWidth = fretBox.xStroke;
+		ctx.stroke();
+		ctx.closePath();
+	};
+
+	/**
+	 * Returns first & last frets, 0 if none found.
+	 * @method _getFretRange
+	 * @private
+	 * @param dots {array<data.dot>} Array of ukeGeeks.data.dot objects
+	 * @return {JSON}
+	 */
+	var _getFretRange = function(dots) {
+		var max = -1;
+		var min = 300;
+
+		for (var i = 0; i < dots.length; i++) {
+			if (dots[i].fret > max) {
+				max = dots[i].fret;
+			}
+			if (dots[i].fret < min) {
+				min = dots[i].fret;
+			}
+		}
+		return {
+			first: (min < 300) ? min : 0,
+			last: (max > 0) ? max : 0
+		};
+	};
+
+	/* return our public interface
+	 */
+	return _public;
+
+};
+;/**
+ * Reads an HTML (text) block looking for chords in format: [Emaj7]
+ * Returns the HTML block with wrapped chords: &lt;code&gt;&lt;strong&gt;&lt;em&gt;
+ * @class chordParser
+ * @namespace ukeGeeks
+ */
+ukeGeeks.chordParser = function() {
+
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	var _chords = [];
+
+	/////////////////////////////////////////////////////////////////////////////
+	//
+	// PUBLIC methods
+	//
+	/////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Again this is a constructor replacement. Just here for consistency. Does nothing.
+	 * @method init
+	 * @return {void}
+	 */
+	_public.init = function() {};
+
+	/**
+	 * This does all of the work -- it's a Wrapper method that calls all of this classes other
+	 * (private) methods in correct order.
+	 * @method parse
+	 * @param text {string} CPM Text Block to be parsed
+	 * @return {string}
+	 */
+	_public.parse = function(text) {
+		_chords = _findChords(text);
+		text = _encloseChords(text, _chords);
+		text = _packChords(text);
+		return text;
+	};
+
+	/**
+	 * Getter method for _chords
+	 * @method getChords
+	 * @return {Array-chords}
+	 */
+	_public.getChords = function() {
+		return _chords;
+	};
+
+	/////////////////////////////////////////////////////////////////////////////
+	//
+	// PRIVATE methods
+	//
+	/////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Returns an array of all of the unique bracket chord names. So even if [D7] appears a
+	 * dozen times you'll only see it once in this list.
+	 * @method _findChords
+	 * @private
+	 * @param text {string} CPM Text Block to be parsed
+	 * @return {StringArray}
+	 */
+	var _findChords = function(text) {
+		var i, j;
+		var re = /\[(.+?)]/img;
+		var m = text.match(re);
+		if (!m) {
+			return [];
+		}
+
+		// why not use associative array?
+		var chords = [];
+		var found;
+		for (i = 0; i < m.length; i++) {
+			found = false;
+			for (j = 0; j < chords.length; j++) {
+				if (chords[j] == m[i]) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				chords.push(m[i]);
+			}
+		}
+		// clean 'em
+		for (j in chords) {
+			chords[j] = chords[j].replace('[', '').replace(']', '');
+		}
+		// done
+		return chords;
+	};
+
+	/**
+	 * Returns the input string having replaced all of the "bracketed chord names" (i.e. [D7]) with HTML
+	 * marked-up version (i.e. &lt;code&gt;&lt;strong&gt;[&lt;em&gt;D7&lt;/em&gt;]&lt;/strong&gt;&lt;/code&gt;)
+	 * @method _encloseChords
+	 * @private
+	 * @param text {string}
+	 * @param chords {StringArray}
+	 * @return {string}
+	 */
+	var _encloseChords = function(text, chords) {
+		var openBracket = ukeGeeks.settings.opts.retainBrackets ? '[' : ' ';
+		var closeBracket = ukeGeeks.settings.opts.retainBrackets ? ']' : ' ';
+		for (var i in chords) {
+			do {}
+			while (text.length != (text = text.replace(
+				'[' + chords[i] + ']',
+				'<code data-chordName="' + chords[i] + '"><strong>' + openBracket + '<em>' + chords[i] + '</em>' + closeBracket + '</strong></code>')).length);
+		}
+		return text;
+		/*
+		// need to handle chords such as: [A7+5]
+		var escapeRegEx = new RegExp('([+])','g');
+		for (var j = 0; j < this.chords.length; j++){
+			var s = this.chords[j].replace(escapeRegEx, '\\\$1')
+			var re = new RegExp('[[]' + s + ']', 'img');
+			text = text.replace(re, '<code data-chordName="' + this.chords[j] + '"><strong>[<em>' + this.chords[j] + '</em>]</strong></code>');
+		}
+		*/
+	};
+
+	/**
+	 * Looks for consecutive chords and strips the whitespace between them -- thus "packing" the
+	 * chords against each other with only a single space separating them.
+	 * @method _packChords
+	 * @private
+	 * @param text {string}
+	 * @return {string}
+	 */
+	var _packChords = function(text) {
+		var re;
+
+		if (ukeGeeks.settings.inlineDiagrams) {
+			/* TODO: problem with packing */
+			re = /(<\/strong><\/code>)[ \t]*(<code data-chordName="[^"]*"><strong>)/ig;
+			return text.replace(re, '$1<span class="ugsInlineSpacer">&nbsp;</span>$2');
+		}
+
+		re = /<\/strong><\/code>[ \t]*<code data-chordName="[^"]*"><strong>/ig;
+		return text.replace(re, ' ');
+	};
+
+	/* return our public interface
+	 */
+	return _public;
+};
+;/**
+ * Reads a text block and returns an object containing whatever ChordPro elements it recognizes.
+ *
+ * A cleaned, HTML version of song is included.
+ *
+ * @class cpmParser
+ * @namespace ukeGeeks
+ */
+ukeGeeks.cpmParser = function() {
+
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/**
+	 * Number of columns defined
+	 * @property _columnCount
+	 * @private
+	 * @type int
+	 */
+	var _columnCount = 1;
+
+	/**
+	 * Under development, bool indicating whether any chords were found within the lyrics.
+	 * Helpful for tablature-only arrangements.
+	 * TODO: do not rely on this!!!
+	 * @property _hasChords
+	 * @private
+	 * @type bool
+	 */
+	var _hasChords = false; // TODO:
+
+	/**
+	 * Song's key. May be set via command tag {key: C} otherwise use the first chord found (if available)
+	 * @property _firstChord
+	 * @private
+	 * @type string
+	 */
+	var _firstChord = '';
+
+	/**
+	 * Again this is a constructor replacement. Just here for consistency. Does nothing.
+	 * @method init
+	 * @return {void}
+	 */
+	_public.init = function() {};
+
+	/**
+	 * Accepts CPM text, returning HTML marked-up text
+	 * @method parse
+	 * @param text {string} string RAW song
+	 * @return {songObject}
+	 */
+	_public.parse = function(text) {
+		var song = new ukeGeeks.data.song();
+		text = _stripHtml(text);
+		var songDom = _domParse(text);
+		songDom = _parseInstr(songDom);
+		songDom = _parseSimpleInstr(songDom);
+		songDom = _markChordLines(songDom);
+		song.body = _export(songDom);
+		if (_columnCount > 1) {
+			song.body = '<div class="' + _classNames.ColumnWrap + ' ' + _classNames.ColumnCount + _columnCount + '">' + '<div class="' + _classNames.Column + '">' + song.body + '</div>' + '</div>';
+		}
+		song.hasChords = _hasChords;
+		var tmp;
+		// Song Title
+		tmp = _getInfo(songDom, _blockTypeEnum.Title);
+		if (tmp.length > 0) {
+			song.title = tmp[0];
+		}
+		// Artist
+		tmp = _getInfo(songDom, _blockTypeEnum.Artist);
+		if (tmp.length > 0) {
+			song.artist = tmp[0];
+		}
+		// Song Subtitle
+		tmp = _getInfo(songDom, _blockTypeEnum.Subtitle);
+		if (tmp.length > 0) {
+			song.st = tmp[0];
+		}
+		if (tmp.length > 1) {
+			song.st2 = tmp[1];
+		}
+		// Album
+		tmp = _getInfo(songDom, _blockTypeEnum.Album);
+		if (tmp.length > 0) {
+			song.album = tmp[0];
+		}
+		// UkeGeeks "Extras"
+		tmp = _getInfo(songDom, _blockTypeEnum.UkeGeeksMeta);
+		if (tmp.length > 0) {
+			song.ugsMeta = tmp;
+		}
+		// Key
+		tmp = _getInfo(songDom, _blockTypeEnum.Key);
+		if (tmp.length > 0) {
+			song.key = tmp[0];
+		}
+		else if (_firstChord !== '') {
+			// Setting Key to first chord found
+			song.key = _firstChord;
+		}
+		// Chord Definitions
+		tmp = _getInfo(songDom, _blockTypeEnum.ChordDefinition);
+		if (tmp.length > 0) {
+			for (var i in tmp) {
+				song.defs.push(ukeGeeks.chordImport.runLine('{define: ' + tmp[i] + '}'));
+			}
+		}
+		return song;
+	};
+
+	/*
+		TODO: add ukeGeeks Meta support:
+		$regEx = "/{(ukegeeks-meta|meta)\s*:\s*(.+?)}/i";
+	*/
+	var _regEx = {
+		blocks: /\s*{\s*(start_of_tab|sot|start_of_chorus|soc|end_of_tab|eot|end_of_chorus|eoc)\s*}\s*/im,
+		tabBlock: /\s*{\s*(start_of_tab|sot)\s*}\s*/im,
+		chorusBlock: /\s*{\s*(start_of_chorus|soc)\s*}\s*/im
+	};
+
+	/**
+	 * All of the CSS classnames used by UkeGeeks JavaScript
+	 * @property _classNames
+	 * @private
+	 * @type JSON
+	 */
+	var _classNames = {
+		Comment: 'ugsComment',
+		Tabs: 'ugsTabs',
+		Chorus: 'ugsChorus',
+		PreChords: 'ugsChords', // preformatted with chords
+		PrePlain: 'ugsPlain', // preformated, no chords
+		NoLyrics: 'ugsNoLyrics', // preformated, chords ONLY -- no lyrics (text) between 'em
+		ColumnWrap: 'ugsWrap',
+		ColumnCount: 'ugsColumnCount',
+		Column: 'ugsColumn',
+		NewPage: 'ugsNewPage'
+	};
+
+	/**
+	 * Enumeration defining the types of nodes used within this class to parse CPM
+	 * @property _blockTypeEnum
+	 * @private
+	 * @type JSON-enum
+	 */
+	var _blockTypeEnum = {
+		// Multiline Nodes
+		TextBlock: 1, // temporary type, should be replaced with Chord Text or Plain Text
+		ChorusBlock: 2,
+		TabBlock: 3,
+		// Single Line "Instruction" Nodes
+		Comment: 101,
+		Title: 102,
+		Subtitle: 103,
+		Album: 104,
+		ChordDefinition: 105,
+		UkeGeeksMeta: 106,
+		ColumnBreak: 107, // Defining this as an instruction instead of a node since I'm not requiring a Begin/End syntax and it simplifies processing
+		Artist: 108,
+		NewPage: 109,
+		Key: 110,
+		// Text Types
+		ChordText: 201,
+		PlainText: 202,
+		ChordOnlyText: 203, //
+		// Undefined
+		Undefined: 666
+	};
+
+	/**
+	 * Retuns the block type (_blockTypeEnum) of passed in line.
+	 * @method _getBlockType
+	 * @private
+	 * @param line {songNode}
+	 * @return {_blockTypeEnum}
+	 */
+	var _getBlockType = function(line) {
+		// TODO: verify line's type in documentation
+		if (_regEx.chorusBlock.test(line)) {
+			return _blockTypeEnum.ChorusBlock;
+		}
+		else if (_regEx.tabBlock.test(line)) {
+			return _blockTypeEnum.TabBlock;
+		}
+		return _blockTypeEnum.TextBlock;
+	};
+
+	/**
+	 * Convert passed in song to HTML block
+	 * @method _export
+	 * @private
+	 * @param song {songNodeArray}
+	 * @return {strings}
+	 */
+	var _export = function(song) {
+		var nl = "\n";
+		var html = '';
+		for (var i = 0; i < song.length; i++) {
+			/*
+			if (song[i].type == _blockTypeEnum.Title){
+				html += '<h1>' + song[i].lines[0] + '</h1>' + nl;
+			}
+			else if (song[i].type == _blockTypeEnum.Subtitle){
+				html += '<h2>' + song[i].lines[0] + '</h2>' + nl;
+			}
+			else if (song[i].type == _blockTypeEnum.Album){
+				html += '<h3 class="ugsAlbum">' + song[i].lines[0] + '</h3>' + nl;
+			}
+			else if (song[i].type == _blockTypeEnum.UkeGeeksMeta){
+				html += '<h3>' + song[i].lines[0] + '</h3>' + nl;
+			}
+			else
+			*/
+			if (song[i].type == _blockTypeEnum.Comment) {
+				html += '<h6 class="' + _classNames.Comment + '">' + song[i].lines[0] + '</h6>' + nl;
+			}
+			else if (song[i].type == _blockTypeEnum.NewPage) {
+				html += '<hr class="' + _classNames.NewPage + '" />' + nl;
+			}
+			else if ((song[i].type == _blockTypeEnum.ChordText) || (song[i].type == _blockTypeEnum.PlainText) || (song[i].type == _blockTypeEnum.ChordOnlyText)) {
+				// TODO: beware undefined's!!!
+				// Repack the text, only open/close <pre> tags when type changes
+				// problem: exacerbates WebKit browsers' first chord position bug.
+				if (song[i].lines[0].length < 1) {
+					// prevent empty blocks (usually caused by comments mixed in header tags)
+					continue;
+				}
+				var myClass = (song[i].type == _blockTypeEnum.PlainText) ? _classNames.PrePlain : _classNames.PreChords;
+				if (song[i].type == _blockTypeEnum.ChordOnlyText) {
+					myClass += ' ' + _classNames.NoLyrics;
+				}
+				var myType = song[i].type;
+				var lastType = ((i - 1) >= 0) ? song[i - 1].type : _blockTypeEnum.Undefined;
+				var nextType = ((i + 1) < song.length) ? nextType = song[i + 1].type : _blockTypeEnum.Undefined;
+				html += (lastType != myType) ? ('<pre class="' + myClass + '">') : nl;
+				html += song[i].lines[0];
+				html += (nextType != myType) ? ('</pre>' + nl) : '';
+			}
+			else if (song[i].type == _blockTypeEnum.ChorusBlock) {
+				html += '<div class="' + _classNames.Chorus + '">' + nl;
+				html += _export(song[i].lines);
+				html += '</div>' + nl;
+			}
+			else if (song[i].type == _blockTypeEnum.TabBlock) {
+				html += '<pre class="' + _classNames.Tabs + '">';
+				for (var j in song[i].lines) {
+					html += song[i].lines[j] + nl;
+				}
+				html += '</pre>' + nl;
+			}
+			else if (song[i].type == _blockTypeEnum.TextBlock) {
+				html += _export(song[i].lines);
+			}
+			else if (song[i].type == _blockTypeEnum.ColumnBreak) {
+				html += '</div><div class="' + _classNames.Column + '">';
+			}
+			// else {}
+		}
+		return html;
+	};
+
+	/**
+	 * Debugging tool for Firebug. Echos the song's structure.
+	 * @method _echo
+	 * @private
+	 * @param song {songNodeArray}
+	 * @return {void}
+	 */
+	var _echo = function(song) {
+		for (var i in song) {
+			console.log('>> ' + i + '. ' + song[i].type + ' node, ' + song[i].lines.length + ' lines');
+			for (var j in song[i].lines) {
+				console.log(song[i].lines[j]);
+			}
+		}
+	};
+
+	/**
+	 * Explodes passed in text block into an array of songNodes ready for further parsing.
+	 * @method _domParse
+	 * @private
+	 * @param text {string}
+	 * @return {songNodeArray}
+	 */
+	var _domParse = function(text) {
+		var lines = text.split('\n');
+		var song = [];
+		var tmpBlk = null;
+		var isMarker; // block marker
+		for (var i in lines) {
+			// strip comments
+			if ((lines[i].length > 0) && (lines[i][0] == '#')) {
+				continue;
+			}
+			isMarker = _regEx.blocks.test(lines[i]);
+			if (isMarker || tmpBlk === null) {
+				// save last block, start new one...
+				if (tmpBlk !== null) {
+					song.push(tmpBlk);
+				}
+				tmpBlk = {
+					type: _getBlockType(lines[i]),
+					lines: []
+				};
+				if (!isMarker) {
+					// Don't miss that first line!
+					tmpBlk.lines.push(lines[i]);
+				}
+			}
+			else {
+				var s = ukeGeeks.toolsLite.trim(lines[i]);
+				if (s.length > 0) {
+					tmpBlk.lines.push(s);
+				}
+			}
+		}
+		if (tmpBlk.lines.length > 0) {
+			song.push(tmpBlk);
+		}
+		return song;
+	};
+
+	/**
+	 * Goes through songNodes, those nodes that are "instructions" are exploded and
+	 * a "the resulting "songDomElement" built, this songDomElement then replaces the
+	 * original line.
+	 *
+	 * The regular expression look for instructions with this format:
+	 * {commandVerb: commandArguments}
+	 *
+	 * @method _parseInstr
+	 * @private
+	 * @param song {songNodeArray}
+	 * @return {songNodeArray}
+	 */
+	var _parseInstr = function(song) {
+		var regEx = {
+			instr: /\{[^}]+?:.*?\}/im,
+			cmdArgs: /\{.+?:(.*)\}/gi,
+			cmdVerb: /\{(.+?)\s*:.*\}/gi
+		};
+		for (var i in song) {
+			for (var j in song[i].lines) {
+				if (regEx.instr.test(song[i].lines[j])) {
+					var args = song[i].lines[j].replace(regEx.cmdArgs, '$1');
+					var verb = song[i].lines[j].replace(regEx.cmdVerb, '$1').toLowerCase();
+					verb = verb.replace(/\r/, ''); // IE7 bug
+					var tmpBlk = {
+						type: '',
+						lines: []
+					};
+					switch (verb) {
+						case 'title':
+						case 't':
+							tmpBlk.type = _blockTypeEnum.Title;
+							break;
+						case 'artist':
+							tmpBlk.type = _blockTypeEnum.Artist;
+							break;
+						case 'subtitle':
+						case 'st':
+							tmpBlk.type = _blockTypeEnum.Subtitle;
+							break;
+						case 'album':
+							tmpBlk.type = _blockTypeEnum.Album;
+							break;
+						case 'comment':
+						case 'c':
+							tmpBlk.type = _blockTypeEnum.Comment;
+							break;
+						case 'key':
+						case 'k':
+							tmpBlk.type = _blockTypeEnum.Key;
+							break;
+						case 'define':
+							tmpBlk.type = _blockTypeEnum.ChordDefinition;
+							break;
+						case 'ukegeeks-meta':
+							tmpBlk.type = _blockTypeEnum.UkeGeeksMeta;
+							break;
+						default:
+							tmpBlk.type = 'Undefined-' + verb;
+							break;
+					}
+					tmpBlk.lines[0] = ukeGeeks.toolsLite.trim(args);
+					song[i].lines[j] = tmpBlk;
+				}
+			}
+		}
+		return song;
+	};
+
+	/**
+	 * A "Simple Instruction" is one that accepts no arguments. Presently this only handles Column Breaks.
+	 * @method _parseSimpleInstr
+	 * @private
+	 * @param song {songNodeArray}
+	 * @return {songNodeArray}
+	 */
+	var _parseSimpleInstr = function(song) {
+		var regEx = {
+			columnBreak: /\s*{\s*(column_break|colb|np|new_page)\s*}\s*/im
+		};
+		for (var i in song) {
+			for (var j in song[i].lines) {
+				if (regEx.columnBreak.test(song[i].lines[j])) {
+					var verb = song[i].lines[j].replace(regEx.columnBreak, '$1').toLowerCase();
+					switch (verb) {
+						case 'column_break':
+						case 'colb':
+							_columnCount++;
+							song[i].lines[j] = {
+								type: _blockTypeEnum.ColumnBreak,
+								lines: []
+							};
+							break;
+						case 'new_page':
+						case 'np':
+							song[i].lines[j] = {
+								type: _blockTypeEnum.NewPage,
+								lines: []
+							};
+							break;
+					}
+				}
+			}
+		}
+		return song;
+	};
+
+	/**
+	 * Runs through songNodes and if the line contains at least one chord it's type is et to
+	 * ChordText, otherwise it's marked as "PlainText", meaning straight lyrics
+	 * @method _markChordLines
+	 * @private
+	 * @param song {songNodeArray}
+	 * @return {songNodeArray}
+	 */
+	var _markChordLines = function(song) {
+		var regEx = {
+			chord: /\[(.+?)]/i,
+			allChords: /\[(.+?)]/img
+		};
+
+		var chordFound,
+			hasOnlyChords,
+			line;
+
+		for (var i in song) {
+			if ((song[i].type != _blockTypeEnum.TextBlock) && (song[i].type != _blockTypeEnum.ChorusBlock)) {
+				continue;
+			}
+			for (var j in song[i].lines) {
+				line = song[i].lines[j];
+				if (typeof(line) != 'string') {
+					continue;
+				}
+
+				chordFound = regEx.chord.test(line);
+				_hasChords = _hasChords || chordFound;
+				hasOnlyChords = chordFound && (ukeGeeks.toolsLite.trim(line.replace(regEx.allChords, '')).length < 1);
+				// need to find
+				song[i].lines[j] = {
+					type: (hasOnlyChords ? _blockTypeEnum.ChordOnlyText : (chordFound ? _blockTypeEnum.ChordText : _blockTypeEnum.PlainText)),
+					lines: [line]
+				};
+
+				if (chordFound && _firstChord === '') {
+					var m = line.match(regEx.chord);
+					if (m) {
+						_firstChord = m[1];
+					}
+				}
+			}
+		}
+		return song;
+	};
+
+	/**
+	 * Searches the songNodes for the specified block type, retunrs all matching node line (text) values.
+	 * @method _getInfo
+	 * @private
+	 * @param song {songNodeArray}
+	 * @param type {_blockTypeEnum}
+	 * @return {array}
+	 */
+	var _getInfo = function(song, type) {
+		var rtn = [];
+		for (var i in song) {
+			if (song[i].type == type) {
+				rtn.push(song[i].lines[0]);
+			}
+			else if (song[i].type == _blockTypeEnum.TextBlock) {
+				for (var j in song[i].lines) {
+					if (song[i].lines[j].type == type) {
+						rtn.push(song[i].lines[j].lines[0]);
+					}
+				}
+			}
+		}
+		return rtn;
+	};
+
+	/**
+	 * Removes HTML "pre" tags and comments.
+	 * @method _stripHtml
+	 * @private
+	 * @param text {string}
+	 * @return {string}
+	 */
+	var _stripHtml = function(text) {
+		var regEx = {
+			pre: /<\/?pre>/img, // HTML <pre></pre>
+			htmlComment: /<!--(.|\n)*?-->/gm // HTML <!-- Comment -->
+		};
+		return text.replace(regEx.pre, '').replace(regEx.htmlComment, '');
+	};
+
+	/* return our public interface */
+	return _public;
+};
+;/**
+ * Draws large chord diagram grid (aka "reference" diagrams) on canvas
+ * @class chordPainter
+ * @namespace ukeGeeks
+ */
+ukeGeeks.chordPainter = function() {
+
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/**
+	 * ukeGeeks.canvas object handle
+	 * @property _brush
+	 * @type ukeGeeks.chordBrush instance handle
+	 * @private
+	 */
+	var _brush = null;
+
+	/**
+	 * keep an array of missing chords (strings)
+	 * @property _errors
+	 * @type array
+	 * @private
+	 */
+	var _errors = [];
+
+	var _handles = null;
+
+	/**
+	 * If ignoreCommonChords option is true then this will contain list of
+	 * matched chords: ones defined in the ignore list that were also found in the song
+	 * @property _ignoreMatchList
+	 * @type {Array}
+	 * @private
+	 */
+	var _ignoreMatchList = [];
+
+	/**
+	 * Ignore "tacet" or "no chord" chords
+	 * @property _tacet
+	 * @type {RegExp}
+	 * @private
+	 */
+	var _tacet = /^(n.?\/?c.?|tacet)$/i;
+
+	/**
+	 * Again this is a constructor replacement
+	 * @method init
+	 * @param htmlHandles {ukeGeeks.data.htmlHandles} DOM Element object
+	 * @return {void}
+	 */
+	_public.init = function(htmlHandles) {
+		_brush = new ukeGeeks.chordBrush();
+		_brush.init();
+		_handles = htmlHandles;
+	};
+
+	/**
+	 * Checks whether speicified chord (name) is on the ignore list.
+	 * @method ignoreChord
+	 * @param  {string} chord Chord name
+	 * @return {boolean}	return TRUE if "chord" is on ignore list.
+	 */
+	var ignoreChord = function(chord) {
+		for (var i = 0; i < ukeGeeks.settings.commonChords.length; i++) {
+			if (chord == ukeGeeks.settings.commonChords[i]) {
+				return true;
+			}
+		}
+		return false;
+	};
+
+	/**
+	 * Plots the passed in chords (array of ) by adding canvas elements inside passed DOM element.
+	 * @method show
+	 * @param chords {array<expandedChord>} Array of chord objects to be plotted
+	 * @return {void}
+	 */
+	_public.show = function(chords) {
+		_handles.diagrams.innerHTML = '';
+		_errors = [];
+		_ignoreMatchList = [];
+
+		if (ukeGeeks.settings.opts.sortAlphabetical) {
+			chords.sort();
+		}
+
+		for (var i = 0; i < chords.length; i++) {
+			if (_tacet.test(chords[i])) {
+				continue;
+			}
+			if (ukeGeeks.settings.opts.ignoreCommonChords && ignoreChord(chords[i])) {
+				if ((typeof Array.prototype.indexOf === 'function') && (_ignoreMatchList.indexOf(chords[i]) == -1)) {
+					_ignoreMatchList.push(chords[i]);
+				}
+				continue;
+			}
+			var chord = ukeGeeks.definitions.get(chords[i]);
+			if (!chord) {
+				_errors.push(chords[i]);
+				continue;
+			}
+			_brush.plot(_handles.diagrams, chord, ukeGeeks.settings.fretBox);
+		}
+
+		if (_ignoreMatchList.length > 0) {
+			var para = document.createElement('p');
+			para.className = 'ugsIgnoredChords';
+			para.innerHTML = 'Also uses: ' + _ignoreMatchList.sort().join(', ');
+			_handles.diagrams.appendChild(para);
+		}
+	};
+
+	/**
+	 * Plots chords "inline" with the lyrics. Searches for &lt;code data-chordName=&quot;Am7&quot;&gt;&lt;/code&gt;.
+	 * When found adds canvas element and draws chord named in data-chordName attribute
+	 * @method showInline
+	 * @param chords {array<expandedChord>} Array of chord objects to be plotted
+	 * @return {void}
+	 */
+	_public.showInline = function(chords) {
+		var e = _handles.text.getElementsByTagName('code');
+		if (e.length < 1) {
+			return;
+		}
+		for (var i = 0; i < chords.length; i++) {
+			var chord = ukeGeeks.definitions.get(chords[i]);
+			if (!chord) {
+				/* TODO: error reporting if not found */
+				// _errors.push(chords[i]);
+				continue;
+			}
+			for (var j = 0; j < e.length; j++) {
+				if (e[j].getAttribute('data-chordName') == chord.name) {
+					_brush.plot(e[j], chord, ukeGeeks.settings.inlineFretBox, ukeGeeks.settings.inlineFretBox.fonts);
+				}
+			}
+		}
+	};
+
+	/**
+	 * returns array of unknown chords
+	 * @method getErrors
+	 * @return {array}
+	 */
+	_public.getErrors = function() {
+		return _errors;
+	};
+
+	/**
+	 * List of chords excluded from the master chord diagrams
+	 * @method getIgnoredChords
+	 * @return {array} array of strings
+	 */
+	_public.getIgnoredChords = function() {
+		return _ignoreMatchList;
+	};
+
+	/* return our public interface
+	 */
+	return _public;
+};
+;/**
+ * Tablature renderer -- reads tab data and draws canvas elements.
+ * Creates "packed" versions of the tabs, including a "key line" that's comprised
+ * only of '-' and '*' -- the asterisks denoting where a dot will eventually be placed.
+ * @class tabs
+ * @constructor
+ * @namespace ukeGeeks
+ */
+ukeGeeks.tabs = function() {
+
+	/**
+	 * alias for external Settings dependencies (helps with complression, too)
+	 * @property tab_settings
+	 * @private
+	 * @type {JSON}
+	 */
+	var tab_settings = ukeGeeks.settings.tabs;
+
+	// TODO: use ukeGeeks.settings.tuning for NUM_STRINGS and LAST_STRING_NAME??
+
+	/**
+	 * (Constant) Number of Strings (dashed lines of tablature notation) expected. (For now
+	 * a constant -- ukueleles "always" have four). Making a variable to help support port
+	 * for other instruments.
+	 * @property NUM_STRINGS
+	 * @private
+	 * @type int
+	 */
+	var NUM_STRINGS= 4;
+
+	/**
+	 * (Constant) Last String Name (Note), as above, on Ukulele is a "G". Here for other instruments.
+	 * @property LAST_STRING_NAME
+	 * @private
+	 * @type string
+	 */
+	var LAST_STRING_NAME= 'G';
+
+	/* PUBLIC METHODS
+	---------------------------------------------- */
+	/**
+	 * Again this is a constructor replacement
+	 * @method init
+	 * @public
+	 * @return {void}
+	 */
+	var init= function() {};
+
+	/**
+	 * Races through all &lt;pre&gt; tags within h, any with the CSS class of "ugsTabs" will be replaced with the canvas element.
+	 * @method replace
+	 * @public
+	 * @param h {DOM-element}
+	 * @return {void}
+	 */
+	var replace= function(h) {
+		var tabBlocks = h.getElementsByTagName('pre');
+		for (var i in tabBlocks) {
+			if (tabBlocks[i].className == 'ugsTabs') {
+				var s = tabBlocks[i].innerHTML;
+				tabBlocks[i].innerHTML = '';
+				loadBlocks(s, tabBlocks[i]);
+			}
+		}
+	};
+
+	/**
+	 *
+	 * @method loadBlocks
+	 * @param text {string} Block of text that contains one or more tablature blocks
+	 * @param outElement {string or DOM} Either: (string) the Id to a DOM element, or DOM element handle where the canvas/converted text will be placed.
+	 * @return {void}
+	 */
+	var loadBlocks= function(text, outElement) {
+		var lines = text.split('\n');
+		var tab = [];
+		for (var i in lines) {
+			var s = ukeGeeks.toolsLite.trim(lines[i]);
+			if (s.length > 0) {
+				tab.push(s);
+			}
+			if (tab.length == NUM_STRINGS) {
+				redraw(tab, outElement);
+				tab = [];
+			}
+		}
+	};
+
+	/**
+	 *
+	 * @method redraw
+	 * @param inTabs {string or array} Block of text or four element array containing tablbature to be parsed
+	 * @param outElement {string or DOM} Either: (string) the Id to a DOM element, or DOM element handle where the canvas/converted text will be placed.
+	 * @return {void}
+	 */
+	var redraw= function(inTabs, outElement) {
+		// validate inTabs input...
+		// TODO: instead of this if it's text pop the entire processing back to loadBlocks!
+		inTabs = (typeof(inTabs) == 'string') ? (inTabs.split('\n')) : inTabs;
+		if (inTabs.length < NUM_STRINGS) {
+			return;
+		}
+		// read tabs
+		var tabInfo = readTabs(inTabs);
+		var labelOffset = (tabInfo.hasLabels) ? tab_settings.labelWidth : 0;
+		var tabs = tabInfo.tabs;
+		// how much space?
+		var height = ((NUM_STRINGS - 1) * tab_settings.lineSpacing) + (2 * tab_settings.dotRadius) + tab_settings.bottomPadding;
+		// prep canvas
+		outElement = (typeof(outElement) == 'string') ? document.getElementById(outElement) : outElement;
+
+		var ctx = ukeGeeks.canvasTools.addCanvas(outElement, getWidth(tabs, labelOffset, false), height);
+		var pos = {
+			x: tab_settings.dotRadius + labelOffset,
+			y: 1 + tab_settings.dotRadius
+		};
+		var lineWidth = getWidth(tabs, labelOffset, true);
+		drawStaff(ctx, pos, lineWidth, tab_settings);
+		drawNotes(ctx, pos, tabs, tab_settings, lineWidth);
+		if (tabInfo.hasLabels) {
+			drawLabels(ctx, pos, tab_settings);
+		}
+	};
+
+	/**
+	 * This is insanely long, insanely kludgy, but, insanely, it works. This will read break a block of text into
+	 * four lines (the ukulele strings), then find which frets are used by each. Then, the hard part, pack un-needed
+	 * dashes. Once it's done that a 2-dimentional array (strings X frets) is created and returned.
+	 * @method readTabs
+	 * @private
+	 * @param ukeStrings {array<string>} Block of tablbabure to be parsed
+	 * @return {2-dimentional array}
+	 */
+	var readTabs= function(ukeStrings) {
+		var hasLabels = ukeStrings[NUM_STRINGS - 1][0] == LAST_STRING_NAME;
+		if (hasLabels) {
+			stripStringLabels(ukeStrings);
+		}
+		var frets = getFretNumbers(ukeStrings);
+		var symbols = getSymbols(ukeStrings);
+		var minLength = getMinLineLength(ukeStrings);
+		var guide = getGuideLine(symbols, minLength);
+
+		return {
+			tabs: getPackedLines(frets, symbols, guide, minLength),
+			hasLabels: hasLabels
+		};
+	};
+
+	/**
+	 * @method getWidth
+	 * @private
+	 * @param tabs {2Darray}
+	 * @param labelOffset {int}
+	 * @param isTruncate {bool} If TRUE returns the length of the line, allowing for a terminating "|" character, othwrwise, it's for canvas width
+	 * @return {int}
+	 */
+	var getWidth= function(tabs, labelOffset, isTruncate) {
+		if (!isTruncate) {
+			return (tab_settings.noteSpacing * tabs[0].length) + labelOffset + tab_settings.dotRadius;
+		}
+
+		var len = tabs[0].length;
+		var plusDot = tab_settings.dotRadius;
+		if (tabs[0][len - 1] == '|') {
+			// TODO: too much??? retest
+			len -= 1;
+			plusDot = 0;
+		}
+
+		return tab_settings.noteSpacing * len + labelOffset + plusDot;
+	};
+
+	/**
+	 * Processes ukeStrings stripping the first character from each line
+	 * @method stripStringLabels
+	 * @private
+	 * @param ukeStrings {array<string>}
+	 * @return {void}
+	 */
+	var stripStringLabels= function(ukeStrings) {
+		for (var i = 0; i < NUM_STRINGS; i++) {
+			ukeStrings[i] = ukeStrings[i].substr(1);
+		}
+	};
+
+	/**
+	 * Finds the frets in used for each line. In other words, ignoring
+	 * spacers ("-" or "|") this returns arrays of numbers, the frets
+	 * in use, for each line.
+	 * @method getFretNumbers
+	 * @private
+	 * @param ukeStrings {array<string>}
+	 * @return {void}
+	 */
+	var getFretNumbers= function(ukeStrings) {
+		// first, get the frets
+		var reInts = /([0-9]+)/g;
+		var frets = [];
+		for (var i = 0; i < NUM_STRINGS; i++) {
+			frets[i] = ukeStrings[i].match(reInts);
+		}
+		return frets;
+	};
+
+	/**
+	 * Returns array of the strings with placeholders instead of the numbers.
+	 * This helps us pack because "12" and "7" now occupy the same space horizontally.
+	 * @method getSymbols
+	 * @private
+	 * @param ukeStrings {array<string>}
+	 * @return {void}
+	 */
+	var getSymbols= function(ukeStrings) {
+		// convert to symbols
+		var reDoubles = /([0-9]{2})/g;
+		var reSingle = /([0-9])/g;
+		var symbols = [];
+		// TODO: verify why using NUM_STRINGS instead of ukeStrings.length (appears in other methods, again, do you recall why?)
+		for (var i = 0; i < NUM_STRINGS; i++) {
+			symbols[i] = ukeStrings[i].replace(reDoubles, '-*');
+			symbols[i] = symbols[i].replace(reSingle, '*');
+		}
+		return symbols;
+	};
+
+	/**
+	 * Run through all of the strings (array) and return the length of the shortest one.
+	 * would prefer the max length, but then I'd need to pad the shorter ones and ... well, it's complicated.
+	 * this gets a TODO: get max!
+	 * @method getMinLineLength
+	 * @private
+	 * @param ukeStrings {array<string>}
+	 * @return {void}
+	 */
+	var getMinLineLength = function(ukeStrings){
+		var minLength = 0;
+		var line;
+		var re = /-+$/gi;
+
+		for (var i = 0; i < ukeStrings.length; i++) {
+			line = ukeStrings[i].trim().replace(re, '');
+			if (line.length > minLength){
+				minLength = line.length;
+			}
+		}
+		return minLength;
+	};
+
+	/**
+	 * OK, having created symbolic representations for the lines in earlier steps
+	 * here we go through and "merge" them into a single, master "guide" -- saying
+	 * "somewhere on this beat you'll pluck (or not) one note". This normalized
+	 * guide will be the master for the next step.
+	 * @method getGuideLine
+	 * @private
+	 * @param symbols {undefined}
+	 * @param minLength {int}
+	 * @return {void}
+	 */
+	var getGuideLine= function(symbols, minLength) {
+		// Build a master pattern "guide" and eliminate double dashes
+		var guide = '';
+		for (var i = 0; i < minLength; i++) {
+			if (symbols[0][i] == '|') {
+				guide += '|';
+			}
+			else {
+				// TODO: assumes 4 strings, use NUM_STRINGS
+				guide += ((symbols[0][i] == '*') || (symbols[1][i] == '*') || (symbols[2][i] == '*') || (symbols[3][i] == '*')) ? '*' : '-';
+			}
+		}
+		var reDash = /--/g;
+		guide = guide.replace(reDash, '- ');
+		reDash = / -/g;
+		var lastGuide = guide;
+		while (true) {
+			guide = guide.replace(reDash, '  ');
+			if (guide == lastGuide) {
+				break;
+			}
+			lastGuide = guide;
+		}
+		return guide;
+	};
+
+	/**
+	 * Using the packed "guide" line we loop over the strings, rebuilding each string
+	 * with either a space, measure marker, or the note -- as an integer! Now the frets
+	 * are the same regardless of whether they are single or double digit numbers:
+	 * a "12" occupies no more horizontal space than a "5".
+	 * @method getPackedLines
+	 * @private
+	 * @param frets {undefined}
+	 * @param symbols {undefined}
+	 * @param guide {undefined}
+	 * @param minLength {int}
+	 * @return {void}
+	 */
+	var getPackedLines= function(frets, symbols, guide, minLength) {
+		// pack it!
+		var packed = [],
+		chrNote = '', // a temp variable to hold the 'note'
+		guideIdx, // loop index for guide string
+		stringIdx, // loop index for instrument's strings (uke's 4)
+		lineIdx,  // index to single line within packed array (along a string)
+		fretCount; // fret marker counter
+
+		for (stringIdx = 0; stringIdx < NUM_STRINGS; stringIdx++) {
+			packed.push([]);
+		}
+
+		for (stringIdx = 0; stringIdx < NUM_STRINGS; stringIdx++) { // loop over lines
+			lineIdx = 0;
+			fretCount = 0;
+			for (guideIdx = 0; guideIdx < minLength; guideIdx++) { // loop over guide
+				if (guide[guideIdx] != ' ') {
+					if (symbols[stringIdx][guideIdx] == '*') {
+						chrNote = frets[stringIdx][fretCount];
+						fretCount++;
+					}
+					else {
+						chrNote = ((guide[guideIdx] == '|')) ? '|' : '-';
+					}
+					packed[stringIdx][lineIdx] = chrNote;
+					lineIdx++;
+				}
+			}
+		}
+		return packed;
+	};
+
+	/**
+	 * Create the staff -- really the four tablature strings
+	 * @method drawStaff
+	 * @private
+	 * @param ctx {canvasContext} Handle to active canvas context
+	 * @param pos {xyPos} JSON (x,y) position
+	 * @param length {int} Length in pixels
+	 * @param settings {settingsObj}
+	 * @return {voie}
+	 */
+	var drawStaff= function(ctx, pos, length, settings) {
+		var offset = settings.lineWidth / 2;
+		var x = pos.x + offset;
+		var y = pos.y + offset;
+		ctx.beginPath();
+		for (var i = 0; i < NUM_STRINGS; i++) {
+			ctx.moveTo(x, y);
+			ctx.lineTo(x + length, y);
+			y += settings.lineSpacing;
+		}
+		ctx.strokeStyle = settings.lineColor;
+		ctx.lineWidth = settings.lineWidth;
+		ctx.stroke();
+		ctx.closePath();
+	};
+
+	/**
+	 * Loop over the normalized tabs emitting the dots/fingers on the passed in canvase
+	 * @method drawNotes
+	 * @private
+	 * @param ctx {canvasContext} Handle to active canvas context
+	 * @param pos {xyPos} JSON (x,y) position
+	 * @param tabs {array} Array of normalized string data -- space (character) or int (fret number)
+	 * @param settings {settingsObj}
+	 * @param lineWidth {int} Length in pixels (used only when line ends with a measure mark)
+	 * @return {void}
+	 */
+	var drawNotes= function(ctx, pos, tabs, settings, lineWidth) {
+		var c;
+		var center = {
+			x: 0,
+			y: pos.y
+		};
+
+		for (var strIdx in tabs) {
+			if (strIdx > 3) {
+				return;
+			}
+			center.x = pos.x;
+			for (var chrIdx in tabs[strIdx]) {
+				c = tabs[strIdx][chrIdx];
+				// (c != '-'){
+				if (c == '|') {
+					var jnum = parseInt(chrIdx, 10);
+					var heavy = (((jnum + 1) < (tabs[strIdx].length - 1)) && (tabs[strIdx][jnum + 1] == '|')) || ((jnum == (tabs[strIdx].length - 1)) && (tabs[strIdx][jnum - 1] == '|'));
+					drawMeasure(ctx, {
+						x: (chrIdx == tabs[strIdx].length - 1) ? pos.x + lineWidth : center.x,
+						y: pos.y
+					}, settings, heavy);
+				}
+				else if (!isNaN(c)) {
+					ukeGeeks.canvasTools.drawDot(ctx, center, settings.dotRadius, settings.dotColor);
+					ukeGeeks.canvasTools.drawText(ctx, {
+						x: center.x,
+						y: (center.y + 0.5 * settings.dotRadius)
+					}, c, settings.textFont, settings.textColor);
+				}
+				center.x += settings.noteSpacing;
+			}
+			center.y += settings.lineSpacing;
+		}
+	};
+
+	/**
+	 * Draws a vertical "measure" demarcation line
+	 * @method drawMeasure
+	 * @private
+	 * @param ctx {canvasContext} Handle to active canvas context
+	 * @param pos {xyPos} JSON (x,y) position
+	 * @param settings {settingsObj}
+	 * @param heavy {bool} if TRUE hevy line
+	 * @return {void}
+	 */
+	var drawMeasure= function(ctx, pos, settings, heavy) {
+		var offset = settings.lineWidth / 2;
+		ctx.beginPath();
+		ctx.moveTo(pos.x + offset, pos.y);
+		ctx.lineTo(pos.x + offset, pos.y + (NUM_STRINGS - 1) * settings.lineSpacing);
+		ctx.strokeStyle = settings.lineColor;
+		ctx.lineWidth = (heavy ? 4.5 : 1) * settings.lineWidth;
+		ctx.stroke();
+		ctx.closePath();
+	};
+
+	/**
+	 * Adds the string letters on the left-side of the canvas, before the tablature string lines
+	 * @method drawLabels
+	 * @private
+	 * @param ctx {canvasContext} Handle to active canvas context
+	 * @param pos {xyPos} JSON (x,y) position
+	 * @param settings {settingsObj}
+	 * @return {void}
+	 */
+	var drawLabels= function(ctx, pos, settings) {
+		// ['A','E','C','G'];
+		var labels = ukeGeeks.settings.tuning.slice(0).reverse();
+		for (var i = 0; i < NUM_STRINGS; i++) {
+			ukeGeeks.canvasTools.drawText(ctx, {
+				x: 1,
+				y: (pos.y + (i + 0.3) * settings.lineSpacing)
+			}, labels[i], settings.labelFont, settings.lineColor, 'left');
+		}
+	};
+
+	/* return our public interface */
+	return {
+		init: init,
+		replace: replace
+	};
+};
+
+;/**
+ * Singleton to correct overlapping chord names/diagrams in songs rendered by UGS
+ * @class overlapFixer
+ * @namespace ukeGeeks
+ * @project UkeGeeks' Scriptasaurus
+ * @singleton
+ */
+ukeGeeks.overlapFixer = (function() {
+
+	// private
+	// ---------------------------
+	var _public = {};
+
+	/**
+	 * returns TRUE if Box A overlaps Box B. Detailed horizontal check, we "cheat" the
+	 * vertical check by assuming that tops must be equal to collide (a simplification
+	 * over a full height check.)
+	 * @method checkOverlap
+	 * @param  {object} "a" box
+	 * @param  {object} "b" box
+	 * @return {boolean}
+	 */
+	var checkOverlap = function(a, b) {
+		// "cheat" vertical check
+		if (a.top != b.top) {
+			return false;
+		}
+
+		if ((b.left > a.right) || (b.right < a.left)) {
+			//overlap not possible
+			return false;
+		}
+		if ((b.left > a.left) && (b.left < a.right)) {
+			return true;
+		}
+		if ((b.right > a.left) && (b.right < a.right)) {
+			return true;
+		}
+		return false;
+	};
+
+
+	/**
+	 * returns object with width and left & right offsets
+	 * @method getBox
+	 * @param  {DOM_element} element to be measured
+	 * @return {object}
+	 */
+	var getBox = function(ele) {
+		var box = getOffsets(ele);
+		box.width = getWidth(ele);
+
+		// due to how CSS & HTML is defined it's possible that the <em> wrapping the
+		// chord name is actually wider than the <strong>, let's check.
+		// BTW: this will happen on the "mini-chord diagram" option
+		var em = ele.getElementsByTagName('em')[0];
+		if (em) {
+			var emWidth = getWidth(em);
+			if (emWidth > box.width) {
+				//console.log('box strong.width: ' + box.width + 'px, em.width: ' + emWidth +'px');
+				box.width = emWidth + 2;
+			}
+		}
+
+		box.right = box.left + box.width;
+		return box;
+	};
+
+	/**
+	 * source: http://www.cjboco.com/blog.cfm/post/determining-an-elements-width-and-height-using-javascript/
+	 * @method getWidth
+	 * @param  {DOM_element} element to be measured
+	 * @return {int}
+	 */
+	var getWidth = function(ele) {
+		if (typeof ele.clip !== "undefined") {
+			return ele.clip.width;
+		}
+
+		return (ele.style.pixelWidth) ? ele.style.pixelWidth : ele.offsetWidth;
+	};
+
+	/**
+	 * Returns JSON with left, right, top, and width properties. ONLY left and top are calculate,
+	 * width & right need to be added later.
+	 * source: http://stackoverflow.com/questions/442404/dynamically-retrieve-the-position-x-y-of-an-html-element
+	 * @method getOffsets
+	 * @param  {DOM_element} element to be measured
+	 * @return {JSON}
+	 */
+	var getOffsets = function(ele) {
+		var box = {
+			top: 0,
+			left: 0,
+			right: 0,
+			width: 0
+		};
+
+		while (ele && !isNaN(ele.offsetLeft) && !isNaN(ele.offsetTop)) {
+			box.left += ele.offsetLeft - ele.scrollLeft;
+			box.top += ele.offsetTop - ele.scrollTop;
+			ele = ele.offsetParent;
+		}
+
+		return box;
+	};
+
+
+	/**
+	 * checks (and fixes if problem is presetn) two code tags
+	 * @method checkChords
+	 * @param  {[DOM_element]} codeA [description]
+	 * @param  {[DOM_element]} codeB [description]
+	 * @return {void}
+	 */
+	var checkChords = function(codeA, codeB) {
+		var strongA = codeA.getElementsByTagName('strong')[0];
+		var strongB = codeB.getElementsByTagName('strong')[0];
+
+		if (!strongA || !strongB) {
+			return;
+		}
+
+		var boxA = getBox(strongA);
+		var boxB = getBox(strongB);
+
+		if (checkOverlap(boxA, boxB)) {
+			var width = boxA.right - boxB.left + 1;
+			codeA.style.paddingRight = (width < 1 ? 1 : width) + 'px';
+		}
+	};
+
+	/**
+	 * Runs through the element looking for UkeGeek chords (based on HTML) and
+	 * adjust the horizontal spacing if any of the chords overlap.
+	 * @method Fix
+	 * @param  {DOM_element} element containing the UGS HTML song
+	 */
+	_public.Fix = function(ele) {
+		var i,
+			elements = ele.getElementsByTagName('code');
+
+		for (i = 0; i < elements.length; i++) {
+			elements[i].style.paddingRight = '0px';
+		}
+
+		for (i = 0; i < (elements.length - 1); i++) {
+			checkChords(elements[i], elements[i + 1]);
+		}
+	};
+
+	return _public;
+})();
+;/**
+ * Finds page HTML elements & creates ukeGeek objects;
+ * Reads song text, parses, draws choard diagrams.
+ *
+ * @class scriptasaurus
+ * @namespace ukeGeeks
+ * @static
+ * @singleton
+ */
+ukeGeeks.scriptasaurus = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type {Object}
+	 */
+	var _public = {};
+
+	/**
+	 * Preps this class for running
+	 * @method init
+	 * @param isIeFamily {bool} TRUE if UserAgent (Browser to you and me) is Internet Explorer
+	 * @return {void}
+	 */
+	_public.init = function(isIeFamily) {
+		var defs = ukeGeeks.definitions;
+
+		ukeGeeks.settings.environment.isIe = isIeFamily;
+		// TODO: known problem -- need to preload Sorprano chord libarary then we can retune if needed
+		defs.addInstrument(defs.sopranoUkuleleGcea);
+		defs.useInstrument(defs.instrument.sopranoUke);
+		if (ukeGeeks.settings.defaultInstrument != defs.instrument.sopranoUke) {
+			defs.useInstrument(ukeGeeks.settings.defaultInstrument);
+		}
+	};
+
+	/**
+	 * Runs all Scriptasaurus methods using the element Ids defined in the settings class.
+	 * This is your "Do All". See data.song for structure.
+	 * @method run
+	 * @return {songObject}
+	 */
+	_public.run = function() {
+		//console.log('run (Classic Mode)');
+		var handles = _getHandlesFromId();
+		if (!handles || !handles.diagrams || !handles.text || !handles.wrap) {
+			return null;
+		}
+		_errList = [];
+		var song = _runSong(handles);
+		showErrors(_errList[0]);
+		return song;
+	};
+
+	/**
+	 * Same as "run" except runs using class names, this allows you to have multiple songs on a single page.
+	 * @method runByClasses
+	 * @return {Array of songObject}
+	 */
+	_public.runByClasses = function() {
+		var songs = [];
+		var songWraps = ukeGeeks.toolsLite.getElementsByClass(ukeGeeks.settings.wrapClasses.wrap);
+		for (var i = 0; i < songWraps.length; i++) {
+			var handles = _getHandlesFromClass(songWraps[i]);
+			if (handles === null) {
+				continue;
+			}
+			songs.push(_runSong(handles));
+		}
+		return songs;
+	};
+
+	/**
+	 * Is this really nececessary?
+	 * @method setTuningOffset
+	 * @param offset {int} (optional) default 0. Number of semitones to shift the tuning. See ukeGeeks.definitions.instrument.
+	 */
+	_public.setTuningOffset = function(offset) {
+		ukeGeeks.definitions.useInstrument(offset);
+	};
+
+	var _errList = [];
+	// song
+
+	/**
+	 *
+	 * @method _runSong
+	 * @private
+	 * @param handles {ukeGeeks.data.htmlHandles}
+	 * @return {songObj}
+	 */
+	var _runSong = function(handles) {
+		// console.log('run Song');
+
+		// read Music, find chords, generate HTML version of song:
+		var cpm = new ukeGeeks.cpmParser();
+		cpm.init();
+		var song = cpm.parse(handles.text.innerHTML);
+		ukeGeeks.definitions.replace(song.defs);
+
+		var chrdPrsr = new ukeGeeks.chordParser();
+		chrdPrsr.init();
+		handles.text.innerHTML = chrdPrsr.parse(song.body);
+		song.chords = chrdPrsr.getChords();
+
+		// Draw the Chord Diagrams:
+		var painter = new ukeGeeks.chordPainter();
+		painter.init(handles);
+		painter.show(song.chords);
+		// Show chord diagrams inline with lyrics
+		if (ukeGeeks.settings.inlineDiagrams) {
+			ukeGeeks.toolsLite.addClass(handles.wrap, 'ugsInlineDiagrams');
+			painter.showInline(song.chords);
+		}
+
+		// Do Tablature:
+		var tabs = new ukeGeeks.tabs();
+		tabs.init();
+		tabs.replace(handles.text);
+
+		// error reporting:
+		_errList.push(painter.getErrors());
+
+		var container = handles.wrap;
+		if (container) {
+			ukeGeeks.toolsLite.setClass(container, 'ugsNoChords', !song.hasChords);
+		}
+
+		if (ukeGeeks.settings.opts.autoFixOverlaps) {
+			ukeGeeks.overlapFixer.Fix(handles.text);
+		}
+
+		// done!
+		return song;
+	};
+
+	/**
+	 * Shows a JavaScript alert box containing list of unknown chords.
+	 * @method showErrors
+	 * @return {void}
+	 */
+	var showErrors = function(errs) {
+		if (errs.length < 1) {
+			return;
+		}
+
+		//console.log(typeof(errs[0]));
+		var s = '';
+		for (var i = 0; i < errs.length; i++) {
+			s += (s.length > 0) ? ', ' : '';
+			s += errs[i];
+		}
+		alert('Forgive me, but I don\'t know the following chords: ' + s);
+	};
+
+	/**
+	 *
+	 * @method _getHandlesFromClass
+	 * @private
+	 * @param wrap {domElement}
+	 * @return {ukeGeeks.data.htmlHandles}
+	 */
+	var _getHandlesFromClass = function(wrap) {
+		var diagrams = ukeGeeks.toolsLite.getElementsByClass(ukeGeeks.settings.wrapClasses.diagrams, wrap);
+		var text = ukeGeeks.toolsLite.getElementsByClass(ukeGeeks.settings.wrapClasses.text, wrap);
+		if ((diagrams === undefined) || (diagrams.length < 1) || (text === undefined) || (text.length < 1)) {
+			return null;
+		}
+		return new ukeGeeks.data.htmlHandles(wrap, diagrams[0], text[0]);
+	};
+
+	/**
+	 *
+	 * @method _getHandlesFromId
+	 * @private
+	 * @return {ukeGeeks.data.htmlHandles}
+	 */
+	var _getHandlesFromId = function() {
+		return new ukeGeeks.data.htmlHandles(
+			document.getElementById(ukeGeeks.settings.ids.container),
+			document.getElementById(ukeGeeks.settings.ids.canvas),
+			document.getElementById(ukeGeeks.settings.ids.songText)
+		);
+	};
+
+	return _public;
+}());
 /**
  * <ul>
  * <li>Project: UkeGeeks' Song-a-matic Editor</li>
@@ -95,93 +7079,4744 @@ e),n=ukeGeeks.toolsLite.getElementsByClass(ukeGeeks.settings.wrapClasses.text,e)
  * @main ugsEditorPlus
  **/
 var ugsEditorPlus = window.ugsEditorPlus || {};
-;ugsEditorPlus.options={useLegacyIe:!1,showEditOnLoad:!0,fontSize:12,diagramSize:100,diagramPosition:"left",lyricStyle:"above",paper:"letter",theme:"normal",tuning:"soprano",hideChordEnclosures:!1,sortAlphabetical:!1,ignoreCommonChords:!1,commonChords:[]};
-ugsEditorPlus.actions=function(){var b={},c={},a=null,h=null,g=[],d=/^([A-G][#b]?)(m|m6|7|m7|dim|maj7|6|sus2|sus4|aug|9)?$/,f={placement:"above",transpose:"up_0"};b.init=function(){c={songText:document.getElementById("ukeSongText"),songContainer:document.getElementById("ukeSongContainer"),cpmSource:document.getElementById("chordProSource"),scalableArea:document.getElementById("scalablePrintArea")};$(document).on("option:click",function(a,l){var t=l.action,f=l.value,x=!1;switch(t){case "zoomFonts":s(f);
-break;case "zoomDiagrams":v(f);break;case "layout":m(f);break;case "placement":x=n(f);break;case "tuning":e(f);x=!0;break;case "colors":ugsEditorPlus.themes.set(f);x=!0;break;case "transpose":t="u"==f[0]?1:-1;f=parseInt(f[f.length-1],10);var f=t*f,z=[],t="",r;for(r=0;r<g.length;r++)d.test(g[r])?z.push(g[r]):t+=g[r]+", ";if(!(0<t.length)||confirm("Sorry, but some of your chords can't be transposed:\n"+t+"\n\nDo you want to continue anyway?")){var y=ukeGeeks.transpose.shiftChords(z,f),t=h,u;for(r=0;r<
-z.length;r++)u=RegExp("\\["+z[r]+"\\]","g"),t=t.replace(u,"[ugsxx_"+r+"]");for(r=0;r<y.length;r++)u=RegExp("\\[ugsxx_"+r+"\\]","g"),t=t.replace(u,"["+y[r]+"]");u=/^\s*\{\s*(key|k)\s*:\s*(\S*?)\s*\}\s*$/im;u.test(t)&&(z=t.match(u),r=z[2],""!==r&&d.test(r)&&(t=t.replace(u,z[0].replace(r,ukeGeeks.transpose.shift(r,f)))));c.cpmSource.value=t;b.run()}break;case "paper":k(f);break;case "showEnclosures":ukeGeeks.settings.opts.retainBrackets=f;x=!0;break;case "hideCommonChords":ukeGeeks.settings.opts.ignoreCommonChords=
-f;x=!0;break;case "sortAlphabetical":ukeGeeks.settings.opts.sortAlphabetical=f;x=!0;break;case "setCommonChords":p(f);x=ukeGeeks.settings.opts.ignoreCommonChords;break;case "update":b.run(!0);break;default:console.log("Unrecognized "+t+" > "+f)}x&&b.run()});l(ugsEditorPlus.options)};var l=function(a){s(a.fontSize);v(a.diagramSize);m(a.diagramPosition);k(a.paper);ugsEditorPlus.themes.set(a.theme);e(a.tuning);n(a.lyricStyle);ukeGeeks.settings.opts.retainBrackets=!a.hideChordEnclosures;ukeGeeks.settings.opts.ignoreCommonChords=
-a.ignoreCommonChords;p(a.commonChords);ukeGeeks.settings.opts.sortAlphabetical=a.sortAlphabetical};b.run=function(m){m=0<arguments.length&&m;c.songText.innerHTML="<pre>"+c.cpmSource.value+"</pre>";a=ukeGeeks.scriptasaurus.run();1>a.chords.length&&ugsEditorPlus.autoReformat.run(c);if(a&&(ugsEditorPlus.songUi.update(a),m||null===h)){h=c.cpmSource.value;g=a.chords;var e=""!==a.key?a.key:1>a.chords.length?"":a.chords[0],d=document.getElementById("transposeOptions").getElementsByTagName("li"),b,n=-6;f.transpose=
-"up_0";ugsEditorPlus.submenuUi.resetTransposeLabel();for(var k=0;k<d.length;k++)ukeGeeks.toolsLite.removeClass(d[k],"checked"),b=1>e.length?"":ukeGeeks.transpose.shift(e,n),d[k].getElementsByTagName("em")[0].innerHTML=b,0===n&&ukeGeeks.toolsLite.addClass(d[k],"checked"),n++}};var s=function(a){a=parseFloat(a,10);c.scalableArea.style.fontSize=a+"pt"},v=function(a){a=parseInt(a,10)/100;var m=Math.round(225*a),c=ugsEditorPlus.styles.getSheet("ugsEditorCss"),e=c.find(".scalablePrintArea .ugs-diagrams-wrap canvas");
-e.style.width=Math.round(a*ukeGeeks.settings.fretBox.width)+"px";e.style.height=Math.round(a*ukeGeeks.settings.fretBox.height)+"px";e=c.find(".scalablePrintArea .ugs-diagrams-wrap");e.style.width=m+"px";e=c.find(".scalablePrintArea .ugs-source-wrap");e.style.marginLeft=25+m+"px"},m=function(a){$("body").toggleClass("diagramsOnTop","top"==a).toggleClass("diagramsOnSide","left"==a).toggleClass("ugsHideDiagrams","none"==a)},n=function(a){var m=!1;ukeGeeks.toolsLite.setClass(c.songContainer,"ugsInline",
-"inline"==a);var e="miniDiagrams"==a;e||ukeGeeks.toolsLite.removeClass(c.songContainer,"ugsInlineDiagrams");e||"miniDiagrams"==f.placement?(ukeGeeks.settings.inlineDiagrams=e,m=!0):e||"miniDiagrams"==f.placement||ukeGeeks.overlapFixer.Fix(c.songText);f.placement=a;return m},k=function(a){for(var m=["letter","a4","screen"],c=$("body"),e=0;e<m.length;e++)c.removeClass("pageWidth_"+m[e]);c.addClass("pageWidth_"+a)},e=function(a){var m=ukeGeeks.definitions.instrument.sopranoUke,c="Standard <strong>GCEA</strong> Soprano Ukulele";
-"baritone"==a&&(m=ukeGeeks.definitions.instrument.baritoneUke,c="Standard <strong>DGBE</strong> Baritone Ukulele");$("#footTuningInfo").html(c);ukeGeeks.scriptasaurus.setTuningOffset(m)},p=function(a){if("string"==typeof a){a=a.split(/[ ,]+/);for(var m=[],c=0;c<a.length;c++){var e=ukeGeeks.toolsLite.trim(a[c]);0<e.length&&m.push(e)}a=m}ukeGeeks.settings.commonChords=a};return b}();
-ugsEditorPlus.songUi=function(){var b={},c=function(a,c){var b=c&&0<c.length,d=document.getElementById(a);d&&(d.innerHTML=b?c:"",d.style.display=b?"block":"none")};b.update=function(a){var b=document.getElementById("songTitle");b.innerHTML=0<a.title.length?a.title:"Untitled-Song";c("songArtist",a.artist);c("songAlbum",a.album);c("songSubtitle",a.st);b=document.getElementById("songMeta");if(!a.ugsMeta||1>a.ugsMeta.length)b.style.display="none";else{for(var g="",d=0;d<a.ugsMeta.length;d++)g+="<p>"+
-a.ugsMeta[d]+"</p>";b.innerHTML=g;b.style.display="block"}};return b}();
-ugsEditorPlus.styles=function(){var b={Rules:null},c=null;b.getSheet=function(a){a:{for(var h=0;h<document.styleSheets.length;h++)if(document.styleSheets[h].title==a){c=document.styleSheets[h];break a}c=null}a=null==c?[]:c.cssRules?c.cssRules:c.rules;b.Rules=a;return this};b.find=function(a){a=a.toLowerCase();for(var c=0;c<b.Rules.length;c++)if(b.Rules[c].selectorText&&b.Rules[c].selectorText.toLowerCase()==a)return b.Rules[c];return null};return b}();
-ugsEditorPlus.themes=function(){var b={},c={normal:{name:"Normal (white paper)",selectText:"Normal colors (white paper)",description:"Simple, legible text on white paper",song:{fretLines:"#003366",dots:"#ff0000",dotText:"#ffffff",text:"#000000",fretText:"#4a4a4a"},tabs:{lines:"#999999",dots:"#eaeaea",text:"#000000"}},reversed:{name:"Reversed for projectors",selectText:"Reversed colors (for projectors)",description:"Light text on dark background",song:{fretLines:"#365F70",dots:"#FDD96F",dotText:"#000000",
-text:"#FF6040",fretText:"#999999"},tabs:{lines:"#365F70",dots:"#FDD96F",text:"#000000"}},frosty:{name:"Frostcicle",selectText:"Frostcicle (cool blue)",description:"Brrrr... icy cool blues",song:{fretLines:"#66B4CC",dots:"#332335",dotText:"#9FE1F9",text:"#0896FE",fretText:"#E3D8BA"},tabs:{lines:"#6699FF",dots:"#EFFCF9",text:"#00558E"}},jellyBean:{name:"Jelly Beans",selectText:"Jelly Beans (vibrant)",description:"Sugary, vibrant bowl of jelly beans!",song:{fretLines:"#49BC45",dots:"#FF9417",dotText:"#FCF49F",
-text:"#D20070",fretText:"#4a4a4a"},tabs:{lines:"#6699FF",dots:"#FFF9BA",text:"#75003E"}},justBlack:{name:"Just Black",selectText:"Black (for laser printers)",description:"No color, but black, best for B&W laser printers",song:{fretLines:"#cccccc",dots:"#000000",dotText:"#ffffff",text:"#000000",fretText:"#000000"},tabs:{lines:"#cccccc",dots:"#000000",text:"#ffffff"}},krampus:{name:"Gruss vom Krampus",selectText:"Krampus (Ye Olde Christmas)",description:"Seasons Greetin's, Happy Holidays, Merry Christmas, Krampus Nichte!",
-song:{fretLines:"#929867",dots:"#A22C27",dotText:"#EBD592",text:"#4F2621",fretText:"#4a4a4a"},tabs:{lines:"#B69C01",dots:"#E1EEC8",text:"#75003E"}},western:{name:"Out West",selectText:"Out West (dust country)",description:"Dusty Honky Tonk/Country/Western look",song:{fretLines:"#B5A679",dots:"#CF8300",dotText:"#ffffff",text:"#386571",fretText:"#4a4a4a"},tabs:{lines:"#697665",dots:"#F1E3C5",text:"#632424"}},pumpkin:{name:"Pumpkin Pie",selectText:"Pumpkin Pie (fall colors)",description:"Fall 'n Halloween 'n Jack o'Lantern 'n Thanksgiving Fun",
-song:{fretLines:"#8E9A6C",dots:"#DA6328",dotText:"#FFEE4A",text:"#68391D",fretText:"#B14623"},tabs:{lines:"#BED379",dots:"#FFF4D8",text:"#B14623"}},notebook:{name:"Rock Notebook",selectText:"Rock Notebook (marker)",description:"A strong, hand-scrawled, and edgily unreliable look",song:{fretLines:"#747CAD",dots:"#1C0866",dotText:"#ffffff",text:"#B22000",fretText:"#A4A0B2"},tabs:{lines:"#A4A0B2",dots:"#F1E3C5",text:"#2E2ECC"}},zombie:{name:"Zombies!!!",selectText:"Zombies!!!",description:"Blood 'n gore for Halloween",
-song:{fretLines:"#9EB036",dots:"#E52501",dotText:"#FEDA79",text:"#798666",fretText:"#B14623"},tabs:{lines:"#602749",dots:"#F7F9EA",text:"#4F5F3E"}}};b.getDescription=function(a){return c[a].selectText};b.loadList=function(a,b){var g="",d;for(d in c)c.hasOwnProperty(d)&&(g+='<li class="'+(d==b?"checked":"")+'"><a href="#'+d+'" title="'+c[d].description+'">'+c[d].name+"</a></li>");$(a).html(g)};b.set=function(a){var b=$("body"),g;for(g in c)c.hasOwnProperty(g)&&b.removeClass("theme-"+g);b.addClass("theme-"+
-a);a=c[a];ukeGeeks.settings.colors=a.song;ukeGeeks.settings.tabs.lineColor=a.tabs.lines;ukeGeeks.settings.tabs.dotColor=a.tabs.dots;ukeGeeks.settings.tabs.textColor=a.tabs.text};return b}();
-ugsEditorPlus.optionsDlg=function(){var b=function(c,a){$.event.trigger("option:click",{action:c,value:a})};return{init:function(){var c,a=ugsEditorPlus.options;document.getElementById("updateBtn").onclick=function(){b("update","");return!1};c=document.getElementById("chkEnclosures");c.checked=a.hideChordEnclosures;c.onclick=function(){b("showEnclosures",!this.checked)};c=document.getElementById("commonChordList");c.value="string"==typeof a.commonChords?a.commonChords:a.commonChords.join(", ");c.onchange=
-function(){b("setCommonChords",this.value)};if(c=document.getElementById("chkSortAlpha"))c.checked=a.sortAlphabetical,c.onclick=function(){b("sortAlphabetical",this.checked)};c=document.getElementById("chkIgnoreCommon");c.checked=a.ignoreCommonChords;c.onclick=function(){b("hideCommonChords",this.checked)};$(".checkboxBlock label, input[type=checkbox]").click(function(a){a.stopPropagation()});$(".overlay").draggable({handle:"hgroup"})}}}();var ugsEditorPlus=window.ugsEditorPlus||{};
-ugsEditorPlus.reformat=function(){var b={},c=!1,a=function(){this.source="";this.spaceCount=this.wordCount=0;this.words=[];this.lineType=this.chordCount=0},h=/\b(\S+)\b/gi,g=/(\s+)/g,d=/(^\s+)/,f=/\b[A-G][#b]?(m|m6|m7|m9|dim|dim7|maj7|sus2|sus4|aug|6|7|9|add9|7sus4)?\b/,l=/\b(\S+\s*)/g,s=/^\s*(\|{0,2}[A-Gb]?\|{0,2}[-x0-9|:]{4,})/;b.run=function(b){c=!1;var m=[];b=b.replace("\t","    ");b=b.split("\n");for(var n=0;n<b.length;n++){var k=b[n].match(h),e=new a;e.source=b[n];if(null!=k&&0<k.length){e.wordCount=
-k.length;e.words=k;for(var p=e,q=0,w=0;w<k.length;w++)k[w].match(f)&&q++;p.chordCount=q}p=b[n].match(g);null!=p&&0<p.length&&(e.spaceCount=p.length);p=e;k=e;1>k.spaceCount+k.wordCount?k=0:null!=k.source.match(s)?k=3:(q=2,0<k.chordCount&&k.wordCount==k.chordCount&&(q=1,c=!0),k=q);p.lineType=k;m.push(e)}n="";for(b=0;b<m.length;)if(e=m[b],p=m[b+1],b++,p&&0!=e.lineType){if(k=3==e.lineType)a:if(b+3>=m.length)k=!1;else{for(k=b;k<b+3;k++)if(3!=m[k].lineType){k=!1;break a}k=!0}if(k)n+="{start_of_tab}\n"+
-e.source.replace(d,"")+"\n"+p.source.replace(d,"")+"\n"+m[b+1].source.replace(d,"")+"\n"+m[b+2].source.replace(d,"")+"\n{end_of_tab}\n",b+=3;else if(1!=e.lineType||2!=p.lineType){if(1==e.lineType){e=e.source.replace(g," ").split(" ");p="";for(k=0;k<e.length;k++)0<e[k].length&&(p+="["+e[k]+"] ");e=p+"\n"}else e=e.source+"\n";n+=e}else{b++;q=e.source;for(e=p.source;e.length<q.length;)e+=" ";p="";k=q.match(l);w=q.match(d);q=0;w&&(p+=e.substr(q,w[0].length),q=w[0].length);for(w=0;w<k.length;w++)p+="["+
-k[w].replace(g,"")+"]"+e.substr(q,k[w].length),q+=k[w].length;q<e.length&&(p+=e.substr(q,e.length));n+=p+"\n"}}else n+=e.source+"\n";return n};b.hasChords=function(){return c};return b}();
-ugsEditorPlus.autoReformat=function(){var b={},c={},a,h=!1;b.run=function(b){h||(c=b,c.reformatTextBox=document.getElementById("reformatSource"),c.reformatDlg=document.getElementById("reformatDlg"),document.getElementById("reformatYesBtn").onclick=function(){c.cpmSource.value=a;g();ugsEditorPlus.actions.run(!0);return!1},document.getElementById("reformatNoBtn").onclick=function(){g();return!1},b=document.getElementById("reformatDisable"),b.checked=!1,b.onclick=function(){h=this.checked},a=ugsEditorPlus.reformat.run(c.cpmSource.value),
-c.reformatTextBox.innerHTML=a,ugsEditorPlus.reformat.hasChords()&&ukeGeeks.toolsLite.removeClass(c.reformatDlg,"isHidden"))};var g=function(){ukeGeeks.toolsLite.addClass(c.reformatDlg,"isHidden")};return b}();
-ugsEditorPlus.topMenus=function(){var b=function(){var a=$(this).parent(),b=a.hasClass("active");c();b||a.addClass("active")},c=function(){$("#ugsAppToolbar > ul > li").removeClass("active")},a=function(){c();$(".arrowBox").hide()},h=function(c){a();c=$(this).data("dialog");$("#"+c).fadeIn();return!1},g=function(a){$(this).parents(".overlay").fadeOut();return!1},d=function(c){a();c=$(this).parents(".overlay");ugsEditorPlus.resize.toggle(c);return!1},f=function(a){a=$(this).attr("href");$(".arrowBox").not(a).hide();
-a=$(a);a.find("dd").hide();a.fadeToggle();ugsEditorPlus.submenuUi.reset(a);return!1};return{init:function(){$("#ugsAppToolbar > ul li").not("[data-dialog]").children("a").click(b);$(".showOptionsBox a").click(f);$("#ugsAppToolbar > ul li[data-dialog]").click(h);$(".closeBtn").click(g);$(".resizeBtn").click(d)},makeAllInactive:c}}();
-ugsEditorPlus.submenuUi=function(){var b={},c=null;b.init=function(){ugsEditorPlus.themes.loadList("#colorPicker .pseudoSelect",ugsEditorPlus.options.theme);$(".enablePseudoSelects label").click(g);$(".pseudoSelect li").click(a);$("body").bind("click",l);$(".arrowBox").click(f);for(var c=ugsEditorPlus.options,b,d=[{action:"zoomFonts",value:c.fontSize},{action:"zoomDiagrams",value:c.diagramSize},{action:"layout",value:c.diagramPosition},{action:"paper",value:c.paper},{action:"colors",value:c.theme},
-{action:"tuning",value:c.tuning},{action:"placement",value:c.lyricStyle}],e=d.length-1;0<=e;e--)c=$("[data-action="+d[e].action+"] a[href=#"+d[e].value+"]").closest("li"),b=c.closest("dd").attr("id"),h(c),$("label[for="+b+"] span").text(v(d[e].action,d[e].value,c))};var a=function(a){a=$(this);var b;b=a.children().attr("href");b="#"==b[0]?b.substr(1):b;var k=a.parents("dd"),e=k.attr("id"),k=k.data("action");$("#"+e).hide();h(a);d(this,!1);c=null;$("label[for="+e+"] span").text(v(k,b,a));$("label[for="+
-e+"]").parents("dt").removeClass("active");$.event.trigger("option:click",{action:k,value:b});return!1},h=function(a){a&&(a.siblings().removeClass("checked"),a.addClass("checked"))},g=function(a){a=$(this);var b=a.attr("for");a.closest("dl").children("dt").removeClass("active");a.closest("dt").addClass("active");$("#"+b).show();d(this,!0);null!==c&&$("#"+c.id).hide();c=null!==c&&c.id==b?null:{id:b};return!1};b.reset=function(a){a.find("dt").removeClass("active");a.find(".event-userSelecting").removeClass("event-userSelecting")};
-var d=function(a,c){$(a).parents(".enablePseudoSelects").toggleClass("event-userSelecting",c)},f=function(a){if(!$(a.target).is("a"))return $(this).find("dd").hide(),c=null,!1},l=function(a){$(".arrowBox").fadeOut(270);ugsEditorPlus.topMenus.makeAllInactive()},s={zoomDiagrams:["Tiny","Small","Medium","Large","Stupid Large"],layout:["Reference diagrams on left","Reference diagrams at top","No reference diagrams"],placement:["Chord names inline with lyrics","Chord names above lyrics","Names & diagrams above lyrics"],
-tuning:["Soprano (GCEA) tuning","Baritone (DBEA) tuning"]},v=function(a,c,b){var e=b.index();switch(a){case "paper":return"Width "+b.text();case "zoomFonts":return"Font size "+c+"pt";case "zoomDiagrams":return s.zoomDiagrams[e]+" diagrams";case "colors":return ugsEditorPlus.themes.getDescription(c);case "transpose":return"up_0"==c?"Original key":b.text().replace(" ",' steps - "')+'"';default:return s[a][e]}};b.resetTransposeLabel=function(){$("label[for=transposePicker] span").text("Original key")};
-return b}();
-ugsEditorPlus.newSong=function(){var b={},c=!1,a="";b.init=function(b){a=b;$("#newSongBtn").click(function(a){a=$("#songTitle");var c=a.val().trim();a.val(c);a=2<c.length;g(!a,"Song's title is required<br/><em>(you may change it later, must be at least 2 characters)</em>");a&&h()});$("#openNewDlgBtn").click(function(a){$("#songTitle, #songArtist").val("");$("#newSongForm").fadeIn();$("#songTitle").focus()});$("#hideNewSongBtn").click(d);$("#newSongForm").bind("keydown",f);var s=$("#loadingSpinner");s.hide();
-$(document).ajaxStart(function(){s.show();c=!0}).ajaxStop(function(){s.hide();c=!1})};var h=function(){if(!c){var b={handler:"ugs_new",songTitle:$("#songTitle").val(),songArtist:$("#songArtist").val()};$.ajax({url:a,type:"POST",dataType:"json",data:JSON.stringify(b),success:function(a){g(a.HasErrors,a.Message);a.HasErrors||(document.location.href=a.ContinueUri)},error:function(a){g(!0,"Failed to create the song file.<br/>Please have your admin check the CPM directory permissions.")}})}},g=function(a,
-c){var b=$("#newSongForm .errorMessage");a?(b.show().html(c),$("#songTitle").focus()):b.hide()},d=function(a){$("#newSongForm").fadeOut()},f=function(a){27==a.which&&d()};return b}();
-ugsEditorPlus.updateSong=function(){var b={},c="",a="",h=!1;b.init=function(b,f){c=b;a=f;$("#saveBtn").click(function(a){g();return!1});$("#messageBox").hide();$(document).ajaxStart(function(){$("#sourceFeedback").hide().html();$("#messageBox").slideDown("fast");$("#loadingSpinner").show();h=!0}).ajaxStop(function(){$("#messageBox").delay(3E3).fadeOut("slow");h=!1})};var g=function(){if(!h){$("#sourceFeedback").show();var b={handler:"ugs_update_81jr",filename:a,song:$("#chordProSource").val()};$.ajax({url:c,
-type:"POST",dataType:"json",contentType:"application/json; charset=utf-8",data:JSON.stringify(b),success:function(a){a=a.Message;$("#loadingSpinner").hide();$("#sourceFeedback").show().html(a)},error:function(a){alert("Encountered a problem saving your Song. Please copy your song to another program until this issue is resolved.")}})}};return b}();
-ugsEditorPlus.typeahead=function(){var b={},c=[],a={},h="",g,d=[],f=/\s{2,}/g,l=/([^a-z0-9]+)/gi,s=/['`\u2019-]/g,v=function(){$("li").each(function(b){var e=$(this);b=m(e.text());var d=e.children("a").attr("href"),k=d.toLowerCase(),e=e.children("a").html(),e=e.replace('<strong class="','<span class="bigger ').replace("</strong>","</span>");a[k]={html:e,searchText:b,code:k,href:d};c.push(k)})},m=function(a){return a.toLowerCase().replace(s,"").replace(l," ").replace(f," ").trim()},n=function(a,b){h=
-m(a);d=h.split(" ");for(var e="",k=0;k<d.length;k++)d[k]=d[k].trim(),0<d[k].length&&(e+=(0<e.length?"|":"")+d[k]);g=RegExp("("+e+")","gi");b(c)},k=function(c){window.location=a[c].href;return a[c].searchText},e=function(c){c=a[c];for(var b=0;b<d.length;b++)if(-1==c.searchText.indexOf(d[b]))return!1;return!0},p=function(c){return c.sort(function(c,b){return a[c].searchText>a[b].searchText})},q=function(c){c=$("<div/>").html(a[c].html);$("em, .bigger",c).each(function(a){a=$(this);var c=a.html();a.html(c.replace(g,
-"<strong>$1</strong>"))});return c.html()};b.initialize=function(){v();$("#quickSearch").typeahead({source:n,updater:k,matcher:e,sorter:p,highlighter:q,minLength:2,items:50}).val("").focus()};return b};
-ugsEditorPlus.resize=function(){var b={},c=null,a=null,h=null,g=null,d=!1,f=!1,l=function(b){c=$(b);$("body").append('<div id="aceHeader"><button class="aceSideBtn" title="Show options &amp; help"><span></span><span></span><span></span></button><strong>Edit Song</strong><a href="#exit-fullscreen">Exit fullscreen</a></div><div id="aceEditor"></div><div id="aceHelp"></div>');a=$("#aceEditor");a.fadeOut(1);h=$("#aceHelp");$("#aceHeader a").click(function(a){a.preventDefault();e()});$("#aceHeader button").click(s)},
-s=function(a){a.preventDefault();v(!f)},v=function(c){(f=c)?(h.animate({left:0},400),a.animate({left:"350px"},400)):(h.animate({left:"-350px"},400),a.animate({left:0},400))},m=function(a){var c="",b,e;a=a.toLowerCase();$("script").each(function(d,m){b=m.src.toLowerCase();e=b.indexOf(a);0<e&&(c=m.src.substr(0,e))});return c},n=function(){d=!0;$("html").addClass("aceEditorActive");$(".overlay").fadeOut(300);if(null!==g)k();else{var a=m("ugsEditorPlus");LazyLoad.js(a+"/ace/ace.js",function(){g=ace.edit("aceEditor");
-g.setTheme("ace/theme/idle_fingers");g.getSession().setMode("ace/mode/chordpro");g.setOptions({enableBasicAutocompletion:!0,enableSnippets:!0});g.completers=[ugsAce.chordCompleter];k();h.html(ugsAce.helpHtml)})}},k=function(){a.fadeIn(550);g.setValue($("#chordProSource").val());g.gotoLine(1);h.fadeIn(1)},e=function(){d=!1;c.show();a.fadeOut(550);h.fadeOut(550);null!==g&&$("#chordProSource").val(g.getValue());$("html").removeClass("aceEditorActive");v(!1)};b.toggle=function(a){null===c&&l(a);d?e():
-n();return!1};return b}();ugsEditorPlus.chordBuilder=function(){var b={},c=null;b.init=function(){var b=$(".fingerToolImage").css("background-image");ugsChordBuilder.settings.cursor.imageUri=b.replace(/url\("(.*)hand.png"\)/i,"$1hand-cursor.png");c=new ugsChordBuilder.editorUi;c.init();$("#cdBldOpenBtn").click(a)};var a=function(a){a.preventDefault();c.reload();a=$(this).data("dialog");$("#"+a).fadeIn()};return b}();
-ugsEditorPlus.songAmatic=function(){return{init:function(b){b=$.extend(ugsEditorPlus.options,{hideChordEnclosures:!ukeGeeks.settings.opts.retainBrackets,sortAlphabetical:ukeGeeks.settings.opts.sortAlphabetical,ignoreCommonChords:ukeGeeks.settings.opts.ignoreCommonChords,commonChords:ukeGeeks.settings.commonChords},"object"===typeof b?b:{});ukeGeeks.settings.opts.retainBrackets=!b.hideChordEnclosures;$("#songSourceDlg").toggle(b.showEditOnLoad);ukeGeeks.scriptasaurus.init(b.useLegacyIe);ugsEditorPlus.actions.init();
-ugsEditorPlus.topMenus.init();ugsEditorPlus.submenuUi.init();ugsEditorPlus.optionsDlg.init();ugsEditorPlus.chordBuilder.init();ugsEditorPlus.actions.run()}}}();var ugsChordBuilder=window.ugsChordBuilder||{};ugsChordBuilder.entities={BoundingBox:function(b,c){this.x=b?b.x:0;this.y=b?b.y:0;this.width=c?c.width:1;this.height=c?c.height:1},Dot:function(b,c,a){this.string=b;this.fret=c?c:0;this.finger=a?a:0},Position:function(b,c){this.x=b?b:0;this.y=c?c:0}};
-ugsChordBuilder.settings=function(){var b=ugsChordBuilder.entities,c={x:75,y:75},a={numFrets:5,maxFret:16,stringNames:["G","C","E","A"],strokeWidth:4,strokeColor:"#8F8569",fretSpace:35,stringSpace:30},h=function(){return{height:a.fretSpace,width:a.stringSpace}};return{anchorPos:c,cursor:{fillColor:"rgba(220, 216, 73, 0.35)",strokeWidth:1,strokeColor:"#AAB444",radius:9,imageUri:"/img/editor/hand-cursor.png"},fretBoard:a,dot:{fillColor:"#F68014",radius:11,strokeWidth:2,strokeColor:"#D56333",fontWeight:"bold",
-fontFamily:'Arial, "Helvetica Neue", Helvetica, Verdana, sans-serif',fontSize:16,fontColor:"#ffffff"},fretLabel:{fontFamily:'Arial, "Helvetica Neue", Helvetica, Verdana, sans-serif',fontSize:28,color:"#6A6A63",lightColor:"#EAEAE8"},stringLabel:{fontFamily:'Arial, "Helvetica Neue", Helvetica, Verdana, sans-serif',fontSize:34,color:"#DCD849"},chord:{nameMaxLength:20},targetDimensions:h,targetAnchorPos:function(){var g=h();return new b.Position(c.x-0.5*g.width,c.y-g.height-0.2*a.strokeWidth)},centerAnchor:function(b){c.x=
-0.5*b.width-0.5*(a.stringNames.length-1)*a.stringSpace-a.strokeWidth;c.y=0.5*b.height-0.5*a.numFrets*a.stringSpace}}}();
-ugsChordBuilder.tracking=function(){var b=ugsChordBuilder.entities,c=ugsChordBuilder.settings,a={},h=null;a.toDot=function(a){var d=new b.BoundingBox(a),f;h||(f=c.targetDimensions(),f.width*=c.fretBoard.stringNames.length,f.height*=c.fretBoard.numFrets+1,h=new b.BoundingBox(c.targetAnchorPos(),f));f=h;if(!(d.x<f.x+f.width&&d.x+d.width>f.x&&d.y<f.y+f.height&&d.y+d.height>f.y))return null;d=c.targetDimensions();return new b.Dot(Math.floor((a.x-f.x)/d.width),Math.floor((a.y-f.y)/d.height))};return a}();
-ugsChordBuilder.fretDots=function(){var b=ugsChordBuilder.entities,c=ugsChordBuilder.settings.anchorPos,a=ugsChordBuilder.settings.fretBoard,h=ugsChordBuilder.settings.dot,g={},d=[];g.getDots=function(){return d.slice()};g.slide=function(c){var b;a:{for(b=0;b<d.length;b++)if(1>d[b].fret+c||d[b].fret+c>a.numFrets){b=!1;break a}b=!0}if(!b)return!1;for(b=0;b<d.length;b++)d[b].fret+=c;return!0};g.toggleDot=function(a){if(0==a.fret)l(a.string);else{var b=f(a);0>b?d.push(a):d.splice(b,1)}};g.toggleFinger=
-function(a,b){var c=f(a);if(0>c)return!1;d[c].finger=d[c].finger==b?0:b;return!0};g.reset=function(){for(var b=0;b<a.stringNames.length;b++)l(b)};var f=function(a){for(var b=d.length-1;0<=b;b--)if(d[b].string==a.string&&d[b].fret==a.fret)return b;return-1},l=function(a){for(var b=d.length-1;0<=b;b--)d[b].string==a&&d.splice(b,1)};g.draw=function(g){for(var f=d.length-1;0<=f;f--){var m;m=d[f];m=new b.Position(c.x+0.47*a.strokeWidth+m.string*a.stringSpace,c.y+0.47*a.strokeWidth+(m.fret-0.5)*a.fretSpace);
-var n=g,k=m;n.beginPath();n.arc(k.x,k.y,h.radius,0,2*Math.PI,!1);n.fillStyle=h.fillColor;n.fill();n.lineWidth=h.strokeWidth;n.strokeStyle=h.strokeColor;n.stroke();0<d[f].finger&&(n=g,k=d[f].finger,n.font=h.fontWeight+" "+h.fontSize+"px "+h.fontFamily,n.textAlign="center",n.fillStyle=h.fontColor,n.fillText(k,m.x,m.y+0.3*h.fontSize))}};return g}();
-ugsChordBuilder.cursorCanvas=function(){var b=ugsChordBuilder.settings.cursor,c=ugsChordBuilder.settings.dot,a={},h=null,g=null,d=!1,f=!0,l=1,s={x:0,y:0};a.init=function(a){h=a;v()};var v=function(){g=new Image;g.onload=function(){d=!0};g.src=b.imageUri};a.setCursor=function(a,b){f=a;l=b};a.draw=function(a){var n=b.radius+b.strokeWidth;h.clearRect(s.x-n,s.y-n,n+50,n+60);!d||f?(h.beginPath(),h.arc(a.x,a.y,b.radius,0,2*Math.PI,!1),h.fillStyle=b.fillColor,h.fill(),h.lineWidth=b.strokeWidth,h.strokeStyle=
-b.strokeColor,h.stroke()):(h.drawImage(g,a.x,a.y),h.font=c.fontWeight+" "+c.fontSize+"px "+c.fontFamily,h.textAlign="left",h.fillStyle="black",h.fillText(l,a.x+0.8*g.width,a.y+g.height));s=a};return a}();
-ugsChordBuilder.chordCanvas=function(){var b=ugsChordBuilder.entities,c=ugsChordBuilder.settings.centerAnchor,a=ugsChordBuilder.settings.anchorPos,h=ugsChordBuilder.settings.fretLabel,g=ugsChordBuilder.settings.stringLabel,d=ugsChordBuilder.settings.fretBoard,f={},l=null,s=null;f.init=function(a,b){l=a;s=b;c(s)};f.draw=function(c,m){l.clearRect(0,0,s.width,s.height);for(var f=new b.Position(a.x-0.3*h.fontSize,a.y+h.fontSize),k=1<m?h.color:h.lightColor,e=0;e<d.numFrets;e++){var p=m+e,q=f;l.font=h.fontSize+
-"px "+h.fontFamily;l.textAlign="right";l.fillStyle=k;l.fillText(p,q.x,q.y);f.y+=d.fretSpace;k=h.lightColor}f=new b.Position(a.x+0.5*d.strokeWidth,a.y-0.25*h.fontSize);for(e=0;e<d.stringNames.length;e++)p=d.stringNames[e],k=f,l.font=g.fontSize+"px "+g.fontFamily,l.textAlign="center",l.fillStyle=g.color,l.fillText(p,k.x,k.y),f.x+=d.stringSpace;e=d.strokeWidth/2;p=d.numFrets*d.fretSpace;k=(d.stringNames.length-1)*d.stringSpace;l.beginPath();for(f=1;f<d.stringNames.length-1;f++)q=a.x+f*d.stringSpace+
-e,l.moveTo(q,a.y+e),l.lineTo(q,a.y+p+e);for(f=1;f<d.numFrets;f++)q=a.y+f*d.fretSpace+e,l.moveTo(a.x+e,q),l.lineTo(a.x+k+e,q);l.rect(a.x+e,a.y+e,k,p);l.strokeStyle=d.strokeColor;l.lineWidth=d.strokeWidth;l.stroke();l.closePath();ugsChordBuilder.fretDots.draw(l)};return f}();
-ugsChordBuilder["export"]=function(){var b=ugsChordBuilder.settings.fretBoard,c=ugsChordBuilder.settings.chord,a={},h=null,g=function(a,b){this.string=a;this.dots=b?b:[]},d=function(){var a,c=[];for(a=1;a<=b.stringNames.length;a++)c.push(new g(a));var d=ugsChordBuilder.fretDots.getDots();for(a=c.length-1;0<=a;a--)for(var e=d.length-1;0<=e;e--)c[a].string==d[e].string+1&&c[a].dots.push(d[e]);return c},f=function(a){for(var b=0,c=900,e=a.length-1;0<=e;e--)a[e].fret>b&&(b=a[e].fret),a[e].fret<c&&(c=
-a[e].fret);return{max:b,min:900>c?c:b}},l=function(a){return 0<a?h+a:0},s=function(a,b){for(var c=0;c<a.length;c++)if(a[c].fret==b)return a[c].finger;return 0};a.getPrimaryFrets=function(a){h=a-1;a=d();for(var b=[],c=0;c<a.length;c++){var e=f(a[c].dots);b.push(l(e.max))}return b};a.getDefinition=function(a,b){var c=(a=v(a))&&0<a.length?a:"CHORDNAME",e="",g="",q="";h=b-1;for(var w=d(),t=0;t<w.length;t++){var A=f(w[t].dots),e=e+(l(A.max)+" "),g=g+(s(w[t].dots,A.max)+" ");A.max!=A.min&&(q+=" add: string "+
-w[t].string+" fret "+l(A.min)+" finger "+s(w[t].dots,A.min))}return("{define: "+c+" frets "+e+" fingers "+g+q+"}").replace(/\s+/g," ").replace(" }","}")};a.getDefinitionHtml=function(b,c){b=v(b);var d=a.getDefinition(b,c),d=d.replace(" "+b," X07Myq791wso01"),d=d.replace(/\b(\d+)\b/g,'<span class="chordPro-X07MX001number">$1</span>'),d=d.replace(/\b(frets?|fingers?|string)\b/g,'<span class="chordPro-X07MX001attribute">$1</span>'),d=d.replace(/\b(define|add)\b/g,'<span class="chordPro-X07MX001keyword">$1</span>');
-return d.replace("X07Myq791wso01",'<span class="chordPro-string">'+b+"</span>").replace(/X07MX001/g,"").replace(/ +/g," ")};var v=function(a){a=a.replace(/^\s*(.*?)\s*$/,"$1").replace(/\s+/g,"-");/^(frets|fingers|add:)$/i.test(a)&&(a="");return a.substring(0,c.nameMaxLength)};return a}();
-ugsChordBuilder.chooserList=function(){var b={},c=[],a=null,h=0,g=null,d=function(){},f=null,l={showText:!1,height:50,width:40,fretSpace:9,stringSpace:7,dotRadius:3,lineWidth:1,topLeftPos:{x:10,y:2},xWidth:0.7*7,xStroke:1.4},s={dot:"8pt Arial",text:"8pt Arial",fret:"8pt Arial"},v={fretLines:"#EED18E",dots:"#551D00",dotText:"#ffffff",text:"#000000",fretText:"#EED18E",xStroke:"#551D00"},m=function(a,b){this.id=h++;this.name=a;this.definition=b};b.init=function(b){d=b;a=document.getElementById("cdBldPick");
-a.addEventListener("click",k,!1);n()};var n=function(){for(var b=/\{define:\s*([^}]+?)\s+frets[^}]+?\}/im,e=document.getElementById("chordProSource").value.split("\n"),d=e.length-1;0<=d;d--)b.test(e[d])&&z(e[d].replace(b,"$1"),e[d]);for(var e=a,d=c,f="",b=0;b<d.length;b++)f+=p(d[b].id,d[b].name);e.innerHTML='<li data-id="-1" class="newChord">+ Add New Chord</li>'+f;e=e.getElementsByTagName("li");for(b=e.length-1;0<=b;b--)1>b||q(e[b].getAttribute("data-id"))};b.reset=function(){c=[];document.getElementById("cdBldPick").innerHTML=
-"";h=0;g=null;n()};b.show=function(a){document.getElementById("cdBldChooserPanel").style.display=a?"block":"none";document.getElementById("cdBldBuilderPanel").style.display=a?"none":"block";$("#cdBldChooserPanel").closest(".overlay").toggleClass("chordBuilderNarrow",a)};b.save=function(d){var f;a:{f=null==g?-1:g.id;for(var h=d.name.toLowerCase(),B=c.length-1;0<=B;B--)if(""+c[B].id!=""+f&&c[B].name.toLowerCase()==h){f=B;break a}f=-1}if(0<=f)return alert("Hey, this chord name is already being used."),
-!1;f=-1;if(null==g){f=z(d.name,d.definition);g=x(f);d=d.definition;for(var h=document.getElementById("chordProSource"),B=/\s*\{\s*(title|t|artist|subtitle|st|album|define):.*?\}/im,k=h.value.split("\n"),l="",m=!1,n=k.length-1;0<=n;n--)!m&&B.test(k[n])&&(l=d+"\n"+l,m=!0),l=k[n]+"\n"+l;m||(l=d+"\n"+h.value);h.value=l;ugsEditorPlus.actions.run()}else{h=A(g.id);if(0>h)return!1;B=c[h].definition;c[h].name=d.name;c[h].definition=d.definition;f=c[h].id;t(B,c[h].definition)}d=x(f);(h=e(f))?h.innerHTML=p(f,
-d.name,!0):(d=d.name,h=document.createElement("ul"),h.innerHTML=p(f,d),a.appendChild(h.childNodes[0]));q(f);b.show(!0);return!0};var k=function(c){c.preventDefault();g=x(c.target.getAttribute("data-id"));if("delete"==c.target.getAttribute("data-action")){if(c=g,confirm('Delete definition for "'+c.name+'"?')){var f=e(c.id);f&&(a.removeChild(f),t(c.definition,""))}}else{c=null;if(null!=g){c=ukeGeeks.chordImport.runLine(g.definition);a:{if(c.muted)for(f=0;f<c.muted.length;f++)if(c.muted[f]){f=!0;break a}f=
-!1}f&&alert("Uh-oh! This chord uses muted strings!\nCurrently the Chord Builder does not support muted strings -- \nsaving edits will result in mutes being lost.")}d(c);b.show(!1)}},e=function(b){for(var c=a.getElementsByTagName("li"),e=0;e<c.length;e++)if(c[e].getAttribute("data-id")==""+b)return c[e];return null},p=function(a,b,c){c=2<arguments.length?c:!1;var e='<span class="deleteChord" data-id="'+a+'" data-action="delete" title="Remove this definition"></span>'+b;return c?e:'<li data-id="'+a+
-'" title="Edit this definition" class="ugs-grouped">'+e+"</li>"},q=function(a){var b=e(a);a=x(a);a=ukeGeeks.chordImport.runLine(a.definition);null==f&&(f=new ukeGeeks.chordBrush);f.plot(b,a,l,s,v)},w=function(a,b,c){var e=a.replace(b,c);return e==a?a:w(e,b,c)},t=function(a,b){var c=document.getElementById("chordProSource");c.value=w(c.value,a,b);ugsEditorPlus.actions.run()},A=function(a){for(var b=0;b<c.length;b++)if(""+c[b].id==a)return b;return-1},x=function(a){a=A(a);return 0<=a?c[a]:null},z=function(a,
-b){var e=new m(a,b);c.push(e);return e.id};return b}();
-ugsChordBuilder.editorUi=function(){var b=null,c=null,a=null,h=1,g="",d=!0,f=0,l={0:"None",1:"Index finger",2:"Middle finger",3:"Ring finger",4:"Pinkie"};this.init=function(){b=document.getElementById("cdBldCursorCanvas");if(!b.getContext)return!1;for(var e=b.getContext("2d"),d=document.getElementById("cdBldDiagramCanvas").getContext("2d"),f=document.getElementById("cdBldStartingFret"),h="",g=ugsChordBuilder.settings.fretBoard.maxFret-ugsChordBuilder.settings.fretBoard.numFrets+1,l=1;l<=g;l++)h+=
-'<option value="'+l+'">'+l+"</option>";f.innerHTML=h;f.addEventListener("change",t,!1);document.getElementById("cdBldChordName").addEventListener("keyup",w,!1);c=document.getElementById("cdBldDotsBtn");a=document.getElementById("cdBldFingersBtn");c.addEventListener("click",p,!1);a.addEventListener("click",p,!1);document.getElementById("cdBldShowOutputBtn").addEventListener("click",v,!1);document.getElementById("cdBldCancelBtn").addEventListener("click",m,!1);document.getElementById("cdBldSaveBtn").addEventListener("click",
-n,!1);document.getElementById("toolboxSlideUpBtn").addEventListener("click",A,!1);document.getElementById("toolboxSlideDownBtn").addEventListener("click",A,!1);s();document.getElementById("cdBldEditorSurface").addEventListener("mousemove",x,!1);b.addEventListener("click",z,!1);ugsChordBuilder.chordCanvas.init(d,b);ugsChordBuilder.cursorCanvas.init(e);y();u();ugsChordBuilder.chooserList.init(k);return!0};var s=function(){f++;4<f&&(f=0);document.getElementById("cdBldBtnFingerName").innerHTML=l[f]+" ("+
-f+")";document.getElementById("cdBldBtnDiagram").className="fingerToolImage finger"+f},v=function(a){q(document.getElementById("cdBldOutputBox"),"collapseOutput",!a.target.checked)},m=function(a){a.preventDefault();e();ugsChordBuilder.chooserList.show(!0)},n=function(a){a.preventDefault();a={name:g,startingFret:h,dots:ugsChordBuilder.fretDots.getDots(),definition:ugsChordBuilder["export"].getDefinition(g,h)};ugsChordBuilder.chooserList.save(a)||(a=document.getElementById("cdBldChordName"),a.focus(),
-a.select())},k=function(a){if(null==a)e();else{var b;b=a.dots;for(var c=0,d=0;d<b.length;d++)b[d].fret>c&&(c=b[d].fret);b=c;b=b>ugsChordBuilder.settings.fretBoard.numFrets?b-ugsChordBuilder.settings.fretBoard.numFrets+1:1;c=e;d=a.name;a=a.dots;for(var f=b-1,h=[],g=0;g<a.length;g++){var k=a[g].fret-f;h.push(new ugsChordBuilder.entities.Dot(a[g].string,0>k?0:k,a[g].finger))}c(d,b,h,!1)}},e=function(b,e,k,p){p=3<arguments.length?p:!0;ugsChordBuilder.fretDots.reset();var l=p;g=b&&0<b.length?b:"CHORDNAME";
-document.getElementById("cdBldChordName").value=g;h=e?e:1;document.getElementById("cdBldStartingFret").value=h;document.getElementById("cdBldShowOutputBtn").checked=!1;q(document.getElementById("cdBldOutputBox"),"collapseOutput",!0);document.getElementById("cdBldSaveBtn").value=l?"Add":"Update";d=!0;f=0;s();q(c,"selected",d);q(a,"selected",!d);q(document.getElementById("cdBldToolbox"),"open",!d);ugsChordBuilder.cursorCanvas.setCursor(d,f);if(k&&0<k.length)for(l=0;l<k.length;l++)ugsChordBuilder.fretDots.toggleDot(k[l]);
-y();u()},p=function(b){b.preventDefault();b=0<=b.currentTarget.href.indexOf("#dots");b==d?b||(s(),ugsChordBuilder.cursorCanvas.setCursor(d,f)):(q(c,"selected",b),q(a,"selected",!b),q(document.getElementById("cdBldToolbox"),"open",!b),d=b,ugsChordBuilder.cursorCanvas.setCursor(d,f))},q=function(a,b,c){var e=0<=a.className.indexOf(b);c&&!e?a.className+=" "+b:!c&&e&&(a.className=a.className.replace(b,"").replace(/\s+/g," "))},w=function(a){g=this.value;u()},t=function(a){h=parseInt(this.value,10);u();
-y()},A=function(a){a.preventDefault();var b=!1;a="up"==a.target.getAttribute("data-direction")?-1:1;if(ugsChordBuilder.fretDots.slide(a))b=!0;else{a=h+a;var c=ugsChordBuilder.settings.fretBoard.maxFret-ugsChordBuilder.settings.fretBoard.numFrets+1;1<=a&&a<=c&&(h=a,document.getElementById("cdBldStartingFret").value=a,b=!0)}b&&(y(),u())},x=function(a){ugsChordBuilder.cursorCanvas.draw(r(this,a))},z=function(a){a=r(b,a);var c=ugsChordBuilder.tracking.toDot(a);c&&(d?(ugsChordBuilder.fretDots.toggleDot(c),
-y(a),u()):ugsChordBuilder.fretDots.toggleFinger(c,f)&&(y(a),u()))},r=function(a,b){var c=a.getBoundingClientRect();return new ugsChordBuilder.entities.Position(b.clientX-c.left,b.clientY-c.top)},y=function(a){a=a||new ugsChordBuilder.entities.Position(0,0);ugsChordBuilder.chordCanvas.draw(a,h)},u=function(){document.getElementById("cdBldOutput").innerHTML=ugsChordBuilder["export"].getDefinitionHtml(g,h)};this.reload=function(){e();ugsChordBuilder.chooserList.reset();ugsChordBuilder.chooserList.show(!0)}};
-LazyLoad=function(b){function c(a,c){var d=b.createElement(a),f;for(f in c)c.hasOwnProperty(f)&&d.setAttribute(f,c[f]);return d}function a(a){var b=v[a],c,d;b&&(c=b.callback,d=b.urls,d.shift(),m=0,d.length||(c&&c.call(b.context,b.obj),v[a]=null,n[a].length&&g(a)))}function h(){var a=navigator.userAgent;l={async:!0===b.createElement("script").async};(l.webkit=/AppleWebKit\//.test(a))||(l.ie=/MSIE|Trident/.test(a))||(l.opera=/Opera/.test(a))||(l.gecko=/Gecko\//.test(a))||(l.unknown=!0)}function g(e,
-g,k,m,t){var A=function(){a(e)},x="css"===e,z=[],r,y,u,B;l||h();if(g)if(g="string"===typeof g?[g]:g.concat(),x||l.async||l.gecko||l.opera)n[e].push({urls:g,callback:k,obj:m,context:t});else for(r=0,y=g.length;r<y;++r)n[e].push({urls:[g[r]],callback:r===y-1?k:null,obj:m,context:t});if(!v[e]&&(B=v[e]=n[e].shift())){s||(s=b.head||b.getElementsByTagName("head")[0]);g=B.urls.concat();r=0;for(y=g.length;r<y;++r)k=g[r],x?u=l.gecko?c("style"):c("link",{href:k,rel:"stylesheet"}):(u=c("script",{src:k}),u.async=
-!1),u.className="lazyload",u.setAttribute("charset","utf-8"),l.ie&&!x&&"onreadystatechange"in u&&!("draggable"in u)?u.onreadystatechange=function(){/loaded|complete/.test(u.readyState)&&(u.onreadystatechange=null,A())}:x&&(l.gecko||l.webkit)?l.webkit?(B.urls[r]=u.href,f()):(u.innerHTML='@import "'+k+'";',d(u)):u.onload=u.onerror=A,z.push(u);r=0;for(y=z.length;r<y;++r)s.appendChild(z[r])}}function d(b){var c;try{c=!!b.sheet.cssRules}catch(f){m+=1;200>m?setTimeout(function(){d(b)},50):c&&a("css");return}a("css")}
-function f(){var b=v.css,c;if(b){for(c=k.length;0<=--c;)if(k[c].href===b.urls[0]){a("css");break}m+=1;b&&(200>m?setTimeout(f,50):a("css"))}}var l,s,v={},m=0,n={css:[],js:[]},k=b.styleSheets;return{css:function(a,b,c,d){g("css",a,b,c,d)},js:function(a,b,c,d){g("js",a,b,c,d)}}}(this.document);
+;/**
+ * Options (Features) you can turn on or off. Where available defaults to values defined in UkeGeeks.settings
+ *
+ * @class options
+ * @namespace ugsEditorPlus
+ * @static
+ * @singleton
+ */
+ugsEditorPlus.options = {
+	/**
+	 * If true attempts compatibility for versions of Microsoft Internet Explorer prior to IE9
+	 * @example
+	 *  Allowed values: true, false
+	 * @property useLegacyIe
+	 * @type Boolean
+	 * @default false
+	 */
+	useLegacyIe: false,
+
+	/**
+	 * If true the Edit Song box is shown when the page loads; false hides it.
+	 * @example
+	 *  Allowed values: true, false
+	 * @property showEditOnLoad
+	 * @type Boolean
+	 * @default true
+	 */
+	showEditOnLoad: true,
+
+	/**
+	 * Lyric's font size (pts)
+	 * @example
+	 *  Allowed values: 6, 6.5, 7, 7.5, 8, 8.5, 9, 10, 11, 12, 13, 14
+	 * @property fontSize
+	 * @type Number
+	 * @default 12
+	 */
+	fontSize: 12,
+
+	/**
+	 * Reference diagram size expressed as a percentage (100% being max)
+	 * @example
+	 *  Allowed values: 40 ("tiny"), 65 ("small"), 80 ("medium"), 90 ("large"), 100 ("x-large")
+	 * @property diagramSize
+	 * @type Integer
+	 * @default 100
+	 */
+	diagramSize: 100,
+
+	/**
+	 * Specify where reference diagrams should be show
+	 * @example
+	 *  Allowed values: left, top, or none
+	 * @property diagramPosition
+	 * @type Text
+	 * @default left
+	 */
+	diagramPosition: "left",
+
+	/**
+	 * Specify how chord names within lyrics should be shown
+	 * @example
+	 *  Allowed values: inline, above, or miniDiagrams
+	 * @property lyricStyle
+	 * @type Text
+	 * @default above
+	 */
+	lyricStyle: "above",
+
+	/**
+	 * Specify page width (mock paper)
+	 * @example
+	 *  Allowed values: letter, a4, screen
+	 * @property paper
+	 * @type Text
+	 * @default letter
+	 */
+	paper: "letter",
+
+	/**
+	 * Theme shortname applied on page load.
+	 * @example
+	 *  Allowed values: frosty, jellyBean, justBlack, krampus, normal, notebook, pumpkin, reversed, western, zombie
+	 * @property theme
+	 * @type Text
+	 * @default normal
+	 */
+	theme: "normal",
+
+	/**
+	 * Ukulele tuning ("instrument") for drawing diagrams.
+	 * @example
+	 *  Allowed values: soprano or baritone
+	 * @property tuning
+	 * @type Text
+	 * @default soprano
+	 */
+	tuning: "soprano",
+
+	/**
+	 * Show/hide the square brackets around chord names within lyrics, ex: [Am]
+	 * @example
+	 *  Allowed values: true, false
+	 * @property hideChordEnclosures
+	 * @type Boolean
+	 * @default see UkeGeeks.settings
+	 */
+	hideChordEnclosures: false,
+
+	/**
+	 * Order in which reference diagrams are sorted, either alphabetically (true) or order
+	 * in which they appear within the song (false).
+	 * @example
+	 * Allowed values: true, false
+	 * @property sortAlphabetical
+	 * @type Boolean
+	 * @default see UkeGeeks.settings
+	 */
+	sortAlphabetical: false,
+
+	/**
+	 * If TRUE chords in the "commonChords" list will be ignored (excluded from reference chord diagrams)
+	 * @example
+	 * Allowed values: true, false
+	 * @property ignoreCommonChords
+	 * @type Boolean
+	 * @default see UkeGeeks.settings
+	 */
+	ignoreCommonChords: false,
+
+	/**
+	 * Array of chords to be ignored when drawing reference diagrams (if "ignoreCommonChords" is enabled)
+	 * @example
+	 *  (string or array of strings): as an  array of strings: ["A", "G"] or comma delimited list: "A, G"
+	 * @property commonChords
+	 * @type mixed
+	 * @default see UkeGeeks.settings
+	 */
+	commonChords: []
+};
+;/**
+ * Does the work by providing "doAction" method to respond to events (does not
+ * attach event handlers); Modifes some page elements -- adjust CSS classes on page,
+ * runs Scriptasaurus, etc.
+ * @class actions
+ * @namespace ugsEditorPlus
+ * @module ugsEditorPlus
+ */
+ugsEditorPlus.actions = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	/**
+	 * associative array/JSON handles to key/frequently accessed DOM Elements (see init()
+	 * @property _ele
+	 * @private
+	 * @type {JSON}
+	 */
+	var _ele = {};
+
+	// misc
+	var _song = null;
+	//
+	var _originalSource = null;
+	var _originalChords = [];
+
+	var _regEx = {
+		safe: /^([A-G][#b]?)(m|m6|7|m7|dim|maj7|6|sus2|sus4|aug|9)?$/
+	};
+
+	/**
+	 * associative array/JSON of last click value used; intended to be used to prevent
+	 * rerunning more expensize operations unnecessailry (when the value didn't actually change)
+	 * @property _prevValues
+	 * @type {JSON}
+	 */
+	var _prevValues = {
+		'placement': 'above',
+		'transpose': 'up_0'
+	};
+
+	/**
+	 * Sets up this class; modifies form elements; attaches event handlers, etc
+	 * @method init
+	 * @public
+	 */
+	_public.init = function() {
+		_ele = {
+			songText: document.getElementById('ukeSongText'),
+			songContainer: document.getElementById('ukeSongContainer'),
+			cpmSource: document.getElementById('chordProSource'),
+			scalableArea: document.getElementById('scalablePrintArea')
+		};
+
+		$(document).on('option:click', function(e, data) {
+			doAction(data.action, data.value);
+		});
+
+		syncOptions(ugsEditorPlus.options);
+	};
+
+	/* ----------------------------------------------------------------------------------- *|
+	|* Common "All Powerful" Helper Methods
+	|* ----------------------------------------------------------------------------------- */
+
+	/**
+	 * Executes the requested Action using passed in Value
+	 * @method doAction
+	 * @private
+	 * @param action {string} Action's name; must match one of those defined in the switch below
+	 * @param value {string} Value used by Action (OK, a couple methods assume this is boolean/falsy)
+	 */
+	var doAction = function(action, value) {
+		// actions that modify song's HTML or reference diagrams require rerunning Scriptasaurus
+		var runRequired = false;
+
+		switch (action) {
+			case 'zoomFonts':
+				doSetFontSize(value);
+				break;
+			case 'zoomDiagrams':
+				doSetDiagramSize(value);
+				break;
+			case 'layout':
+				doLayout(value);
+				break;
+			case 'placement':
+				runRequired = doPlacement(value);
+				break;
+			case 'tuning':
+				doTuning(value);
+				runRequired = true;
+				break;
+			case 'colors':
+				doSetTheme(value);
+				runRequired = true;
+				break;
+			case 'transpose':
+				doTranspose(value);
+				break;
+			case 'paper':
+				doSetPageWidth(value);
+				break;
+			case 'showEnclosures':
+				setEnclosureVisible(value);
+				runRequired = true;
+				break;
+			case 'hideCommonChords':
+				setIgnoreCommon(value);
+				runRequired = true;
+				break;
+			case 'sortAlphabetical':
+				setSortAlphabetical(value);
+				runRequired = true;
+				break;
+			case 'setCommonChords':
+				setCommonChordsList(value);
+				runRequired = ukeGeeks.settings.opts.ignoreCommonChords;
+				break;
+			case 'update':
+				doUpdate();
+				break;
+			default:
+				console.log('Unrecognized ' + action + ' > ' + value);
+		}
+
+		if (runRequired) {
+			_public.run();
+		}
+	};
+
+	var syncOptions = function(options) {
+		// direct menus
+		doSetFontSize(options.fontSize);
+		doSetDiagramSize(options.diagramSize);
+		doLayout(options.diagramPosition);
+		doSetPageWidth(options.paper);
+		doSetTheme(options.theme);
+		doTuning(options.tuning);
+		doPlacement(options.lyricStyle);
+
+		// advanced options
+		setEnclosureVisible(!options.hideChordEnclosures);
+		setIgnoreCommon(options.ignoreCommonChords);
+		setCommonChordsList(options.commonChords);
+		setSortAlphabetical(options.sortAlphabetical);
+	};
+
+	/**
+	 * Rerun for new song text; updates UI
+	 * @method doUpdate
+	 * @private
+	 */
+	var doUpdate = function() {
+		_public.run(true);
+	};
+
+	/**
+	 * Rebuilds song, info, chord diagrams using current settings.
+	 * @method run
+	 * @param isDoBackup {bool} true forces backup; optional, default false.
+	 */
+	_public.run = function(isDoBackup) {
+		isDoBackup = (arguments.length > 0) && isDoBackup;
+		_ele.songText.innerHTML = '<pre>' + _ele.cpmSource.value + '</pre>';
+		_song = ukeGeeks.scriptasaurus.run();
+
+		if (_song.chords.length < 1) {
+			ugsEditorPlus.autoReformat.run(_ele);
+		}
+
+		if (_song) {
+			ugsEditorPlus.songUi.update(_song);
+
+			// maintains last copy of USER edited song -- used for transpose etc
+			if (isDoBackup || (_originalSource === null)) {
+				_originalSource = _ele.cpmSource.value;
+				_originalChords = _song.chords;
+				var key = _song.key !== '' ? _song.key : (_song.chords.length < 1 ? '' : _song.chords[0]);
+				resetTranspose(key);
+			}
+		}
+	};
+
+	/* ----------------------------------------------------------------------------------- *|
+	|* Zoom Methods
+	|* ----------------------------------------------------------------------------------- */
+
+	/**
+	 * Zooms (scales) fonts
+	 * @method doSetFontSize
+	 * @private
+	 * @param value {string} point-size; value of the clicked value item
+	 */
+	var doSetFontSize = function(value) {
+		var pt = parseFloat(value, 10);
+		_ele.scalableArea.style.fontSize = pt + 'pt';
+	};
+
+	/**
+	 * Zooms (scales) chord diagrams
+	 * @method doSetDiagramSize
+	 * @private
+	 * @param value {string} percentage, integer between 0 and, well, 100?; value of the clicked value item
+	 */
+	var doSetDiagramSize = function(value) {
+		var prct = parseInt(value, 10) / 100;
+		// apologies for the magic number...
+		var columnWidth = Math.round(prct * 225);
+
+		var s = ugsEditorPlus.styles.getSheet('ugsEditorCss');
+		var m = s.find('.scalablePrintArea .ugs-diagrams-wrap canvas');
+		m.style.width = Math.round(prct * ukeGeeks.settings.fretBox.width) + 'px';
+		m.style.height = Math.round(prct * ukeGeeks.settings.fretBox.height) + 'px';
+
+		m = s.find('.scalablePrintArea .ugs-diagrams-wrap');
+		m.style.width = columnWidth + 'px';
+
+		m = s.find('.scalablePrintArea .ugs-source-wrap');
+		m.style.marginLeft = (25 + columnWidth) + 'px';
+	};
+
+	/* ----------------------------------------------------------------------------------- *|
+	|* Layout (Reference Diagram Position) Methods
+	|* ----------------------------------------------------------------------------------- */
+
+	/**
+	 * Changes positions for Reference Chord Diagrams -- handled entirely via CSS classes
+	 * @method doLayout
+	 * @private
+	 * @param value {string} value of the clicked value item
+	 */
+	var doLayout = function(value) {
+		$('body')
+			.toggleClass('diagramsOnTop', value == 'top')
+			.toggleClass('diagramsOnSide', value == 'left')
+			.toggleClass('ugsHideDiagrams', value == 'none');
+	};
+
+	/* ----------------------------------------------------------------------------------- *|
+	|* Chord Name Placement Methods
+	|* ----------------------------------------------------------------------------------- */
+
+	/**
+	 * Chord Name placement (&amp; "Mini-chord diagrams"). Returns true if Scriptasaurus should be rerun.
+	 * @method doPlacement
+	 * @private
+	 * @param value {string} value of the clicked value item
+	 * @return {Boolean}
+	 */
+	var doPlacement = function(value) {
+		var isRunRequired = false;
+		ukeGeeks.toolsLite.setClass(_ele.songContainer, 'ugsInline', (value == 'inline'));
+
+		// NOTE: ugs already adds the "chord diagrams above" class based on setting,
+		// BUT does NOT remove it!!!!
+		var isMiniDiagrams = (value == 'miniDiagrams');
+		if (!isMiniDiagrams) {
+			ukeGeeks.toolsLite.removeClass(_ele.songContainer, 'ugsInlineDiagrams');
+		}
+
+		if (isMiniDiagrams || (_prevValues.placement == 'miniDiagrams')) {
+			ukeGeeks.settings.inlineDiagrams = isMiniDiagrams;
+			isRunRequired = true;
+		}
+		else if (!isMiniDiagrams && (_prevValues.placement != 'miniDiagrams')) {
+			// we're jumping between "above" and "inline", either way we need to
+			// manually fix the overlaps
+			ukeGeeks.overlapFixer.Fix(_ele.songText);
+		}
+
+		_prevValues.placement = value;
+
+		return isRunRequired;
+	};
+
+	/* ----------------------------------------------------------------------------------- *|
+	|* Color Methods
+	|* ----------------------------------------------------------------------------------- */
+
+	/**
+	 * Change the color scheme -- requires changing CSS Class and reruning (to regenerate reference chord diagrams)
+	 * @method doSetTheme
+	 * @private
+	 * @param value {string} value of the clicked value item
+	 */
+	var doSetTheme = function(value) {
+		ugsEditorPlus.themes.set(value);
+	};
+
+	/* ----------------------------------------------------------------------------------- *|
+	|* Page Width Methods
+	|* ----------------------------------------------------------------------------------- */
+
+	/**
+	 * (option dialog) changes body class, moving the right page edge
+	 * @method doSetPageWidth
+	 * @private
+	 * @param value {string} currently selected option value
+	 */
+	var doSetPageWidth = function(value) {
+		var opts = ['letter', 'a4', 'screen'];
+		var $body = $('body');
+		for (var i = 0; i < opts.length; i++) {
+			$body.removeClass('pageWidth_' + opts[i]);
+		}
+		$body.addClass('pageWidth_' + value);
+	};
+
+	/* ----------------------------------------------------------------------------------- *|
+	|* Instrument & Tuning Methods
+	|* ----------------------------------------------------------------------------------- */
+
+	/**
+	 * Change the instrument (tuning)
+	 * @method doTuning
+	 * @private
+	 * @param value {string} value of the clicked value item
+	 */
+	var doTuning = function(value) {
+		var tuning = ukeGeeks.definitions.instrument.sopranoUke,
+			msg = 'Standard <strong>GCEA</strong> Soprano Ukulele';
+
+		if (value == 'baritone') {
+			tuning = ukeGeeks.definitions.instrument.baritoneUke;
+			msg = 'Standard <strong>DGBE</strong> Baritone Ukulele';
+		}
+
+		$('#footTuningInfo').html(msg);
+		ukeGeeks.scriptasaurus.setTuningOffset(tuning);
+	};
+
+	/**
+	 * Parses Value to decide number of steps "up" or "down", then fires off transpose
+	 * @method doTranspose
+	 * @private
+	 * @param value {string} value of the clicked value item
+	 */
+	var doTranspose = function(value) {
+		var sign = value[0] == 'u' ? 1 : -1;
+		var steps = parseInt(value[value.length - 1], 10);
+		transpose(sign * steps);
+	};
+
+	/**
+	 * Rebuilds song as "run", but first transposes chords
+	 * @method transpose
+	 * @param steps {int} number of semitones, +/-6
+	 */
+	var transpose = function(steps) {
+		var safeChords = [],
+			bad = '',
+			i;
+
+		// find "shiftable" chords
+		for (i = 0; i < _originalChords.length; i++) {
+			if (_regEx.safe.test(_originalChords[i])) {
+				safeChords.push(_originalChords[i]);
+			}
+			else {
+				bad += _originalChords[i] + ', ';
+			}
+		}
+
+		if (bad.length > 0) {
+			if (!confirm('Sorry, but some of your chords can\'t be transposed:\n' + bad + '\n\nDo you want to continue anyway?')) {
+				return;
+			}
+		}
+
+		var newChords = ukeGeeks.transpose.shiftChords(safeChords, steps);
+		var s = _originalSource;
+		var rEx;
+
+		// "safe" (temp) rename chords (prepend noise "ugsxx_" so a renamed G will be distinguisable from a new G)
+		for (i = 0; i < safeChords.length; i++) {
+			rEx = new RegExp('\\[' + safeChords[i] + '\\]', 'g');
+			s = s.replace(rEx, '[ugsxx_' + i + ']');
+		}
+
+		// final rename; placeholder names to desired names
+		for (i = 0; i < newChords.length; i++) {
+			rEx = new RegExp('\\[ugsxx_' + i + '\\]', 'g');
+			s = s.replace(rEx, '[' + newChords[i] + ']');
+		}
+
+		// find & replace {key} command (if present)
+		rEx = /^\s*\{\s*(key|k)\s*:\s*(\S*?)\s*\}\s*$/im;
+		if (rEx.test(s)) {
+			var m = s.match(rEx);
+			var key = m[2];
+			if ((key !== '') && _regEx.safe.test(key)) {
+				s = s.replace(rEx, m[0].replace(key, ukeGeeks.transpose.shift(key, steps)));
+			}
+		}
+
+		// manipulations done, ready to...
+		_ele.cpmSource.value = s;
+		_public.run();
+
+	};
+
+	/**
+	 * Sets Transpose menu's selected value to "Original"; adds example chord names
+	 * @method resetTranspose
+	 * @private
+	 * @param keyChord {string}
+	 */
+	var resetTranspose = function(keyChord) {
+		var ul = document.getElementById('transposeOptions');
+		var items = ul.getElementsByTagName('li');
+		var sample;
+		var steps = -6;
+
+		_prevValues['transpose'] = 'up_0';
+
+		ugsEditorPlus.submenuUi.resetTransposeLabel();
+
+		for (var i = 0; i < items.length; i++) {
+			ukeGeeks.toolsLite.removeClass(items[i], 'checked');
+			sample = (keyChord.length < 1) ? '' : ukeGeeks.transpose.shift(keyChord, steps);
+			items[i].getElementsByTagName('em')[0].innerHTML = sample;
+			if (steps === 0) {
+				ukeGeeks.toolsLite.addClass(items[i], 'checked');
+			}
+			steps++;
+		}
+	};
+
+	/* ----------------------------------------------------------------------------------- *|
+	|* "Other Options" Methods
+	|* ----------------------------------------------------------------------------------- */
+	// a grab bag of single, odd switches... mea culpa
+
+	/**
+	 * (option dialog) change whether to show/hide the bracket characters
+	 * @method setEnclosureVisible
+	 * @private
+	 * @param isVisible {bool}
+	 */
+	var setEnclosureVisible = function(isVisible) {
+		ukeGeeks.settings.opts.retainBrackets = isVisible;
+	};
+
+	/**
+	 * (option dialog) change whether reference diagrams are sorted alphabetically or by their "song order"
+	 * @method setSortAlphabetical
+	 * @private
+	 * @param isAlphabetical {bool}
+	 */
+	var setSortAlphabetical = function(isAlphabetical) {
+		ukeGeeks.settings.opts.sortAlphabetical = isAlphabetical;
+	};
+
+	/**
+	 * "Ignore Common" was checked, need to update master chord diagrams
+	 * @method setIgnoreCommon
+	 * @private
+	 * @param isIgnore {bool}
+	 */
+	var setIgnoreCommon = function(isIgnore) {
+		ukeGeeks.settings.opts.ignoreCommonChords = isIgnore;
+	};
+
+	/**
+	 * the list of common chords has been change; update UGS setting
+	 * @method setCommonChordsList
+	 * @private
+	 * @param chordList {mixed} Either string, as comma seperated values list, or array of chord names
+	 * @return {void}
+	 */
+	var setCommonChordsList = function(chordList) {
+		if (typeof chordList == 'string') {
+			var inputList = chordList.split(/[ ,]+/);
+			var cleanList = [];
+
+			for (var i = 0; i < inputList.length; i++) {
+				var c = ukeGeeks.toolsLite.trim(inputList[i]);
+				if (c.length > 0) {
+					cleanList.push(c);
+				}
+			}
+
+			chordList = cleanList;
+		}
+
+		ukeGeeks.settings.commonChords = chordList;
+	};
+
+	// ---------------------------------------
+	// return public interface "JSON handle"
+	// ---------------------------------------
+	return _public;
+
+}());
+;/**
+ * Handles transfering the easy text bits of a Song -- title, artist, etc -- to the page.
+ * @class songUi
+ * @namespace ugsEditorPlus
+ */
+ugsEditorPlus.songUi = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	/**
+	 * Sets an element's Inner HTML and sets visibility based on whether the value is empty (or not)
+	 * @method trySet
+	 * @private
+	 * @param id {string} element's Id
+	 * @param value {string} content value
+	 */
+	var trySet = function(id, value){
+		var hasValue = value && (value.length > 0);
+		var h = document.getElementById(id);
+		if (!h){
+			return;
+		}
+		h.innerHTML = hasValue ? value : "";
+		h.style.display = hasValue ? 'block' : 'none';
+	};
+
+ /**
+	 * Update various HTML parts (H1 &amp; H2 etc.) using TEXT values of Song
+	 * @method updateUi
+	 * @private
+	 * @param song {Song(Object)}
+	 */
+	_public.update = function(song){
+		var h = document.getElementById('songTitle');
+		h.innerHTML = (song.title.length > 0) ? song.title : 'Untitled-Song';
+
+		trySet('songArtist', song.artist);
+		trySet('songAlbum', song.album);
+		trySet('songSubtitle', song.st);
+
+		h = document.getElementById('songMeta');
+		if (!song.ugsMeta || (song.ugsMeta.length < 1)){
+			h.style.display = 'none';
+		}
+		else {
+			var s = '';
+			for(var i = 0; i < song.ugsMeta.length; i++){
+				s += '<p>' + song.ugsMeta[i] + '</p>';
+			}
+			h.innerHTML = s;
+			h.style.display = 'block';
+		}
+	};
+
+	// ---------------------------------------
+	// return public interface "JSON handle"
+	// ---------------------------------------
+	return _public;
+
+}()
+);
+
+;/**
+ * from: http://www.javascriptkit.com/dhtmltutors/externalcss.shtml
+ * @class styles
+ * @namespace ugsEditorPlus
+ * @singleton
+ */
+ugsEditorPlus.styles = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {
+		Rules: null
+	};
+
+	var _sheet = null;
+
+	_public.getSheet = function(title) {
+		_sheet = _getSheet(title);
+		_public.Rules = _getRules();
+		return this;
+	};
+
+	var _getSheet = function(title) {
+		for (var i = 0; i < document.styleSheets.length; i++) {
+			if (document.styleSheets[i].title == title) {
+				return document.styleSheets[i];
+			}
+		}
+		return null;
+	};
+
+	var _getRules = function() {
+		if (_sheet == null) {
+			return [];
+		}
+		return _sheet.cssRules ? _sheet.cssRules : _sheet.rules;
+	};
+
+	_public.find = function(selector) {
+		selector = selector.toLowerCase();
+		for (var i = 0; i < _public.Rules.length; i++) {
+			if (!_public.Rules[i].selectorText) {
+				continue;
+			}
+			if (_public.Rules[i].selectorText.toLowerCase() == selector) {
+				return _public.Rules[i];
+			}
+		}
+		return null;
+	};
+
+	// ---------------------------------------
+	// return public interface
+	// ---------------------------------------
+	return _public;
+
+}());
+;/**
+ * Changes the song's color scheme ("theme") by changing both the applied body class
+ * and the UkeGeek settings used to draw the diagrams.
+ * @class themes
+ * @namespace ugsEditorPlus
+ * @singleton
+ */
+ugsEditorPlus.themes = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	/**
+	 * available color schemes (see UkeGeeks.settings)
+	 * @property _colorSchemes
+	 * @type {JSON-Object}
+	 */
+	var _colorSchemes = {
+		'normal': {
+			name: 'Normal (white paper)',
+			selectText: 'Normal colors (white paper)',
+			description: 'Simple, legible text on white paper',
+			song: {
+				fretLines: '#003366',
+				dots: '#ff0000',
+				dotText: '#ffffff',
+				text: '#000000',
+				fretText: '#4a4a4a'
+			},
+			tabs: {
+				lines: '#999999',
+				dots: '#eaeaea',
+				text: '#000000'
+			}
+		},
+
+		'reversed': {
+			name: 'Reversed for projectors',
+			selectText: 'Reversed colors (for projectors)',
+			description: 'Light text on dark background',
+			song: {
+				fretLines: '#365F70',
+				dots: '#FDD96F',
+				dotText: '#000000',
+				text: '#FF6040',
+				fretText: '#999999'
+			},
+			tabs: {
+				lines: '#365F70',
+				dots: '#FDD96F',
+				text: '#000000'
+			}
+		},
+
+		'frosty': {
+			name: 'Frostcicle',
+			selectText: 'Frostcicle (cool blue)',
+			description: 'Brrrr... icy cool blues',
+			song: {
+				fretLines: '#66B4CC',
+				dots: '#332335',
+				dotText: '#9FE1F9',
+				text: '#0896FE',
+				fretText: '#E3D8BA'
+			},
+			tabs: {
+				lines: '#6699FF',
+				dots: '#EFFCF9',
+				text: '#00558E'
+			}
+		},
+
+		'jellyBean': {
+			name: 'Jelly Beans',
+			selectText: 'Jelly Beans (vibrant)',
+			description: 'Sugary, vibrant bowl of jelly beans!',
+			song: {
+				fretLines: '#49BC45',
+				dots: '#FF9417',
+				dotText: '#FCF49F',
+				text: '#D20070',
+				fretText: '#4a4a4a'
+			},
+			tabs: {
+				lines: '#6699FF',
+				dots: '#FFF9BA',
+				text: '#75003E'
+			}
+		},
+
+		'justBlack': {
+			name: 'Just Black',
+			selectText: 'Black (for laser printers)',
+			description: 'No color, but black, best for B&W laser printers',
+			song: {
+				fretLines: '#cccccc',
+				dots: '#000000',
+				dotText: '#ffffff',
+				text: '#000000',
+				fretText: '#000000'
+			},
+			tabs: {
+				lines: '#cccccc',
+				dots: '#000000',
+				text: '#ffffff'
+			}
+		},
+
+		'krampus': {
+			name: 'Gruss vom Krampus',
+			selectText: 'Krampus (Ye Olde Christmas)',
+			description: 'Seasons Greetin\'s, Happy Holidays, Merry Christmas, Krampus Nichte!',
+			song: {
+				fretLines: '#929867',
+				dots: '#A22C27',
+				dotText: '#EBD592',
+				text: '#4F2621',
+				fretText: '#4a4a4a'
+			},
+			tabs: {
+				lines: '#B69C01',
+				dots: '#E1EEC8',
+				text: '#75003E'
+			}
+		},
+
+		'western': {
+			name: 'Out West',
+			selectText: 'Out West (dust country)',
+			description: 'Dusty Honky Tonk/Country/Western look',
+			song: {
+				fretLines: '#B5A679',
+				dots: '#CF8300',
+				dotText: '#ffffff',
+				text: '#386571',
+				fretText: '#4a4a4a'
+			},
+			tabs: {
+				lines: '#697665',
+				dots: '#F1E3C5',
+				text: '#632424'
+			}
+		},
+
+		'pumpkin': {
+			name: 'Pumpkin Pie',
+			selectText: 'Pumpkin Pie (fall colors)',
+			description: 'Fall \'n Halloween \'n Jack o\'Lantern \'n Thanksgiving Fun',
+			song: {
+				fretLines: '#8E9A6C',
+				dots: '#DA6328',
+				dotText: '#FFEE4A',
+				text: '#68391D',
+				fretText: '#B14623'
+			},
+			tabs: {
+				lines: '#BED379',
+				dots: '#FFF4D8',
+				text: '#B14623'
+			}
+		},
+
+		'notebook': {
+			name: 'Rock Notebook',
+			selectText: 'Rock Notebook (marker)',
+			description: 'A strong, hand-scrawled, and edgily unreliable look',
+			song: {
+				fretLines: '#747CAD',
+				dots: '#1C0866',
+				dotText: '#ffffff',
+				text: '#B22000',
+				fretText: '#A4A0B2'
+			},
+			tabs: {
+				lines: '#A4A0B2',
+				dots: '#F1E3C5',
+				text: '#2E2ECC'
+			}
+		},
+
+		'zombie': {
+			name: 'Zombies!!!',
+			selectText: 'Zombies!!!',
+			description: 'Blood \'n gore for Halloween',
+			song: {
+				fretLines: '#9EB036',
+				dots: '#E52501',
+				dotText: '#FEDA79',
+				text: '#798666',
+				fretText: '#B14623'
+			},
+			tabs: {
+				lines: '#602749',
+				dots: '#F7F9EA',
+				text: '#4F5F3E'
+			}
+		}
+
+	};
+
+	var setBody = function(themeName) {
+		var $body = $('body');
+		// see: http://stackoverflow.com/questions/921789/how-to-loop-through-javascript-object-literal-with-objects-as-members
+		for (var key in _colorSchemes) {
+			if (_colorSchemes.hasOwnProperty(key)) {
+				$body.removeClass('theme-' + key);
+			}
+		}
+		$body.addClass('theme-' + themeName);
+	};
+
+	/**
+	 * Returns text to be deisplayed when the  specified theme is selected.
+	 * @method  getDescription
+	 * @param  {string} themeName
+	 * @return {string}
+	 */
+	_public.getDescription = function(themeName) {
+		return _colorSchemes[themeName].selectText;
+	};
+
+	/**
+	 * Populates the UL (identified via CSS/jQuery selector) with the color scheme List Items (LIs)
+	 * @method loadList
+	 * @param {string} selector
+	 * @param {string} selectedValue value that should be "checked"
+	 */
+	_public.loadList = function(selector, selectedValue) {
+		var s = '';
+		for (var key in _colorSchemes) {
+			if (_colorSchemes.hasOwnProperty(key)) {
+				var cssClass = (key == selectedValue) ? 'checked' : '';
+				s += '<li class="' + cssClass + '"><a href="#' + key + '" title="' + _colorSchemes[key].description + '">' + _colorSchemes[key].name + '</a></li>';
+			}
+		}
+		$(selector).html(s);
+	};
+
+	/**
+	 * Sets body class and UkeGeeks settings to specified theme.
+	 * @method set
+	 * @param {string} themeName
+	 */
+	_public.set = function(themeName) {
+		setBody(themeName);
+
+		var c = _colorSchemes[themeName];
+		ukeGeeks.settings.colors = c.song;
+		ukeGeeks.settings.tabs.lineColor = c.tabs.lines;
+		ukeGeeks.settings.tabs.dotColor = c.tabs.dots;
+		ukeGeeks.settings.tabs.textColor = c.tabs.text;
+	};
+
+	// ---------------------------------------
+	// return public interface
+	// ---------------------------------------
+	return _public;
+
+}());
+;/**
+ * UI mechanics of the Other Options "dialog"'s checkboxes and input
+ * fields (does NOT manage "pageWidth" since its standard submenu behavior
+ * is already handled in that class)
+ * @class optionsDlg
+ * @namespace ugsEditorPlus
+ */
+ugsEditorPlus.optionsDlg = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	/**
+	 * Sets up this class by attaching event handlers to form elements;
+	 * @method init
+	 * @public
+	 */
+	_public.init = function() {
+		var ele,
+			options = ugsEditorPlus.options;
+
+		// Update Button
+		document.getElementById('updateBtn').onclick = function() {
+			triggerNotify('update', '');
+			return false;
+		};
+
+		// show/hide square bracket (chord enclosure)
+		ele = document.getElementById('chkEnclosures');
+		ele.checked = options.hideChordEnclosures;
+		ele.onclick = function() {
+			// Boolean "isVisible"
+			triggerNotify('showEnclosures', !this.checked);
+		};
+
+		// list of chord names to ignore
+		ele = document.getElementById('commonChordList');
+		ele.value = (typeof options.commonChords == 'string') ? options.commonChords : options.commonChords.join(", ");
+		ele.onchange = function() {
+			triggerNotify('setCommonChords', this.value);
+		};
+
+		// toggle order of reference diagrams
+		ele = document.getElementById('chkSortAlpha');
+		if (ele) {
+			ele.checked = options.sortAlphabetical;
+			ele.onclick = function() {
+				triggerNotify('sortAlphabetical', this.checked);
+			};
+		}
+
+		// toggle ignore common chords
+		ele = document.getElementById('chkIgnoreCommon');
+		ele.checked = options.ignoreCommonChords;
+		ele.onclick = function() {
+			// Boolean for "isIgnore"
+			triggerNotify('hideCommonChords', this.checked);
+		};
+
+		// ugh! Event bubbling!
+		$('.checkboxBlock label, input[type=checkbox]').click(function(e) {
+			e.stopPropagation();
+		});
+
+		$('.overlay').draggable({
+			handle: 'hgroup'
+			//containParent: true
+		});
+	};
+
+	var triggerNotify = function(action, value) {
+		$.event.trigger('option:click', {
+			action: action,
+			value: value
+		});
+	};
+
+	// ---------------------------------------
+	// return public interface "JSON handle"
+	// ---------------------------------------
+	return _public;
+
+}());
+;var ugsEditorPlus = window.ugsEditorPlus || {};
+
+/**
+ * TK
+ * @class reformat
+ * @namespace ugsEditorPlus
+ * @singleton
+ */
+ugsEditorPlus.reformat = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	var _hasChords = false;
+
+	/**
+	 *
+	 * @property _enums
+	 * @private
+	 */
+	var _enums = {
+		lineTypes: {
+			blank: 0,
+			chords: 1,
+			lyrics: 2,
+			tabs: 3
+		}
+	};
+
+	/**
+	 * Line Object Class Definition (sets defaults)
+	 * @class reformat.LineObj
+	 * @private
+	 * @constructor
+	 * @for reformat
+	 */
+	var LineObj = function() {
+		this.source = '';
+		this.wordCount = 0;
+		this.spaceCount = 0;
+		this.words = [];
+		this.chordCount = 0;
+		this.lineType = _enums.lineTypes.blank;
+	};
+
+	var _re = {
+		words: /\b(\S+)\b/gi,
+		spaces: /(\s+)/g,
+		leadingSpace: /(^\s+)/,
+		chordNames: /\b[A-G][#b]?(m|m6|m7|m9|dim|dim7|maj7|sus2|sus4|aug|6|7|9|add9|7sus4)?\b/,
+		chrdBlock: /\b(\S+\s*)/g,
+		tabs: /^\s*(\|{0,2}[A-Gb]?\|{0,2}[-x0-9|:]{4,})/
+	};
+
+	// Hal Leonard Uke Chord Finder:
+	// + aug
+	// o dim
+	// -----------------
+	// F Fm F+ Fdim
+	// F5 Fadd9 Fm(add9) Fsus4
+	// Fsus2 F6 Fm6 Fmaj7
+	// Fmaj9 Fm7 Fm(maj7) Fm7b5
+	// Fm9 Fm11 F7 Fsus4
+	// F+7 F7b5 F9 F7#9
+	// F7b9 F11 F13 Fdim7
+
+	/**
+	 * Accepts a text block, returns "ChordPro" text block with chord lines merged into lyric lines with chords enclosed in square-brackets (i.e. [Cdim])
+	 * @method run
+	 * @public
+	 * @param text {string} songstring
+	 * @return {string} ChordPro format text block
+	 * @for reformat
+	 */
+	_public.run = function(text) {
+		_hasChords = false;
+		var lines = read(text);
+		return merge(lines);
+	};
+
+	/**
+	 * TRUE if one or more chord lines detected
+	 * @method hasChords
+	 * @return {bool}
+	 */
+	_public.hasChords = function() {
+		return _hasChords;
+	};
+
+	/**
+	 * Accepts a text block
+	 * @method read
+	 * @param text {string} string RAW song
+	 * @return {array of Lines}
+	 */
+	var read = function(text) {
+		var lineAry = [];
+		text = text.replace('	', '    ');
+		var lines = text.split('\n');
+		for (var i = 0; i < lines.length; i++) {
+			var words = lines[i].match(_re.words);
+			var l = new LineObj();
+			l.source = lines[i];
+			if ((words != null) && (words.length > 0)) {
+				l.wordCount = words.length;
+				l.words = words;
+				l.chordCount = countChords(words);
+			}
+			var spaces = lines[i].match(_re.spaces);
+			if ((spaces != null) && (spaces.length > 0)) {
+				l.spaceCount = spaces.length;
+			}
+			l.lineType = toLineType(l);
+			lineAry.push(l);
+		}
+		return lineAry;
+	};
+
+	/**
+	 * Guesses as to the line's tyupe --
+	 * @method toLineType
+	 * @param line {line}
+	 * @return {_enums.lineTypes}
+	 */
+	var toLineType = function(line) {
+		if ((line.spaceCount + line.wordCount) < 1) {
+			return _enums.lineTypes.blank;
+		}
+
+		var tabs = line.source.match(_re.tabs);
+		if (tabs != null) {
+			return _enums.lineTypes.tabs;
+		}
+
+		var t = _enums.lineTypes.lyrics;
+		if ((line.chordCount > 0) && (line.wordCount == line.chordCount)) {
+			t = _enums.lineTypes.chords;
+			_hasChords = true;
+		}
+
+		return t;
+	};
+
+	/**
+	 * Looks for supported chords.
+	 * @method countChords
+	 * @param words {array of words}
+	 * @return [int] number found
+	 */
+	var countChords = function(words) {
+		var count = 0;
+		for (var i = 0; i < words.length; i++) {
+			if (words[i].match(_re.chordNames)) {
+				count++;
+			}
+		}
+		return count;
+	};
+
+	/**
+	 * Return merged song -- chords embedded within lyrics
+	 * @method merge
+	 * @param lines {array of Lines}
+	 * @return [string]
+	 */
+	var merge = function(lines) {
+		var s = '';
+		var thisLine, nextLine;
+		for (var i = 0; i < lines.length;) {
+			thisLine = lines[i];
+			nextLine = lines[i + 1];
+			i++;
+			// If this line's blank or its the last line...
+			if (!nextLine || (thisLine.lineType == _enums.lineTypes.blank)) {
+				s += thisLine.source + '\n';
+				continue;
+			}
+
+			// OK, we've complicated things a bit by adding tabs, so we'll handle this in a helper...
+			if ((thisLine.lineType == _enums.lineTypes.tabs) && isTabBlock(lines, i)) {
+				s += '{start_of_tab}\n' + thisLine.source.replace(_re.leadingSpace, '') + '\n' + nextLine.source.replace(_re.leadingSpace, '') + '\n' + lines[i + 1].source.replace(_re.leadingSpace, '') + '\n' + lines[i + 2].source.replace(_re.leadingSpace, '') + '\n' + '{end_of_tab}\n';
+				i += 3;
+				continue;
+			}
+
+			// finally, look for a "mergable" pair: this line is chords and the next is lyrics -- if not this we'll just output the current line
+			if ((thisLine.lineType != _enums.lineTypes.chords) || (nextLine.lineType != _enums.lineTypes.lyrics)) {
+				s += (thisLine.lineType == _enums.lineTypes.chords) ? wrapChords(thisLine.source) + '\n' : thisLine.source + '\n';
+				continue;
+			}
+
+			// OK, if you're here it's because the current line is chords and the next lyrics, meaning, we're gonna merge them!
+			i++;
+			s += mergeLines(thisLine.source, nextLine.source) + '\n';
+		}
+		return s;
+	};
+
+	/**
+	 * TRUE if we can make a Tab block using this and the following 3 linrd (we need a set of four tab lines followed by a non-tab line)
+	 * @method isTabBlock
+	 * @param lines {array of Lines}
+	 * @param index {int} current line's index within line array
+	 * @return [bool]
+	 */
+	var isTabBlock = function(lines, index) {
+		if (index + 3 >= lines.length) {
+			return false;
+		}
+		for (var i = index; i < index + 3; i++) {
+			if (lines[i].lineType != _enums.lineTypes.tabs) {
+				return false;
+			}
+		}
+		return true;
+	};
+
+	/**
+	 * Return a single line
+	 * @method mergeLines
+	 * @param chordLine {string} the line containing the chord names
+	 * @param lyricsLine {string} the line of lyrics
+	 * @return [string] merged lines
+	 */
+	var mergeLines = function(chordLine, lyricsLine) {
+		while (lyricsLine.length < chordLine.length) {
+			lyricsLine += ' ';
+		}
+		var s = '';
+		var blocks = chordLine.match(_re.chrdBlock);
+		var lead = chordLine.match(_re.leadingSpace);
+		var offset = 0;
+		if (lead) {
+			s += lyricsLine.substr(offset, lead[0].length);
+			offset = lead[0].length;
+		}
+		for (var j = 0; j < blocks.length; j++) {
+			s += '[' + blocks[j].replace(_re.spaces, '') + ']' + lyricsLine.substr(offset, blocks[j].length);
+			offset += blocks[j].length;
+		}
+		if (offset < lyricsLine.length) {
+			s += lyricsLine.substr(offset, lyricsLine.length);
+		}
+		return s;
+	};
+
+	/**
+	 * Wraps the words on the line within square brackets " C D " is returned as "[C] [D]"
+	 * @method wrapChords
+	 * @param chordLine {string} the line containing the chord names
+	 * @return [string] each word of input line gets bracketed
+	 */
+	var wrapChords = function(chordLine) {
+		var chords = chordLine.replace(_re.spaces, ' ').split(' ');
+		var s = '';
+		for (var i = 0; i < chords.length; i++) {
+			if (chords[i].length > 0) {
+				s += '[' + chords[i] + '] ';
+			}
+		}
+		return s;
+	};
+
+	// ---------------------------------------
+	// return public interface
+	// ---------------------------------------
+	return _public;
+
+}());
+;/**
+ *
+ * @class autoReformat
+ * @namespace ugsEditorPlus
+ */
+ugsEditorPlus.autoReformat = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	/**
+	 * associative array/JSON handles to key/frequently accessed DOM Elements (see init()
+	 * @property _ele
+	 * @type {JSON}
+	 */
+	var _ele = {};
+
+	var _formatted;
+	var _isDisabled = false;
+
+	_public.run = function(elements) {
+		if (_isDisabled) {
+			return;
+		}
+		_ele = elements;
+		_ele.reformatTextBox = document.getElementById('reformatSource');
+		_ele.reformatDlg = document.getElementById('reformatDlg');
+
+		document.getElementById('reformatYesBtn').onclick = function() {
+			doOk();
+			return false;
+		};
+		document.getElementById('reformatNoBtn').onclick = function() {
+			doClose();
+			return false;
+		};
+
+		// need to reset on reload
+		var chk = document.getElementById('reformatDisable');
+		chk.checked = false;
+		chk.onclick = function() {
+			doDisable(this.checked);
+		};
+
+		runNow();
+	};
+
+	var doOk = function() {
+		_ele.cpmSource.value = _formatted;
+		doClose();
+		ugsEditorPlus.actions.run(true);
+	};
+
+	var doClose = function() {
+		ukeGeeks.toolsLite.addClass(_ele.reformatDlg, 'isHidden');
+	};
+
+	var doDisable = function(isDisabled) {
+		_isDisabled = isDisabled;
+	};
+
+	var runNow = function() {
+		_formatted = ugsEditorPlus.reformat.run(_ele.cpmSource.value);
+		_ele.reformatTextBox.innerHTML = _formatted;
+
+		if (!ugsEditorPlus.reformat.hasChords()) {
+			return;
+		}
+
+		ukeGeeks.toolsLite.removeClass(_ele.reformatDlg, 'isHidden');
+	};
+
+	// ---------------------------------------
+	// return public interface "JSON handle"
+	// ---------------------------------------
+	return _public;
+
+}());
+;/**
+ * Handles Top Menu UI -- includes the show/hide dialogs (why? cuz they're attached to top menu buttons)
+ * Shows (a) dialongs (such as Edit) and (b) those tool-tippy options thingies.
+ * @class topMenus
+ * @namespace ugsEditorPlus
+ */
+ugsEditorPlus.topMenus = (function() {
+
+	/**
+	 * attaches events...
+	 * @method _init
+	 * @public
+	 * @return {void}
+	 */
+	var _init = function() {
+		// $('#ugsAppToolbar > ul a')
+		$('#ugsAppToolbar > ul li').not('[data-dialog]').children('a').click(_onMenuItemClick);
+		$('.showOptionsBox a').click(_onShowOptionsClick);
+
+		$('#ugsAppToolbar > ul li[data-dialog]').click(_onShowDlgBtnClick);
+		$('.closeBtn').click(_onCloseBtnClick);
+		$('.resizeBtn').click(_onResizeBtnClick);
+	};
+
+	/**
+	 * Click handler for nav items that are NOT attached to a dialog box.
+	 * @method _onMenuItemClick
+	 * @private
+	 * @return {void}
+	 */
+	var _onMenuItemClick = function() {
+		// the clicked anchor tag
+		var $parent = $(this).parent();
+		var isOpen = $parent.hasClass('active');
+		_makeAllInactive();
+		if (isOpen) {
+			return;
+		}
+		$parent.addClass('active');
+	};
+
+	/**
+	 * Deselects all items in app's top menu/nav bar (just removes active state from all items)
+	 * @method _makeAllInactive
+	 * @private
+	 * @return {void}
+	 */
+	var _makeAllInactive = function() {
+		$('#ugsAppToolbar > ul > li').removeClass('active');
+	};
+
+	/**
+	 * Same as _makeAllInactive method PLUS closes any open drop down/arrow boxes.
+	 * @method _closeAll
+	 * @private
+	 * @return {void}
+	 */
+	var _closeAll = function() {
+		// hide any drop-down/arrow boxes currently open
+		_makeAllInactive();
+		$('.arrowBox').hide();
+	};
+
+	/**
+	 * handles nav menu/toolbar click event. The data-dialog="X" attribute
+	 * on the element assocaites the menu item with the dialog box (the
+	 * box's id)
+	 * @method _onShowDlgBtnClick
+	 * @private
+	 * @param e {event}
+	 * @return {bool} false to kill event bubbling
+	 */
+	var _onShowDlgBtnClick = function(e) {
+		_closeAll();
+
+		// now show dialog associated with the clicked button
+		var id = $(this).data('dialog');
+		$('#' + id).fadeIn();
+
+		// prevent event bubbling
+		return false;
+	};
+
+	/**
+	 * dialog box's close button's click handler. Hides the first parent
+	 * with class.
+	 * @method _onCloseBtnClick
+	 * @private
+	 * @param e {event}
+	 * @return {bool} false to kill event bubbling
+	 */
+	var _onCloseBtnClick = function(e) {
+		$(this).parents('.overlay').fadeOut();
+		// prevent event bubbling
+		return false;
+	};
+
+	var _onResizeBtnClick = function(e) {
+		_closeAll();
+		var dlg = $(this).parents('.overlay');
+		ugsEditorPlus.resize.toggle(dlg);
+		return false;
+	};
+
+	/**
+	 * display a "tooltip" options dialog
+	 * @method _onShowOptionsClick
+	 * @private
+	 * @param e {event}
+	 * @return {bool} false to kill event bubbling
+	 */
+	var _onShowOptionsClick = function(e) {
+		var id = $(this).attr('href');
+
+		$('.arrowBox').not(id).hide();
+
+		var $dlg = $(id);
+		$dlg.find('dd').hide();
+		$dlg.fadeToggle();
+
+		ugsEditorPlus.submenuUi.reset($dlg);
+
+		// prevent event bubbling
+		return false;
+	};
+
+	// ---------------------------------------
+	// return public interface
+	// ---------------------------------------
+	return {
+		init: _init,
+		makeAllInactive: _makeAllInactive
+	};
+
+}());
+;/**
+ * Wires up all the "pseudo-selects" (aka "dropdownlists") on a Tooltip-Dialog boxes on
+ * the page; assumes consistent HTML (hello, jQuery)
+ * TODO: Refactor -- quite brittle!
+ * @class submenuUi
+ * @namespace ugsEditorPlus
+ */
+ugsEditorPlus.submenuUi = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	var _open = null;
+
+	/**
+	 * attaches event handlers
+	 * @method init
+	 * @public
+	 * @return {[type]} [description]
+	 */
+	_public.init = function() {
+		ugsEditorPlus.themes.loadList('#colorPicker .pseudoSelect', ugsEditorPlus.options.theme);
+		$('.enablePseudoSelects label').click(onLabelClick);
+		$('.pseudoSelect li').click(onOptionClick);
+		$('body').bind('click', closeAll);
+		$('.arrowBox').click(doCollapseAllLists);
+
+		syncOptions(ugsEditorPlus.options);
+	};
+
+	/**
+	 * a list item has been clicked
+	 * @method onOptionClick
+	 * @param  {event} e
+	 * @return {bool} false to kill event bubbling
+	 */
+	var onOptionClick = function(e) {
+		var $optionItem = $(this);
+		var value = stripHash($optionItem.children().attr('href'));
+
+		// the element holding the "pseudo-select"
+		var $select = $optionItem.parents('dd');
+		var id = $select.attr('id');
+		var actionName = $select.data('action');
+
+		// a selection's been made so we hide the (sub) select list
+		$('#' + id).hide();
+		// ...and reset ("uncheck") all items and check ("highlight") this selected item
+		setChecked($optionItem);
+
+		onListActive(this, false);
+		_open = null;
+
+		// now bubble out the info -- update display to show selected value ...
+		$('label[for=' + id + '] span').text(getLabelText(actionName, value, $optionItem));
+		$('label[for=' + id + ']').parents('dt').removeClass('active');
+
+		// lastly, execute the action
+		$.event.trigger('option:click', {
+			action: actionName,
+			value: value
+		});
+
+		// prevent event bubbling
+		return false;
+	};
+
+	var setChecked = function($item) {
+		if (!$item) {
+			//console.log('item for option not found');
+			return;
+		}
+		$item.siblings().removeClass('checked');
+		$item.addClass('checked');
+	};
+
+	var syncOptions = function(options) {
+		var $item, id,
+			map = [{
+				action: 'zoomFonts',
+				value: options.fontSize
+			}, {
+				action: 'zoomDiagrams',
+				value: options.diagramSize
+			}, {
+				action: 'layout',
+				value: options.diagramPosition
+			}, {
+				action: 'paper',
+				value: options.paper
+			}, {
+				action: 'colors',
+				value: options.theme
+			}, {
+				action: 'tuning',
+				value: options.tuning
+			}, {
+				action: 'placement',
+				value: options.lyricStyle
+			}];
+
+		for (var i = map.length - 1; i >= 0; i--) {
+			$item = $('[data-action=' + map[i].action + '] a[href=#' + map[i].value + ']').closest('li');
+			id = $item.closest('dd').attr('id');
+			setChecked($item);
+			$('label[for=' + id + '] span').text(getLabelText(map[i].action, map[i].value, $item));
+		}
+	};
+
+	/**
+	 * Label has been clicked, show associated options dialog box.
+	 * Watch for 2-clicks on same label (should hide on second click)
+	 * @method onLabelClick
+	 * @param  {event} e
+	 * @return {bool} false to kill event bubbling
+	 */
+	var onLabelClick = function(e) {
+		var $thisLabel = $(this);
+		var id = $thisLabel.attr('for');
+		setActiveLabel($thisLabel);
+		$('#' + id).show();
+		onListActive(this, true);
+		if (_open !== null) {
+			$('#' + _open.id).hide();
+		}
+		if (_open !== null && _open.id == id) {
+			_open = null;
+		}
+		else {
+			_open = {
+				"id": id
+			};
+		}
+
+		// prevent event bubbling
+		return false;
+	};
+
+	_public.reset = function($dlg) {
+		$dlg.find('dt').removeClass('active');
+		$dlg.find('.event-userSelecting').removeClass('event-userSelecting');
+	};
+
+	var setActiveLabel = function($label) {
+		$label.closest('dl').children('dt').removeClass('active');
+		$label.closest('dt').addClass('active');
+	};
+
+	/**
+	 * trying prevent the options not being set from being too distractive --
+	 * (trying and clearly failing)
+	 * @method onListActive
+	 * @param  {DOM-elemnt}  ele     [description]
+	 * @param  {Boolean} isInUse [description]
+	 * @return void
+	 */
+	var onListActive = function(ele, isInUse) {
+		$(ele).parents('.enablePseudoSelects').toggleClass('event-userSelecting', isInUse);
+	};
+
+	/**
+	 * @method  doCollapseAllLists
+	 * @param  {event} e
+	 * @return bool
+	 */
+	var doCollapseAllLists = function(e) {
+		if ($(e.target).is('a')) {
+			return;
+		}
+		$(this).find('dd').hide();
+		_open = null;
+		return false;
+	};
+
+	/**
+	 * user clicked off the current dialog -- close 'em all
+	 * @method closeAll
+	 * @param  {event} e
+	 */
+	var closeAll = function(e) {
+		$('.arrowBox').fadeOut(270);
+		ugsEditorPlus.topMenus.makeAllInactive();
+	};
+
+	var stripHash = function(value) {
+		return (value[0] == '#') ? value.substr(1) : value;
+	};
+
+	/* ----------------------------------------------------------------------------------- *|
+	|* Display Text Methods
+	|* ----------------------------------------------------------------------------------- */
+
+	/**
+	 * used to construct the descriptions for current values
+	 * @property _descriptions
+	 * @private
+	 * @type {JSON}
+	 */
+	var _desriptions = {
+		'zoomDiagrams': ['Tiny', 'Small', 'Medium', 'Large', 'Stupid Large'],
+		'layout': ['Reference diagrams on left', 'Reference diagrams at top', 'No reference diagrams'],
+		'placement': ['Chord names inline with lyrics', 'Chord names above lyrics', 'Names & diagrams above lyrics'],
+		'tuning': ['Soprano (GCEA) tuning', 'Baritone (DBEA) tuning']
+	};
+
+	/**
+	 * Builds a descriptor string of the current values for the pseudo-select labels
+	 * @method getLabelText
+	 * @param  {string} action
+	 * @param  {string} value
+	 * @param  {jQueryElement} $ele jQuery element that ...
+	 * @return {string}
+	 */
+	var getLabelText = function(action, value, $ele) {
+		var index = $ele.index();
+
+		switch (action) {
+			case 'paper':
+				return 'Width ' + $ele.text();
+			case 'zoomFonts':
+				return 'Font size ' + value + 'pt';
+			case 'zoomDiagrams':
+				return _desriptions.zoomDiagrams[index] + ' diagrams';
+			case 'colors':
+				return ugsEditorPlus.themes.getDescription(value);
+			case 'transpose':
+				if (value == 'up_0') {
+					return 'Original key';
+				}
+				var txt = $ele.text();
+				return txt.replace(' ', ' steps - "') + '"';
+			default:
+				return _desriptions[action][index];
+		}
+	};
+
+	_public.resetTransposeLabel = function() {
+		$('label[for=transposePicker] span').text('Original key');
+	};
+
+	// ---------------------------------------
+	// return public interface "JSON handle"
+	// ---------------------------------------
+	return _public;
+
+}());
+;/**
+ * Creates a new song via AJAX.
+ * Dependencies: jQuery
+ * @class newSong
+ * @namespace ugsEditorPlus
+ */
+ugsEditorPlus.newSong = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	/**
+	 * lock-down the Submit (Update) button to avoid double posts;
+	 * @attribute _isUpdating
+	 * @type {Boolean}
+	 */
+	var _isUpdating = false;
+
+	var _ajaxUri = '';
+
+	_public.init = function(ajaxUri) {
+		_ajaxUri = ajaxUri;
+
+		$('#newSongBtn').click(function(e) {
+			if (doValidate(this)) {
+				doPost();
+			}
+		});
+
+		$('#openNewDlgBtn').click(function(e) {
+			resetFields();
+			$('#newSongForm').fadeIn();
+			$('#songTitle').focus();
+		});
+
+		$('#hideNewSongBtn').click(closeDlg);
+
+		// handle escape key
+		$('#newSongForm').bind('keydown', onEscape);
+
+		var $spinner = $("#loadingSpinner");
+		$spinner.hide();
+		$(document)
+			.ajaxStart(function() {
+				$spinner.show();
+				_isUpdating = true;
+			})
+			.ajaxStop(function() {
+				$spinner.hide();
+				_isUpdating = false;
+			});
+	};
+
+	var doAjaxOk = function(data) {
+		showErrors(data.HasErrors, data.Message);
+		if (data.HasErrors) {
+			return;
+		}
+		document.location.href = data.ContinueUri;
+	};
+
+	var doPost = function() {
+		if (_isUpdating) {
+			return;
+		}
+
+		var data = {
+			'handler': 'ugs_new',
+			'songTitle': $('#songTitle').val(),
+			'songArtist': $('#songArtist').val()
+		};
+
+		$.ajax({
+			url: _ajaxUri,
+			type: "POST",
+			dataType: 'json',
+			data: JSON.stringify(data),
+			success: function(data) {
+				doAjaxOk(data);
+			},
+			error: function(data) {
+				showErrors(true, 'Failed to create the song file.<br/>Please have your admin check the CPM directory permissions.');
+			}
+		});
+	};
+
+	var doValidate = function() {
+		var $title = $('#songTitle');
+		var title = $title.val().trim();
+		$title.val(title);
+		var ok = title.length > 2;
+		showErrors(!ok, 'Song\'s title is required<br/><em>(you may change it later, must be at least 2 characters)</em>');
+		return ok;
+	};
+
+	var showErrors = function(hasErrors, message) {
+		var $err = $('#newSongForm .errorMessage');
+		if (hasErrors) {
+			$err.show().html(message);
+			$('#songTitle').focus();
+		}
+		else {
+			$err.hide();
+		}
+	};
+
+	var closeDlg = function(e) {
+		$('#newSongForm').fadeOut();
+	};
+
+	var resetFields = function() {
+		$('#songTitle, #songArtist').val('');
+	};
+
+	var onEscape = function(e) {
+		if (e.which == 27) {
+			closeDlg();
+		}
+	};
+
+	// ---------------------------------------
+	// return public interface "JSON handle"
+	// ---------------------------------------
+	return _public;
+})();
+;/**
+ * Updates an exising song via AJAX.
+ * Dependencies: jQuery
+ * @class updateSong
+ * @namespace ugsEditorPlus
+ */
+ugsEditorPlus.updateSong = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	var _ajaxUri = '';
+	var _filename = '';
+
+	/**
+	 * Name / Value pairs for jQuery selectors of HTML elements to be manipulated
+	 * @property _selectors
+	 * @type {JSON}
+	 */
+	var _selectors = {
+		messageBox: '#messageBox',
+		message: '#sourceFeedback',
+		button: '#saveBtn',
+		spinner: '#loadingSpinner',
+		song: '#chordProSource'
+	};
+
+	/**
+	 * lock-down the Submit (Update) button to avoid double posts;
+	 * @property _isUpdating
+	 * @type {Boolean}
+	 */
+	var _isUpdating = false;
+
+	_public.init = function(ajaxUri, filename) {
+		_ajaxUri = ajaxUri;
+		_filename = filename;
+
+		$(_selectors.button).click(function(event) {
+			doUpdate();
+			return false;
+		});
+
+		$(_selectors.messageBox).hide();
+		$(document)
+			.ajaxStart(function() {
+				showBusy();
+				_isUpdating = true;
+			})
+			.ajaxStop(function() {
+				hideMessage();
+				_isUpdating = false;
+			});
+	};
+
+	var showBusy = function() {
+		$(_selectors.message).hide().html();
+		$(_selectors.messageBox).slideDown('fast');
+		$(_selectors.spinner).show();
+	};
+
+	var showMessage = function(message) {
+		$(_selectors.spinner).hide();
+		$(_selectors.message).show().html(message);
+	};
+
+	var hideMessage = function() {
+		$(_selectors.messageBox).delay(3000).fadeOut('slow');
+	};
+
+	var doUpdate = function() {
+		if (_isUpdating) {
+			return;
+		}
+
+		$(_selectors.message).show();
+
+		var data = {
+			'handler': 'ugs_update_81jr',
+			'filename': _filename,
+			'song': $(_selectors.song).val()
+		};
+
+		$.ajax({
+			url: _ajaxUri,
+			type: 'POST',
+			dataType: 'json',
+			contentType: "application/json; charset=utf-8",
+			data: JSON.stringify(data),
+			success: function(data) {
+				doAjaxOk(data);
+			},
+			error: function(data) {
+				alert('Encountered a problem saving your Song. Please copy your song to another program until this issue is resolved.');
+			}
+		});
+	};
+
+	var doAjaxOk = function(data) {
+		//if (data.HasErrors)
+		showMessage(data.Message);
+	};
+
+	// ---------------------------------------
+	// return public interface "JSON handle"
+	// ---------------------------------------
+	return _public;
+})();
+;/**
+ * Search on the song list page for songs.
+ * Dependencies: jQuery and Twitter Bootstrap's typeahead plugin
+ * Based on tutorial:
+ * http://tatiyants.com/how-to-use-json-objects-with-twitter-bootstrap-typeahead/
+ * @class typeahead
+ * @constructor
+ * @namespace ugsEditorPlus
+ */
+ugsEditorPlus.typeahead = function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	// private
+	// ---------------------------
+	var _keysList = [];
+	var _keysToDetailsDict = {};
+
+	var _scrubbedQuery = '';
+	var _regex;
+	var _words = [];
+
+	var _re = {
+		space: /\s{2,}/g,
+		// everything except for alphanumeric gets nuked
+		common: /([^a-z0-9]+)/gi,
+		//treat quotes as invisible
+		noise: /['`’-]/g
+	};
+
+	/**
+	 * Scrapes HTML to build our list of
+	 * keys, searchable text, and display text
+	 * @method listFromHtml
+	 */
+	var listFromHtml = function() {
+
+		$('li').each(function(index) {
+			var $this = $(this);
+			var plainText = crushText($this.text());
+			var href = $this.children('a').attr('href');
+			var key = href.toLowerCase();
+
+			var html = $this.children('a').html();
+			html = html.replace('<strong class="', '<span class="bigger ').replace('</strong>', '</span>');
+
+			_keysToDetailsDict[key] = {
+				// content displayed in drop down list
+				html: html,
+				// what we'll match against
+				searchText: plainText,
+				// unique key/id
+				code: key,
+				// when a selection is made this is the location we'll launch
+				href: href
+			};
+			_keysList.push(key);
+		});
+
+	};
+
+	var crushText = function(value) {
+		return value
+			.toLowerCase()
+			.replace(_re.noise, '')
+			.replace(_re.common, ' ')
+			.replace(_re.space, ' ')
+			.trim();
+	};
+
+	var _ta_source = function(query, process) {
+		_scrubbedQuery = crushText(query);
+		_words = _scrubbedQuery.split(' ');
+		var regGroup = '';
+		for (var i = 0; i < _words.length; i++) {
+			_words[i] = _words[i].trim();
+			if (_words[i].length > 0) {
+				regGroup += (regGroup.length > 0 ? '|' : '') + _words[i];
+			}
+		}
+		_regex = new RegExp('(' + regGroup + ')', 'gi');
+		process(_keysList);
+	};
+
+	var _ta_updater = function(item) {
+		window.location = _keysToDetailsDict[item].href;
+		return _keysToDetailsDict[item].searchText;
+	};
+
+	var _ta_matcher = function(item) {
+		var detailed = _keysToDetailsDict[item];
+		for (var i = 0; i < _words.length; i++) {
+			if (detailed.searchText.indexOf(_words[i]) == -1) {
+				return false;
+			}
+		}
+		return true;
+	};
+
+	var _ta_sorter = function(items) {
+		return items.sort(function(a, b) {
+			return (_keysToDetailsDict[a].searchText > _keysToDetailsDict[b].searchText);
+		});
+	};
+
+	var _ta_highligher = function(item) {
+		var $temp = $('<div/>').html(_keysToDetailsDict[item].html);
+
+		$('em, .bigger', $temp).each(function(index) {
+			var $ele = $(this);
+			var text = $ele.html();
+			$ele.html(text.replace(_regex, "<strong>$1</strong>"));
+		});
+		return $temp.html();
+	};
+
+	_public.initialize = function() {
+		listFromHtml();
+
+		$('#quickSearch')
+			.typeahead({
+				source: _ta_source,
+				updater: _ta_updater,
+				matcher: _ta_matcher,
+				sorter: _ta_sorter,
+				highlighter: _ta_highligher,
+				minLength: 2,
+				items: 50
+			})
+			.val('')
+			.focus();
+	};
+
+	// ---------------------------------------
+	// return public interface "JSON handle"
+	// ---------------------------------------
+	return _public;
+};
+;/**
+ * Resizes an overlay to fill the window (this is a 1.0, so "fill" is relative -- it gets much bigger)
+ * @class resize
+ * @namespace ugsEditorPlus
+ */
+ugsEditorPlus.resize = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	var $dlg = null;
+	var $aceLayer = null;
+	var $help = null;
+	var editor = null;
+
+	/**
+	 * miliseconds to fade in/out editor
+	 * @property FADE_SPEED
+	 * @final
+	 * @type {Number}
+	 */
+	var FADE_SPEED = 550;
+	/**
+	 * miliseconds to slide in/out sidebar (help) panel
+	 * @property SLIDE_SPEED
+	 * @final
+	 * @type {Number}
+	 */
+	var SLIDE_SPEED = 400;
+
+	/**
+	 * Hold the current state of the dialog, we'll store this on the element in "data-sized" attribute
+	 * @attribute isBig
+	 * @type {Boolean}
+	 */
+	var isBig = false;
+
+	var isHelpOpen = false;
+
+	/**
+	 * Initializer: preps handles and sets state varables.
+	 * @method setup
+	 * @private
+	 * @return {void}
+	 */
+	var setup = function(dlgElement) {
+		$dlg = $(dlgElement);
+		$("body").append('<div id="aceHeader"><button class="aceSideBtn" title="Show options &amp; help"><span></span><span></span><span></span></button><strong>Edit Song</strong><a href="#exit-fullscreen">Exit fullscreen</a></div><div id="aceEditor"></div><div id="aceHelp"></div>');
+
+		$aceLayer = $('#aceEditor');
+		$aceLayer.fadeOut(1);
+
+		$help = $('#aceHelp');
+
+		$('#aceHeader a').click(function(e) {
+			e.preventDefault();
+			hideAce();
+		});
+		$('#aceHeader button').click(onShowHelpClicked);
+	};
+
+	var onShowHelpClicked = function(e) {
+		e.preventDefault();
+		showHelp(!isHelpOpen);
+	};
+
+	var showHelp = function(isShow) {
+		isHelpOpen = isShow;
+
+		if (isShow) {
+			$help.animate({
+				left: 0
+			}, SLIDE_SPEED);
+			$aceLayer.animate({
+				left: '350px'
+			}, SLIDE_SPEED);
+		}
+		else {
+			$help.animate({
+				left: '-350px'
+			}, SLIDE_SPEED);
+			$aceLayer.animate({
+				left: 0
+			}, SLIDE_SPEED);
+		}
+	};
+
+	/**
+	 * Returns the path of a linked script file (src) up to the starting position of fileName
+	 * @method getPath
+	 * @param  {string} fileName
+	 * @return {string}
+	 */
+	var getPath = function(fileName) {
+		var path = '',
+			lower, pos;
+
+		fileName = fileName.toLowerCase();
+
+		$('script').each(function(index, item) {
+			lower = item.src.toLowerCase();
+			pos = lower.indexOf(fileName);
+			if (pos > 0) {
+				path = item.src.substr(0, pos);
+			}
+		});
+		return path;
+	};
+
+	var showAce = function() {
+		isBig = true;
+
+		$('html').addClass('aceEditorActive');
+		$('.overlay').fadeOut(300);
+
+		if (editor !== null) {
+			// editor has already been initialized, safe to continue
+			copySongToAce();
+			return;
+		}
+
+		// only execute this block once (thus the null check)
+		var path = getPath('ugsEditorPlus');
+
+		LazyLoad.js(path + '/ace/ace.js', function() {
+			editor = ace.edit("aceEditor");
+			editor.setTheme("ace/theme/idle_fingers");
+			editor.getSession().setMode("ace/mode/chordpro");
+			editor.setOptions({
+				enableBasicAutocompletion: true,
+				enableSnippets: true
+			});
+			editor.completers = [ugsAce.chordCompleter];
+			copySongToAce();
+
+			$help.html(ugsAce.helpHtml);
+
+		});
+	};
+
+	var copySongToAce = function() {
+		$aceLayer.fadeIn(FADE_SPEED);
+		editor.setValue($('#chordProSource').val());
+		editor.gotoLine(1);
+		$help.fadeIn(1);
+	};
+
+	/**
+	 * Restores overlay to original position(-ish -- not finished)
+	 * @method hideAce
+	 * @private
+	 * @return {void}
+	 */
+	var hideAce = function() {
+		isBig = false;
+
+		$dlg.show();
+		$aceLayer.fadeOut(FADE_SPEED);
+		$help.fadeOut(FADE_SPEED);
+		if (editor !== null) {
+			$('#chordProSource').val(editor.getValue());
+		}
+
+		$('html').removeClass('aceEditorActive');
+		showHelp(false);
+	};
+
+	/**
+	 * Resizes passed in DOM element, toggling between fullscreen and "standard" size.
+	 * @method toggle
+	 * @param  {DOM-element} dlgElement handle to Overlay/dialog being resized
+	 * @return {void}
+	 */
+	_public.toggle = function(dlgElement) {
+		if ($dlg === null) {
+			setup(dlgElement);
+		}
+
+		if (isBig) {
+			hideAce();
+		}
+		else {
+			showAce();
+		}
+		return false;
+	};
+
+
+	// ---------------------------------------
+	// return public interface "JSON handle"
+	// ---------------------------------------
+	return _public;
+
+}());
+;/**
+ *
+ * Dependencies: jQuery & ugsChordBuilder classes
+ * @class chordBuilder
+ * @namespace ugsEditorPlus
+ */
+ugsEditorPlus.chordBuilder = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	var _builder = null;
+
+	/**
+	 * Standard event wire up and prep method. Handles "finding" the Builder's "Hand Cursor" based
+	 * on the location of the background image used on the Finger Tool.
+	 * @method  init
+	 */
+	_public.init = function() {
+		var fingerToolImage = $('.fingerToolImage').css('background-image');
+		ugsChordBuilder.settings.cursor.imageUri = fingerToolImage.replace(/url\("(.*)hand.png"\)/i, '$1hand-cursor.png');
+		_builder = new ugsChordBuilder.editorUi();
+		_builder.init();
+
+		$('#cdBldOpenBtn').click(onShowDlgBtnClick);
+	};
+
+	/**
+	 * Button/Link click handler (shows the Chord Builder Overlay)
+	 * @method onShowDlgBtnClick
+	 * @param  {event} evt
+	 */
+	var onShowDlgBtnClick = function(evt) {
+		evt.preventDefault();
+		_builder.reload();
+		var id = $(this).data('dialog');
+		$('#' + id).fadeIn();
+	};
+
+	// ---------------------------------------
+	// return public interface "JSON handle"
+	// ---------------------------------------
+	return _public;
+
+}());
+;/**
+ * Exposes the only method required to attach UkeGeeks Scriptasaurus Song-a-matic editor functionality.
+ *
+ * @class songAmatic
+ * @namespace ugsEditorPlus
+ * @static
+ * @singleton
+ */
+ugsEditorPlus.songAmatic = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	/**
+	 * attaches event handlers, preps variables, and runs UGS
+	 * @method init
+	 * @param options {OBJECT} (optional) Object/JSON with any of the ugsEditorPlus.options
+	 * @return {void}
+	 */
+	_public.init = function(options) {
+		var opts = mergeOptions(options);
+
+		ukeGeeks.settings.opts.retainBrackets = !opts.hideChordEnclosures;
+		$('#songSourceDlg').toggle(opts.showEditOnLoad);
+
+		ukeGeeks.scriptasaurus.init(opts.useLegacyIe);
+
+		ugsEditorPlus.actions.init();
+		ugsEditorPlus.topMenus.init();
+		ugsEditorPlus.submenuUi.init();
+		ugsEditorPlus.optionsDlg.init();
+		ugsEditorPlus.chordBuilder.init();
+		ugsEditorPlus.actions.run();
+	};
+
+	var mergeOptions = function(options) {
+		var opts = {
+			hideChordEnclosures: !ukeGeeks.settings.opts.retainBrackets,
+			sortAlphabetical: ukeGeeks.settings.opts.sortAlphabetical,
+			ignoreCommonChords: ukeGeeks.settings.opts.ignoreCommonChords,
+			commonChords: ukeGeeks.settings.commonChords
+		};
+
+		return $.extend(ugsEditorPlus.options, opts, (typeof options === "object") ? options : {});
+	};
+
+	// ---------------------------------------
+	// return public interface "JSON handle"
+	// ---------------------------------------
+	return _public;
+
+}());
+;/**
+ * Library for an HTML5 WYSIWYG editor to build ChordPro chord define tags.
+ * @module  ugsChordBuilder
+ * @namespace ugsChordBuilder
+ * @main  ugsChordBuilder
+ */
+var ugsChordBuilder = window.ugsChordBuilder || {};
+
+/**
+ * Entities (data containers) shared between the class libraries. Private
+ * JSON objects used internally by a class are not included here.
+ * @class entities
+ * @namespace ugsChordBuilder
+ * @static
+ * @singleton
+ */
+ugsChordBuilder.entities = {
+	/**
+	 * @class entities.BoundingBox
+	 * @constructor
+	 * @param  {Position} pos   Position (JSON) object
+	 * @param  {JSON} dimensions JSON Object of form: {width: {int}, height: {int}}
+	 */
+	BoundingBox: function(pos, dimensions) {
+		/**
+		 * @property x
+		 * @type {int}
+		 */
+		this.x = pos ? pos.x : 0;
+		/**
+		 * @property y
+		 * @type {int}
+		 */
+		this.y = pos ? pos.y : 0;
+		/**
+		 * @property width
+		 * @type {int}
+		 */
+		this.width = dimensions ? dimensions.width : 1;
+		/**
+		 * @property height
+		 * @type {int}
+		 */
+		this.height = dimensions ? dimensions.height : 1;
+	},
+
+	/**
+	 * Describes a fingering Dot on the fretboard
+	 * @class entities.Dot
+	 * @constructor
+	 * @param  {int} string
+	 * @param  {int} fret
+	 * @param  {int} finger
+	 */
+	Dot: function(string, fret, finger) {
+		/**
+		 * String number, on sporano (GCEA), G is 0th string, and so on
+		 * @property string
+		 * @type {int}
+		 */
+		this.string = string;
+		/**
+		 * @property fret
+		 * @type {int}
+		 */
+		this.fret = fret ? fret : 0;
+		/**
+		 * @property finger
+		 * @type {int}
+		 */
+		this.finger = finger ? finger : 0;
+	},
+
+	/**
+	 * @class entities.Position
+	 * @constructor
+	 * @param  {int} x
+	 * @param  {int} y
+	 */
+	Position: function(x, y) {
+		/**
+		 * @property x
+		 * @type {int}
+		 */
+		this.x = x ? x : 0;
+		/**
+		 * @property y
+		 * @type {int}
+		 */
+		this.y = y ? y : 0;
+	}
+};
+
+/**
+ * "Properties, Options, Preferences" such as fretboard size and colors; dot attributes, the cursors, fonts etc.
+ * @class settings
+ * @namespace ugsChordBuilder
+ * @static
+ * @final
+ * @singleton
+ */
+ugsChordBuilder.settings = (function() {
+	// "Revealing Module Pattern"
+
+	// dependencies:
+	var ents = ugsChordBuilder.entities;
+
+	//'Geneva, "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, sans-serif';
+	/**
+	 * San-serif font stack used when drawing text on Canvas.
+	 * @property {String} FONT_STACK
+	 * @final
+	 * @constant
+	 */
+	var FONT_STACK = 'Arial, "Helvetica Neue", Helvetica, Verdana, sans-serif';
+
+	/**
+	 * Fretboard upper left hand corner position (pseudo-constants)
+	 * @method anchorPos
+	 * @type {Position}
+	 * @static
+	 */
+	var anchorPos = {
+		x: 75,
+		y: 75
+	};
+
+	var cursor = {
+		fillColor: 'rgba(220, 216, 73, 0.35)', // 'rgba(245, 127, 18, 0.3)',
+		strokeWidth: 1,
+		strokeColor: '#AAB444', // '#F57F12',
+		radius: 9,
+		imageUri: '/img/editor/hand-cursor.png'
+	};
+
+	var fretBoard = {
+		numFrets: 5,
+		maxFret: 16,
+		stringNames: ['G', 'C', 'E', 'A'],
+		strokeWidth: 4,
+		strokeColor: '#8F8569',
+		fretSpace: 35,
+		stringSpace: 30
+	};
+
+	var dot = {
+		fillColor: '#F68014',
+		radius: 11,
+		strokeWidth: 2,
+		strokeColor: '#D56333',
+		fontWeight: 'bold',
+		fontFamily: FONT_STACK,
+		fontSize: 16,
+		fontColor: '#ffffff'
+	};
+
+	var fretLabel = {
+		fontFamily: FONT_STACK,
+		fontSize: 28, // Pixels
+		color: '#6A6A63',
+		lightColor: '#EAEAE8' //D6D6D6' //A4A4A3'
+	};
+
+	var stringLabel = {
+		fontFamily: FONT_STACK,
+		fontSize: 34, // Pixels
+		color: '#DCD849' // #AAB444'//
+	};
+
+	var chord = {
+		nameMaxLength: 20
+	};
+
+	/**
+	 * Dimensions of a single target
+	 * @method targetDimensions
+	 * @return {JSON} {width: ?, height: ? }
+	 */
+	var targetDimensions = function() {
+		return {
+			height: fretBoard.fretSpace,
+			width: fretBoard.stringSpace
+		};
+	};
+
+	/**
+	 * Top left-hand corner where Targets begin positioning
+	 * @method targetAnchorPos
+	 * @return {postion}
+	 */
+	var targetAnchorPos = function() {
+		var dimensions = targetDimensions();
+		return new ents.Position(
+			anchorPos.x - 0.5 * dimensions.width,
+			anchorPos.y - dimensions.height - 0.2 * fretBoard.strokeWidth
+		);
+	};
+
+	/**
+	 * re-centers the fretboard's anchor position
+	 * @method centerFretboard
+	 * @param  {element} canvas
+	 * @return {void}
+	 */
+	var centerAnchor = function(canvas) {
+		anchorPos.x = (0.5 * canvas.width) - (0.5 * (fretBoard.stringNames.length - 1) * fretBoard.stringSpace) - fretBoard.strokeWidth;
+		anchorPos.y = (0.5 * canvas.height) - (0.5 * fretBoard.numFrets * fretBoard.stringSpace);
+	};
+
+	return {
+		// Properties
+		anchorPos: anchorPos,
+		cursor: cursor,
+		fretBoard: fretBoard,
+		dot: dot,
+		fretLabel: fretLabel,
+		stringLabel: stringLabel,
+		chord: chord,
+		// Methods
+		targetDimensions: targetDimensions,
+		targetAnchorPos: targetAnchorPos,
+		centerAnchor: centerAnchor
+	};
+}());
+
+/**
+ * Tracks curor position relative to fretboard's hot (clickable) regions
+ * @class tracking
+ * @namespace ugsChordBuilder
+ * @static
+ * @singleton
+ */
+ugsChordBuilder.tracking = (function() {
+	// dependencies:
+	var ents = ugsChordBuilder.entities,
+		settings = ugsChordBuilder.settings;
+
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	var targetBox = null;
+
+	var getTarget = function() {
+		if (targetBox) {
+			return targetBox;
+		}
+
+		var dimensions = settings.targetDimensions();
+		dimensions.width = dimensions.width * settings.fretBoard.stringNames.length;
+		dimensions.height = dimensions.height * (settings.fretBoard.numFrets + 1);
+		targetBox = new ents.BoundingBox(settings.targetAnchorPos(), dimensions);
+
+		return targetBox;
+	};
+
+	/**
+	 * Returns TRUE if the two objects overlap
+	 * @method  collision
+	 * @param  {BoundingBox} object1
+	 * @param  {BoundingBox} object2
+	 * @return {bool}
+	 */
+	var collision = function(object1, object2) {
+		return (object1.x < object2.x + object2.width) && (object1.x + object1.width  > object2.x) && (object1.y < object2.y + object2.height) && (object1.y + object1.height > object2.y);
+	};
+
+	/**
+	 * Converts position (x,y) to the fret
+	 * @method toDot
+	 * @param  {position} pos
+	 * @return {dot}
+	 */
+	_public.toDot = function(pos) {
+		var cursorBox = new ents.BoundingBox(pos);
+		var box = getTarget();
+		if (!collision(cursorBox, box)) {
+			return null;
+		}
+
+		var dimensions = settings.targetDimensions();
+		return new ents.Dot(
+			Math.floor((pos.x - box.x) / dimensions.width),
+			Math.floor((pos.y - box.y) / dimensions.height)
+		);
+	};
+
+	// ---------------------------------------
+	// return public interface
+	// ---------------------------------------
+	return _public;
+
+}());
+
+/**
+ * Did I overlook this or was it deliberate? Either case, the "fret" in the dot object is
+ * merely the fret in the visible diagram -- that is, a value between 0 and maxFrets, not
+ * the actual fret on the instrument... beware.
+ *
+ * Unless otherwise stated all "dot" parames are of type ugsChordBuilder.entities.dot
+ * @class fretDots
+ * @namespace ugsChordBuilder
+ * @static
+ * @singleton
+ */
+ugsChordBuilder.fretDots = (function() {
+	// dependencies:
+	var ents = ugsChordBuilder.entities,
+		anchor_pos = ugsChordBuilder.settings.anchorPos,
+		opts_board = ugsChordBuilder.settings.fretBoard,
+		opts_dot = ugsChordBuilder.settings.dot;
+
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	// locals
+	var _dots = [];
+
+	_public.getDots = function() {
+		return _dots.slice();
+	};
+
+	_public.slide = function(numSteps) {
+		if (!inRange(numSteps)) {
+			return false;
+		}
+		for (var i = 0; i < _dots.length; i++) {
+			_dots[i].fret = _dots[i].fret + numSteps;
+		}
+		return true;
+	};
+
+	var inRange = function(numSteps) {
+		for (var i = 0; i < _dots.length; i++) {
+			if ((_dots[i].fret + numSteps < 1) || (_dots[i].fret + numSteps > opts_board.numFrets)) {
+				return false;
+			}
+		}
+		return true;
+	};
+
+	_public.toggleDot = function(dot) {
+		if (dot.fret == 0) {
+			clearColumn(dot.string);
+			return;
+		}
+
+		var index = find(dot);
+		if (index < 0) {
+			_dots.push(dot);
+		}
+		else {
+			_dots.splice(index, 1);
+		}
+	};
+
+	_public.toggleFinger = function(dot, finger) {
+		var index = find(dot);
+		if (index < 0) {
+			return false;
+		}
+
+		_dots[index].finger = _dots[index].finger == finger ? 0 : finger;
+		return true;
+	};
+
+	/**
+	 * Clears all saved dots.
+	 * @method reset
+	 */
+	_public.reset = function() {
+		for (var i = 0; i < opts_board.stringNames.length; i++) {
+			clearColumn(i);
+		}
+	};
+
+	/**
+	 * Returns index of Dot within _dots or -1 if not found.
+	 * @method find
+	 * @param  {entities.dot} dot
+	 * @return {int}
+	 */
+	var find = function(dot) {
+		for (var i = _dots.length - 1; i >= 0; i--) {
+			if (_dots[i].string == dot.string && _dots[i].fret == dot.fret) {
+				return i;
+			}
+		}
+
+		return -1;
+	};
+
+	/**
+	 * Clears all dots for a particular string.
+	 * @method clearColumn
+	 * @param string {int}
+	 */
+	var clearColumn = function(string) {
+		for (var i = _dots.length - 1; i >= 0; i--) {
+			if (_dots[i].string == string) {
+				_dots.splice(i, 1);
+			}
+		}
+	};
+
+	var getPosition = function(dot) {
+		return new ents.Position(
+			anchor_pos.x + 0.47 * opts_board.strokeWidth + dot.string * opts_board.stringSpace,
+			anchor_pos.y + 0.47 * opts_board.strokeWidth + (dot.fret - 0.5) * opts_board.fretSpace
+		);
+	};
+
+	var drawDot = function(context, pos) {
+		context.beginPath();
+		context.arc(pos.x, pos.y, opts_dot.radius, 0, 2 * Math.PI, false);
+		context.fillStyle = opts_dot.fillColor;
+		context.fill();
+		context.lineWidth = opts_dot.strokeWidth;
+		context.strokeStyle = opts_dot.strokeColor;
+		context.stroke();
+	};
+
+	var addLabel = function(context, pos, text) {
+		context.font = opts_dot.fontWeight + ' ' + opts_dot.fontSize + 'px ' + opts_dot.fontFamily;
+		context.textAlign = 'center';
+		context.fillStyle = opts_dot.fontColor;
+		context.fillText(text, pos.x, pos.y + 0.3 * opts_dot.fontSize);
+	};
+
+	_public.draw = function(context) {
+		for (var i = _dots.length - 1; i >= 0; i--) {
+			var pos = getPosition(_dots[i]);
+			drawDot(context, pos);
+			if (_dots[i].finger > 0) {
+				addLabel(context, pos, _dots[i].finger);
+			}
+		}
+	};
+
+	// ---------------------------------------
+	// return public interface
+	// ---------------------------------------
+	return _public;
+
+}());
+
+/**
+ * Plots cursor moving across its own canvas context.
+ * @class cursorCanvas
+ * @namespace ugsChordBuilder
+ * @static
+ * @singleton
+ */
+ugsChordBuilder.cursorCanvas = (function() {
+	// dependencies
+	var opts_cursor = ugsChordBuilder.settings.cursor,
+		opts_dot = ugsChordBuilder.settings.dot;
+
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	var _context = null;
+
+	var _handImage = null;
+	var _imgOk = false;
+
+	var _dotCursor = true;
+	var _finger = 1;
+
+	var _lastPos = {
+		x: 0,
+		y: 0
+	};
+
+	_public.init = function(ctx) {
+		_context = ctx;
+		loadImage();
+	};
+
+	var erase = function(pos) {
+		var radius = opts_cursor.radius + opts_cursor.strokeWidth;
+		// Need to allow for dot, image, and the finger number -- magic number for now:
+		_context.clearRect(pos.x - radius, pos.y - radius, radius + 50, radius + 60);
+		/*
+		if (_imgOk) {
+			_context.clearRect(pos.x - radius, pos.y - radius, radius + _handImage.width, radius + _handImage.height);
+		} else {
+			_context.clearRect(pos.x - radius, pos.y - radius, 2 * radius, 2 * radius);
+		}
+		*/
+	};
+
+	var drawHandCursor = function(pos) {
+		_context.drawImage(_handImage, pos.x, pos.y);
+
+		_context.font = opts_dot.fontWeight + ' ' + opts_dot.fontSize + 'px ' + opts_dot.fontFamily;
+		_context.textAlign = 'left';
+		_context.fillStyle = 'black'; //opts_dot.fontColor;
+		_context.fillText(_finger, pos.x + 0.8 * _handImage.width, pos.y + _handImage.height);
+		// not centering pos.x - 0.5 * _handImage.width, pos.y - 0.5 * _handImage.height);
+	};
+
+	var loadImage = function() {
+		_handImage = new Image();
+		_handImage.onload = function() {
+			_imgOk = true;
+		};
+		_handImage.src = opts_cursor.imageUri;
+	};
+
+	var drawDotCursor = function(pos) {
+		_context.beginPath();
+		_context.arc(pos.x, pos.y, opts_cursor.radius, 0, 2 * Math.PI, false);
+		_context.fillStyle = opts_cursor.fillColor;
+		_context.fill();
+		_context.lineWidth = opts_cursor.strokeWidth;
+		_context.strokeStyle = opts_cursor.strokeColor;
+		_context.stroke();
+	};
+
+	_public.setCursor = function(isDot, finger) {
+		_dotCursor = isDot;
+		_finger = finger;
+	};
+
+	_public.draw = function(pos) {
+		erase(_lastPos);
+		if (!_imgOk || _dotCursor) {
+			drawDotCursor(pos);
+		}
+		else {
+			drawHandCursor(pos);
+		}
+		_lastPos = pos;
+	};
+
+	// ---------------------------------------
+	// return public interface
+	// ---------------------------------------
+	return _public;
+
+}());
+
+/**
+ * Plots chord diagram (fretboard with fret labels) on its canvas context.
+ * @class chordCanvas
+ * @namespace ugsChordBuilder
+ * @static
+ * @singleton
+ */
+ugsChordBuilder.chordCanvas = (function() {
+
+	// dependencies
+	var ents = ugsChordBuilder.entities,
+		center_anchor = ugsChordBuilder.settings.centerAnchor,
+		anchor_pos = ugsChordBuilder.settings.anchorPos,
+		opt_fLabel = ugsChordBuilder.settings.fretLabel,
+		opt_sLabel = ugsChordBuilder.settings.stringLabel,
+		opts_board = ugsChordBuilder.settings.fretBoard;
+
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	var _context = null,
+		_canvas = null;
+
+	_public.init = function(ctx, ele) {
+		_context = ctx;
+		_canvas = ele;
+		center_anchor(_canvas);
+	};
+
+	var erase = function() {
+		_context.clearRect(0, 0, _canvas.width, _canvas.height);
+	};
+
+	var addLabel = function(text, color, pos) {
+		_context.font = opt_fLabel.fontSize + 'px ' + opt_fLabel.fontFamily;
+		_context.textAlign = 'right';
+		_context.fillStyle = color;
+		_context.fillText(text, pos.x, pos.y);
+	};
+
+	var addLabels = function(startingFret) {
+		var pos = new ents.Position(
+			anchor_pos.x - 0.3 * opt_fLabel.fontSize,
+			anchor_pos.y + opt_fLabel.fontSize
+		);
+		var color = startingFret > 1 ? opt_fLabel.color : opt_fLabel.lightColor;
+		for (var i = 0; i < opts_board.numFrets; i++) {
+			addLabel(startingFret + i, color, pos);
+			pos.y += opts_board.fretSpace;
+			color = opt_fLabel.lightColor;
+		}
+	};
+
+	var addStringName = function(text, pos) {
+		_context.font = opt_sLabel.fontSize + 'px ' + opt_sLabel.fontFamily;
+		_context.textAlign = 'center';
+		_context.fillStyle = opt_sLabel.color;
+		_context.fillText(text, pos.x, pos.y);
+	};
+
+	var addStringNames = function() {
+		var pos = new ents.Position(
+			anchor_pos.x + 0.5 * opts_board.strokeWidth,
+			anchor_pos.y - 0.25 * opt_fLabel.fontSize
+		);
+
+		for (var i = 0; i < opts_board.stringNames.length; i++) {
+			addStringName(opts_board.stringNames[i], pos);
+			pos.x += opts_board.stringSpace;
+		}
+	};
+
+	var drawFretboard = function() {
+		var i, x, y;
+
+		// width offset, a "subpixel" adjustment
+		var offset = opts_board.strokeWidth / 2;
+		// locals
+		var stringHeight = opts_board.numFrets * opts_board.fretSpace;
+		var fretWidth = (opts_board.stringNames.length - 1) * opts_board.stringSpace;
+		// build shape
+		_context.beginPath();
+		// add "C" & "E" strings
+		for (i = 1; i < (opts_board.stringNames.length - 1); i++) {
+			x = anchor_pos.x + i * opts_board.stringSpace + offset;
+			_context.moveTo(x, anchor_pos.y + offset);
+			_context.lineTo(x, anchor_pos.y + stringHeight + offset);
+		}
+		// add frets
+		for (i = 1; i < opts_board.numFrets; i++) {
+			y = anchor_pos.y + i * opts_board.fretSpace + offset;
+			_context.moveTo(anchor_pos.x + offset, y);
+			_context.lineTo(anchor_pos.x + fretWidth + offset, y);
+		}
+		//
+		_context.rect(anchor_pos.x + offset, anchor_pos.y + offset, fretWidth, stringHeight);
+		// stroke shape
+		_context.strokeStyle = opts_board.strokeColor;
+		_context.lineWidth = opts_board.strokeWidth;
+		_context.stroke();
+		_context.closePath();
+	};
+
+	_public.draw = function(pos, startingFret) {
+		erase();
+		// ugsChordBuilder.debugTargets.drawTargets(_context);
+		addLabels(startingFret);
+		addStringNames();
+		drawFretboard();
+		ugsChordBuilder.fretDots.draw(_context);
+	};
+
+	// ---------------------------------------
+	// return public interface
+	// ---------------------------------------
+	return _public;
+
+}());
+
+/**
+ *
+ * @class export
+ * @namespace ugsChordBuilder
+ * @static
+ * @singleton
+ */
+ugsChordBuilder.export = (function() {
+	// dependencies
+	var opts_board = ugsChordBuilder.settings.fretBoard,
+		opts_chord = ugsChordBuilder.settings.chord;
+
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	var _fretOffset = null;
+
+	/**
+	 * Class for "reorganized" dots, think of this as a necklace where the
+	 * thread, the instrument string, has zero or more beads, or dots -- fret plus finger
+	 * @class  StringDots
+	 * @constructor
+	 * @private
+	 * @param  {int} string
+	 * @param  {dot_Array} dots
+	 */
+	var StringDots = function(string, dots) {
+		this.string = string;
+		this.dots = dots ? dots : [];
+		//this.fingers = fingers ? fingers : [];
+	};
+
+	var getStringDots = function() {
+		// initialize empty string array
+		var stringNumber,
+			aryStringDots = [];
+		for (stringNumber = 1; stringNumber <= opts_board.stringNames.length; stringNumber++) {
+			aryStringDots.push(new StringDots(stringNumber));
+		}
+
+		// add dots
+		var dots = ugsChordBuilder.fretDots.getDots();
+		for (stringNumber = aryStringDots.length - 1; stringNumber >= 0; stringNumber--) {
+			for (var i = dots.length - 1; i >= 0; i--) {
+				if (aryStringDots[stringNumber].string == dots[i].string + 1) {
+					aryStringDots[stringNumber].dots.push(dots[i]);
+				}
+			}
+		}
+
+		return aryStringDots;
+	};
+
+	/**
+	 * Returns the minimum & maximum fret found withing array (of dots)
+	 * @method getMinMax
+	 * @param  {dot_array} ary
+	 * @return {JSON}
+	 */
+	var getMinMax = function(ary) {
+		var max = 0;
+		var min = 900;
+		for (var i = ary.length - 1; i >= 0; i--) {
+			if (ary[i].fret > max) {
+				max = ary[i].fret;
+			}
+			if (ary[i].fret < min) {
+				min = ary[i].fret;
+			}
+		}
+		return {
+			max: max,
+			min: (min < 900) ? min : max
+		};
+	};
+
+	/**
+	 * Handles the offset, translates from fret (on the diagram's N frets) to the insturment's complete fretbaord
+	 * @method  fretNumber
+	 * @param  {int} fret
+	 * @return {int}
+	 */
+	var fretNumber = function(fret) {
+		return fret > 0 ? _fretOffset + fret : 0;
+	};
+
+	/**
+	 * Not too surprisingly this finds "fret" within dots and returns finger. If there isn't a dot
+	 * for fret returns zed.
+	 * @method  getFinger
+	 * @param  {array} dots
+	 * @param  {int} fret
+	 * @return {int}
+	 */
+	var getFinger = function(dots, fret) {
+		for (var i = 0; i < dots.length; i++) {
+			if (dots[i].fret == fret) {
+				return dots[i].finger;
+			}
+		}
+		return 0;
+	};
+
+	/**
+	 * Returns an array of ints, one for each string, with the HIGHEST REAL fret appearing on that string.
+	 * Default is zed per string.
+	 * @method getPrimaryFrets
+	 * @param  {int} startingFret
+	 * @return {int}
+	 */
+	_public.getPrimaryFrets = function(startingFret) {
+		_fretOffset = startingFret - 1;
+		var dotsPerString = getStringDots();
+		var primaries = [];
+		for (var i = 0; i < dotsPerString.length; i++) {
+			var minMax = getMinMax(dotsPerString[i].dots);
+			primaries.push(fretNumber(minMax.max));
+		}
+		return primaries;
+	};
+
+	/**
+	 * Returns complete ChordPro definition statement
+	 * @method getDefinition
+	 * @param  {string} chordName
+	 * @param  {int} startingFret
+	 * @return {string}
+	 */
+	_public.getDefinition = function(chordName, startingFret) {
+		chordName = scrub(chordName);
+		var name = (chordName && chordName.length > 0) ? chordName : 'CHORDNAME';
+		var fretsStr = '';
+		var fingersString = '';
+		var addsString = '';
+
+		_fretOffset = startingFret - 1;
+		var dotsPerString = getStringDots();
+		for (var i = 0; i < dotsPerString.length; i++) {
+			var minMax = getMinMax(dotsPerString[i].dots);
+			fretsStr += fretNumber(minMax.max) + ' ';
+			fingersString += getFinger(dotsPerString[i].dots, minMax.max) + ' ';
+			if (minMax.max != minMax.min) {
+				addsString += ' add: string ' + dotsPerString[i].string + ' fret ' + fretNumber(minMax.min) + ' finger ' + getFinger(dotsPerString[i].dots, minMax.min);
+			}
+		}
+
+		// no double spaces, no space before the closing "}"
+		return ('{define: ' + name + ' frets ' + fretsStr + ' fingers ' + fingersString + addsString + '}').replace(/\s+/g, ' ').replace(' }', '}');
+	};
+
+	/**
+	 * Returns "highlighted" (HTML-ified) ChordPro definition statement.
+	 * @method getDefinition
+	 * @param  {string} chordName
+	 * @param  {int} startingFret
+	 * @return {string}
+	 */
+	_public.getDefinitionHtml = function(chordName, startingFret) {
+		chordName = scrub(chordName);
+		// Keep regexs simple by a couple cheats:
+		// First, using 'X07MX001' as my CSS clasname prefix to avoid collisions.
+		// We temporarily remove the name, then put it back in the very last step.
+		var html = _public.getDefinition(chordName, startingFret);
+		html = html.replace(' ' + chordName, ' ' + 'X07Myq791wso01');
+		html = html.replace(/\b(\d+)\b/g, '<span class="chordPro-X07MX001number">$1</span>');
+		html = html.replace(/\b(frets?|fingers?|string)\b/g, '<span class="chordPro-X07MX001attribute">$1</span>');
+		html = html.replace(/\b(define|add)\b/g, '<span class="chordPro-X07MX001keyword">$1</span>');
+		return html
+			.replace('X07Myq791wso01', '<span class="chordPro-string">' + chordName + '</span>')
+			.replace(/X07MX001/g, '')
+			.replace(/ +/g, ' ');
+	};
+
+	/**
+	 * Returns "safe" version of chord name, removing disallowed characters and reserved names (such as "add:")
+	 * @method scrub
+	 * @param  {string} chordName
+	 * @return {string}
+	 */
+	var scrub = function(name) {
+		// paranoia protection: no reserved words (makes life easier for parsing)
+		var disallow = /^(frets|fingers|add:)$/i;
+		// trim leading & trailing spaces, internal spaces get smushed into single dash
+		var cleaned = name.replace(/^\s*(.*?)\s*$/, '$1').replace(/\s+/g, '-');
+		if (disallow.test(cleaned)) {
+			cleaned = '';
+		}
+		return cleaned.substring(0, opts_chord.nameMaxLength);
+	};
+
+	// ---------------------------------------
+	// return public interface
+	// ---------------------------------------
+	return _public;
+
+}());
+;/**
+ *
+ * @class chooserList
+ * @namespace ugsChordBuilder
+ * @static
+ * @singleton
+ */
+ugsChordBuilder.chooserList = (function() {
+	/**
+	 * attach public members to this object
+	 * @property _public
+	 * @type JsonObject
+	 */
+	var _public = {};
+
+	// array of custom chords defined in this song
+	var _chordDictionary = [];
+	// handle to HTML UL element
+	var _eleChordList = null;
+
+	/**
+	 * magic value for start a new chord (constant)
+	 * @final
+	 * @attribute C_NEW_CHORD
+	 * @type {Int}
+	 */
+	var C_NEW_CHORD = -1;
+
+	// next available Id used on LI's
+	var _nextId = 0;
+
+	// HTML element Ids
+	var _ids = {
+		// ChordPro Song -- the unmodified source
+		source: 'chordProSource',
+		// the UL where we'll be loading the chords
+		chordList: 'cdBldPick',
+		builderPanel: 'cdBldBuilderPanel',
+		chooserPanel: 'cdBldChooserPanel'
+	};
+
+	/**
+	 * Chord current sent to the editor.
+	 * @attribute _currentChord
+	 */
+	var _currentChord = null;
+
+	/**
+	 * Handle to the chordBuilder (UI) "setChord" method
+	 * @attribute _setChordMethod
+	 */
+	var _setChordMethod = function() {};
+
+	/**
+	 * Hanlde to instance of Scriptasaurus chord brush class, to paint the wee little
+	 * chord diagrams onto the Chooser List.
+	 * @attribute _ugsBrushTool
+	 * @type {Object}
+	 */
+	var _ugsBrushTool = null;
+
+	/**
+	 * Required settings for the Chord Brush -- dimensions, fonts, and colors.
+	 * @attribute _diagramSettings
+	 * @type {JSON}
+	 */
+	var _diagramSettings = {
+		dimensions: {
+			showText: false,
+			height: 50,
+			width: 40,
+			fretSpace: 9,
+			stringSpace: 7,
+			dotRadius: 3,
+			lineWidth: 1,
+			topLeftPos: {
+				x: 10,
+				y: 2
+			},
+			xWidth: 0.7 * 7,
+			xStroke: 1.4 * 1
+		},
+		fonts: {
+			dot: '8pt Arial',
+			text: '8pt Arial',
+			fret: '8pt Arial'
+		},
+		colors: {
+			fretLines: '#EED18E',
+			dots: '#551D00', //'#9A532D',
+			dotText: '#ffffff',
+			text: '#000000',
+			fretText: '#EED18E',
+			xStroke: '#551D00'
+		}
+	};
+
+	/**
+	 * entity for storing raw chord info; attached to the LI via id
+	 * @class ChordDefinition
+	 * @param {string} name
+	 * @param {string} definition
+	 */
+	var ChordDefinition = function(name, definition) {
+		this.id = _nextId++;
+		this.name = name;
+		this.definition = definition;
+	};
+
+	/**
+	 * @method init
+	 * @param  {function} setChordFunction
+	 */
+	_public.init = function(setChordFunction) {
+		_setChordMethod = setChordFunction;
+		_eleChordList = document.getElementById(_ids.chordList);
+		// attach click handler to the UL avoids need to attach to individual LI items (these get added & deleted frequently)
+		_eleChordList.addEventListener('click', onClick, false);
+		_start();
+	};
+
+	var _start = function() {
+		songGetDefinitions(document.getElementById(_ids.source).value);
+		listLoad(_eleChordList, _chordDictionary);
+	};
+
+	_public.reset = function() {
+		_chordDictionary = [];
+		document.getElementById(_ids.chordList).innerHTML = '';
+		_nextId = 0;
+		_currentChord = null;
+		_start();
+	};
+
+	/**
+	 * Shows either the "Chooser" or "Chord Builder/Editor" panel.
+	 * @method show
+	 * @public
+	 * @param {bool} isChooserPanel
+	 */
+	_public.show = function(isChooserPanel) {
+		document.getElementById(_ids.chooserPanel).style.display = isChooserPanel ? 'block' : 'none';
+		document.getElementById(_ids.builderPanel).style.display = !isChooserPanel ? 'block' : 'none';
+		$('#' + _ids.chooserPanel).closest('.overlay').toggleClass('chordBuilderNarrow', isChooserPanel);
+	};
+
+	/**
+	 * Returns TRUE if Save completed OK, false otherwise (duplicate name or unable to update)
+	 * @method save
+	 * @param  {JSON} data
+	 * @return {bool}
+	 */
+	_public.save = function(data) {
+		if (dictionaryFindDupes(_currentChord == null ? -1 : _currentChord.id, data.name) >= 0) {
+			alert('Hey, this chord name is already being used.');
+			return false;
+		}
+		var id = -1;
+		if (_currentChord == null) {
+			id = definitionAdd(data.name, data.definition);
+			_currentChord = dictionaryFind(id);
+			songAddDefinition(data.definition);
+		}
+		else {
+			var i = dictionaryGetIndex(_currentChord.id);
+			if (i < 0) {
+				// console.log('error: not found');
+				return false;
+			}
+			var oldDefinition = _chordDictionary[i].definition;
+			_chordDictionary[i].name = data.name;
+			_chordDictionary[i].definition = data.definition;
+			id = _chordDictionary[i].id;
+			songReplace(oldDefinition, _chordDictionary[i].definition);
+		}
+		listUpdate(id);
+		_public.show(true);
+		return true;
+	};
+
+	/**
+	 * Handles confirming & removing a chord from the list and the song.
+	 * @method doDelete description]
+	 * @param  {ChordDefinition} chord
+	 * @return {void}
+	 */
+	var doDelete = function(chord) {
+		if (!confirm('Delete definition for "' + chord.name + '"?')) {
+			return;
+		}
+		var item = listGetItem(chord.id);
+		if (!item) {
+			return;
+		}
+		_eleChordList.removeChild(item);
+		songReplace(chord.definition, '');
+
+	};
+
+	/**
+	 * ListItem click event handler
+	 * @method onClick
+	 * @param  {Event} evt
+	 */
+	var onClick = function(evt) {
+		evt.preventDefault();
+		_currentChord = dictionaryFind(evt.target.getAttribute('data-id'));
+		if (evt.target.getAttribute('data-action') == 'delete') {
+			doDelete(_currentChord);
+			return;
+		}
+
+		var chord = null;
+		if (_currentChord != null) {
+			chord = ukeGeeks.chordImport.runLine(_currentChord.definition);
+			if (hasMutedStrings(chord)) {
+				alert('Uh-oh! This chord uses muted strings!\nCurrently the Chord Builder does not support muted strings -- \nsaving edits will result in mutes being lost.');
+			}
+		}
+		_setChordMethod(chord);
+		_public.show(false);
+	};
+
+	/**
+	 * Checks whether any of the Chord's strings have been muted.
+	 * @method hasMutedStrings
+	 * @param  {ugs.chord}  chord
+	 * @return {Boolean}
+	 */
+	var hasMutedStrings = function(chord) {
+		if (chord.muted) {
+			for (var i = 0; i < chord.muted.length; i++) {
+				if (chord.muted[i]) {
+					return true;
+				}
+			}
+		}
+		return false;
+	};
+
+	/**
+	 * updates an exiting HTML ListItem (LI) using the info stored for Id in
+	 * the chord dictionary (array). Appends new ListItem if not found.
+	 * @method listUpdate
+	 * @param  {int} id
+	 * @return {DOM_LI}
+	 */
+	var listUpdate = function(id) {
+		var def = dictionaryFind(id);
+		var item = listGetItem(id);
+		if (!item) {
+			item = listAddItem(id, def.name);
+		}
+		else {
+			item.innerHTML = listHtmlString(id, def.name, true);
+		}
+		listAddDiagram(id);
+		return item;
+	};
+
+	/**
+	 * finds the HTML ListItem corresponding to Id
+	 * @method listGetItem
+	 * @param  {int} id
+	 * @return {DOM_LI}
+	 */
+	var listGetItem = function(id) {
+		var items = _eleChordList.getElementsByTagName('li');
+		for (var i = 0; i < items.length; i++) {
+			if (items[i].getAttribute('data-id') == ('' + id)) {
+				return items[i];
+			}
+		}
+		return null;
+	};
+
+	/**
+	 * Returns HTML snippet for an LI
+	 * @method listHtmlString
+	 * @param  {int} id
+	 * @param  {string} name
+	 * @param  {bool} isInner (optional) if TRUE only reutrns the inner HTML part, otherwise returns complete LI tag
+	 * @return {string}
+	 */
+	var listHtmlString = function(id, name, isInner) {
+		isInner = (arguments.length > 2) ? isInner : false;
+		var innerHtml = '<span class="deleteChord" data-id="' + id + '" data-action="delete" title="Remove this definition"></span>' + name;
+		return isInner ? innerHtml : '<li data-id="' + id + '" title="Edit this definition" class="ugs-grouped">' + innerHtml + '</li>';
+	};
+
+	/**
+	 * Clears and loads the HTML UL using currently values in Chord Dictionary
+	 * @method listLoad
+	 * @param {DOM_UL} ul
+	 * @param {array} chordDefs
+	 */
+	var listLoad = function(ul, chordDefs) {
+		var i, s = '';
+		for (i = 0; i < chordDefs.length; i++) {
+			s += listHtmlString(chordDefs[i].id, chordDefs[i].name);
+		}
+		ul.innerHTML = '<li data-id="' + C_NEW_CHORD + '" class="newChord">+ Add New Chord</li>' + s;
+
+		var items = ul.getElementsByTagName('li');
+		for (i = items.length - 1; i >= 0; i--) {
+			if (i < 1) {
+				continue;
+			}
+			listAddDiagram(items[i].getAttribute('data-id'));
+		}
+	};
+
+	/**
+	 * Appends a new HTML ListItem to our UL.
+	 * @method listAddItem
+	 * @param  {int} id
+	 * @param  {string} name
+	 */
+	var listAddItem = function(id, name) {
+		var temp = document.createElement('ul');
+		temp.innerHTML = listHtmlString(id, name);
+		_eleChordList.appendChild(temp.childNodes[0]);
+	};
+
+	/**
+	 * Adds mini-chord diagram to the list item found by Id.
+	 * @method listAddDiagram
+	 */
+	var listAddDiagram = function(id) {
+		var element = listGetItem(id);
+		var defintion = dictionaryFind(id);
+		var chord = ukeGeeks.chordImport.runLine(defintion.definition);
+		//var fretBox = ukeGeeks.settings.inlineFretBox;
+		//var fontSettings = ukeGeeks.settings.inlineFretBox.fonts;
+		if (_ugsBrushTool == null) {
+			_ugsBrushTool = new ukeGeeks.chordBrush();
+		}
+		_ugsBrushTool.plot(element, chord, _diagramSettings.dimensions, _diagramSettings.fonts, _diagramSettings.colors);
+	};
+
+	/**
+	 * Using just a bit of recursion performs as advertised: replaces all occurences of
+	 * searchValue with newValue within text (haystack).
+	 * DANGER: it is, of course, for this to get hung in an infinite loop if new value
+	 * inclues complete search value. :D
+	 * @method replaceAll
+	 * @param  {string} text
+	 * @param  {string} searchValue
+	 * @param  {string} newValue
+	 * @return {string}
+	 */
+	var replaceAll = function(text, searchValue, newValue) {
+		var newText = text.replace(searchValue, newValue);
+		return (newText == text) ? text : replaceAll(newText, searchValue, newValue);
+	};
+
+	/**
+	 * Updates Source and Runs Scriptasaurus after updaint the definition
+	 * @method songReplace
+	 * @param  {string} oldDefinition
+	 * @param  {string} newDefinition
+	 * @return {void}
+	 */
+	var songReplace = function(oldDefinition, newDefinition) {
+		var e = document.getElementById(_ids.source);
+		e.value = replaceAll(e.value, oldDefinition, newDefinition);
+		ugsEditorPlus.actions.run();
+	};
+
+	/**
+	 * Loops over all lines in "text" and extracts any {define:...} statements, adding
+	 * them to the ChordDictionary.
+	 * @method songGetDefinitions
+	 */
+	var songGetDefinitions = function(text) {
+		var defineRegEx = /\{define:\s*([^}]+?)\s+frets[^}]+?\}/im;
+		var lines = text.split('\n');
+		for (var i = lines.length - 1; i >= 0; i--) {
+			if (!defineRegEx.test(lines[i])) {
+				continue;
+			}
+			definitionAdd(lines[i].replace(defineRegEx, '$1'), lines[i]);
+		}
+	};
+
+	/**
+	 * Inserts the passed chord definition into the song (and reruns Sscriptasaurus).
+	 * The chord insertion point is at the end of either the song meta tags or the
+	 * existing chord defintion block. Determined by the _last_ "header" tag line.
+	 * @method songAddDefinition
+	 * @param {string} definition
+	 */
+	var songAddDefinition = function(definition) {
+		var choProText = document.getElementById(_ids.source);
+		var instructionRegEx = /\s*\{\s*(title|t|artist|subtitle|st|album|define):.*?\}/im;
+		var lines = choProText.value.split('\n');
+		var html = '';
+		var inserted = false;
+		for (var i = lines.length - 1; i >= 0; i--) {
+			if (!inserted && instructionRegEx.test(lines[i])) {
+				html = definition + '\n' + html;
+				inserted = true;
+			}
+			html = lines[i] + '\n' + html;
+		}
+		if (!inserted) {
+			html = definition + '\n' + choProText.value;
+		}
+		choProText.value = html;
+		ugsEditorPlus.actions.run();
+	};
+
+	/**
+	 * Returns Index of Id within the chord Dictionary or -1 if not found.
+	 * @method dictionaryGetIndex
+	 * @param  {int} id
+	 * @return {int}
+	 */
+	var dictionaryGetIndex = function(id) {
+		for (var i = 0; i < _chordDictionary.length; i++) {
+			if ('' + _chordDictionary[i].id == id) {
+				return i;
+			}
+		}
+		return -1;
+	};
+
+	/**
+	 * Returns index of the duplicate chord name. Pass in Id of the chord to be ignored,
+	 * (i.e. the one currently being edited). Comparison ignores case. Returns -1 if no
+	 * dupe is found.
+	 * @method dictionaryFindDupes
+	 * @param  {int} id
+	 * @param  {string} name
+	 * @return {int}
+	 */
+	var dictionaryFindDupes = function(id, name) {
+		var search = name.toLowerCase();
+		for (var i = _chordDictionary.length - 1; i >= 0; i--) {
+			if (('' + _chordDictionary[i].id != '' + id) && (_chordDictionary[i].name.toLowerCase() == search)) {
+				return i;
+			}
+		}
+
+		return -1;
+	};
+
+	/**
+	 * Returns the entry for Id from Chord Dictionary
+	 * @method dictionaryFind
+	 * @param  {int} id
+	 * @return {ChordDefinition}
+	 */
+	var dictionaryFind = function(id) {
+		var i = dictionaryGetIndex(id);
+		return i >= 0 ? _chordDictionary[i] : null;
+	};
+
+	/**
+	 * Adds new chord definition to our Dictionary array. Returns the
+	 * new item's Id (int).
+	 * @method definitionAdd
+	 * @param {string} name
+	 * @param {string} definition
+	 * @return {int}
+	 */
+	var definitionAdd = function(name, definition) {
+		var chord = new ChordDefinition(name, definition);
+		_chordDictionary.push(chord);
+		return chord.id;
+	};
+
+	// ---------------------------------------
+	// return public interface
+	// ---------------------------------------
+	return _public;
+
+}());
+;/**
+ * Doing
+ * @class editorUi
+ * @constructor
+ * @namespace ugsChordBuilder
+ */
+ugsChordBuilder.editorUi = function() {
+
+	var _ids = {
+		// top-most container, the "master drawing surface"
+		container: 'cdBldEditorSurface',
+		// stacked canvas elements
+		cursorCanvas: 'cdBldCursorCanvas',
+		diagramCanvas: 'cdBldDiagramCanvas',
+		// chord definition meta: name & fret
+		startingFret: 'cdBldStartingFret',
+		chordName: 'cdBldChordName',
+		// container wrapping sliding toolbox pallet
+		toolbox: 'cdBldToolbox',
+		// toolbox buttons:
+		dotsBtn: 'cdBldDotsBtn',
+		fingersBtn: 'cdBldFingersBtn',
+		slideUpBtn: 'toolboxSlideUpBtn',
+		slideDownBtn: 'toolboxSlideDownBtn',
+		// display on "Hand" toolbox button
+		btnFingerName: 'cdBldBtnFingerName',
+		btnHandPic: 'cdBldBtnDiagram',
+		// container for generated chordPro "define" tag (colorized)
+		output: 'cdBldOutput',
+		// show/hide definition output & container where we'll stuff the colorized definition
+		showOutputBtn: 'cdBldShowOutputBtn',
+		outputBox: 'cdBldOutputBox',
+		cancelBtn: 'cdBldCancelBtn',
+		saveBtn: 'cdBldSaveBtn'
+		// openBtn: 'cdBldOpenBtn'
+	};
+
+	var _cursorCanvas = null,
+		_eleDotsBtn = null,
+		_eleFingerBtn = null;
+
+	var _startingFret = 1;
+	var _currentName = '';
+
+	var _isDotToolActive = true;
+	var _finger = 0;
+
+	/**
+	 * A "reverse Enum" dictionary of finger number to description
+	 * @attribute _fingerNames
+	 * @type {JSON}
+	 */
+	var _fingerNames = {
+		0: 'None',
+		1: 'Index finger',
+		2: 'Middle finger',
+		3: 'Ring finger',
+		4: 'Pinkie'
+	};
+
+	/**
+	 * Returns FALSE if canvas is not supported
+	 * @method init
+	 * @return {bool}
+	 */
+	this.init = function() {
+		_cursorCanvas = document.getElementById(_ids.cursorCanvas);
+		if (!_cursorCanvas.getContext) {
+			return false;
+		}
+
+		var cursorContext = _cursorCanvas.getContext('2d');
+		var diagramContext = document.getElementById(_ids.diagramCanvas).getContext('2d');
+
+		var ele = document.getElementById(_ids.startingFret);
+		addStartingFretOptions(ele);
+		ele.addEventListener('change', onFretChange, false);
+
+		document.getElementById(_ids.chordName).addEventListener('keyup', onNameChange, false);
+
+		_eleDotsBtn = document.getElementById(_ids.dotsBtn);
+		_eleFingerBtn = document.getElementById(_ids.fingersBtn);
+		_eleDotsBtn.addEventListener('click', toggleTool, false);
+		_eleFingerBtn.addEventListener('click', toggleTool, false);
+
+		document.getElementById(_ids.showOutputBtn).addEventListener('click', showOutputBox, false);
+		document.getElementById(_ids.cancelBtn).addEventListener('click', onCancelClick, false);
+		document.getElementById(_ids.saveBtn).addEventListener('click', onSaveClick, false);
+
+		document.getElementById(_ids.slideUpBtn).addEventListener('click', slide, false);
+		document.getElementById(_ids.slideDownBtn).addEventListener('click', slide, false);
+
+		updateFinger();
+
+		document.getElementById(_ids.container).addEventListener('mousemove', onMouseMove, false);
+		_cursorCanvas.addEventListener('click', onMouseClick, false);
+
+		ugsChordBuilder.chordCanvas.init(diagramContext, _cursorCanvas);
+		ugsChordBuilder.cursorCanvas.init(cursorContext);
+
+		redraw();
+		exportDefinition();
+
+		ugsChordBuilder.chooserList.init(setChord);
+
+		return true;
+	};
+
+	/**
+	 * Successively clicking the Finger tool cycles through index to pinky, then none, and so on.
+	 * This method automatically increments the "currently active finger" (odd sentence, that)
+	 * and updates the toolbox UI.
+	 * Note: changing the cursor is not handled here.
+	 * @method updateFinger
+	 * @private
+	 * @return {void}
+	 */
+	var updateFinger = function() {
+		_finger++;
+		if (_finger > 4) {
+			_finger = 0;
+		}
+		document.getElementById(_ids.btnFingerName).innerHTML = _fingerNames[_finger] + ' (' + _finger + ')';
+		document.getElementById(_ids.btnHandPic).className = 'fingerToolImage finger' + _finger;
+	};
+
+	/**
+	 * @method
+	 * @private
+	 * @return {void}
+	 */
+	var showOutputBox = function(evt) {
+		setClass(document.getElementById(_ids.outputBox), 'collapseOutput', !evt.target.checked);
+	};
+
+	/**
+	 * Cancel button's click event handler
+	 * @method onCancelClick
+	 */
+	var onCancelClick = function(evt) {
+		evt.preventDefault();
+		reset();
+		ugsChordBuilder.chooserList.show(true);
+	};
+
+	/**
+	 * Save button's click event handler
+	 * @method onSaveClick
+	 */
+	var onSaveClick = function(evt) {
+		evt.preventDefault();
+		var d = {
+			name: _currentName,
+			startingFret: _startingFret,
+			dots: ugsChordBuilder.fretDots.getDots(),
+			definition: ugsChordBuilder.export.getDefinition(_currentName, _startingFret)
+		};
+		if (!ugsChordBuilder.chooserList.save(d)) {
+			var e = document.getElementById(_ids.chordName);
+			e.focus();
+			e.select();
+		}
+	};
+
+	/**
+	 * DANGER!! this is really a public method! A reference to this is passed to the
+	 * scrapper during its initialization. Used to load ths Chord Builder
+	 * @method setChord
+	 * @param {Chord} chord
+	 */
+	var setChord = function(chord) {
+		var isNew = chord == null;
+		if (isNew) {
+			reset();
+			return;
+		}
+
+		var maxFret = findMaxFret(chord.dots);
+		var startingFret = (maxFret > ugsChordBuilder.settings.fretBoard.numFrets) ? maxFret - ugsChordBuilder.settings.fretBoard.numFrets + 1 : 1;
+		reset(chord.name, startingFret, convertDots(startingFret, chord.dots), false);
+	};
+
+	/**
+	 * Converts standard scriptasaurus Dot array to chordBuilder dot array (fret changes)
+	 * @method convertDots
+	 * @param {int} startingFret
+	 * @param  {array} builderDots
+	 * @return {array}
+	 */
+	var convertDots = function(startingFret, builderDots) {
+		var offset = startingFret - 1;
+		var ugsDots = [];
+		for (var i = 0; i < builderDots.length; i++) {
+			var fret = builderDots[i].fret - offset;
+			ugsDots.push(new ugsChordBuilder.entities.Dot(builderDots[i].string, (fret < 0 ? 0 : fret), builderDots[i].finger));
+		}
+		return ugsDots;
+	};
+
+	/**
+	 * Loops over dots to find the largest fret value
+	 * @method findMaxFret
+	 * @param  {array} dots
+	 * @return {ing}
+	 */
+	var findMaxFret = function(dots) {
+		var max = 0;
+		for (var i = 0; i < dots.length; i++) {
+			if (dots[i].fret > max) {
+				max = dots[i].fret;
+			}
+		}
+		return max;
+	};
+
+	/**
+	 * Updates the "standard form-like inputs"
+	 * @method resetInputs
+	 * @param {string} name
+	 * @param {int} startingFret
+	 * @param {bool} isNew
+	 * @return {void}
+	 */
+	var resetInputs = function(name, startingFret, isNew) {
+		_currentName = (name && name.length > 0) ? name : 'CHORDNAME';
+		document.getElementById(_ids.chordName).value = _currentName;
+
+		_startingFret = startingFret ? startingFret : 1;
+		document.getElementById(_ids.startingFret).value = _startingFret;
+
+		document.getElementById(_ids.showOutputBtn).checked = false;
+		setClass(document.getElementById(_ids.outputBox), 'collapseOutput', true);
+
+		document.getElementById(_ids.saveBtn).value = isNew ? 'Add' : 'Update';
+	};
+
+	/**
+	 * Updates the Toolbox's current tool to be "Add Dot"; sets properties required for cursor, etc.
+	 * @method resetCurrentTool
+	 */
+	var resetCurrentTool = function() {
+		// restore current drawing tool (this is lame-o)
+		// -----------------------------------------------
+		_isDotToolActive = true;
+		_finger = 0;
+		updateFinger();
+		setClass(_eleDotsBtn, 'selected', _isDotToolActive);
+		setClass(_eleFingerBtn, 'selected', !_isDotToolActive);
+		setClass(document.getElementById(_ids.toolbox), 'open', !_isDotToolActive);
+		ugsChordBuilder.cursorCanvas.setCursor(_isDotToolActive, _finger);
+	};
+
+	/**
+	 * Does a complete UI reset (if no values provided in params), otherwise this is kinda a "set"
+	 * @method reset
+	 * @param {string} name Chord name
+	 * @param {int} startingFret
+	 * @param {array} dots
+	 * @param {bool} isNew Used to set the button text
+	 */
+	var reset = function(name, startingFret, dots, isNew) {
+		isNew = arguments.length > 3 ? isNew : true;
+		// fire cleanup on other classes...
+		// -----------------------------------------------
+		ugsChordBuilder.fretDots.reset();
+
+		// easy elements back to default...
+		// -----------------------------------------------
+		resetInputs(name, startingFret, isNew);
+
+		resetCurrentTool();
+
+		if (dots && dots.length > 0) {
+			for (var i = 0; i < dots.length; i++) {
+				ugsChordBuilder.fretDots.toggleDot(dots[i]);
+			}
+		}
+
+		// ok, probably done
+		// -----------------------------------------------
+		redraw();
+		exportDefinition();
+	};
+
+	/**
+	 * @method
+	 * @private
+	 * @return {void}
+	 */
+	var toggleTool = function(evt) {
+		evt.preventDefault();
+		var useDotTool = evt.currentTarget.href.indexOf('#dots') >= 0;
+		if (useDotTool == _isDotToolActive) {
+			if (!useDotTool) {
+				updateFinger();
+				ugsChordBuilder.cursorCanvas.setCursor(_isDotToolActive, _finger);
+			}
+			return;
+		}
+
+		setClass(_eleDotsBtn, 'selected', useDotTool);
+		setClass(_eleFingerBtn, 'selected', !useDotTool);
+		setClass(document.getElementById(_ids.toolbox), 'open', !useDotTool);
+
+		_isDotToolActive = useDotTool;
+		ugsChordBuilder.cursorCanvas.setCursor(_isDotToolActive, _finger);
+	};
+
+	/**
+	 * Yet another poor man's jQuery envying add/remove CSS class method.
+	 * @method
+	 * @private
+	 * @return {void}
+	 */
+	var setClass = function(element, className, isSet) {
+		var hasClass = element.className.indexOf(className) >= 0;
+		if (isSet && !hasClass) {
+			// add
+			element.className += ' ' + className;
+		}
+		else if (!isSet && hasClass) {
+			// remove
+			element.className = element.className.replace(className, '').replace(/\s+/g, ' ');
+		}
+	};
+
+	/**
+	 * @method
+	 * @private
+	 * @return {void}
+	 */
+	var addStartingFretOptions = function(ele) {
+		var s = '';
+		var lastValue = ugsChordBuilder.settings.fretBoard.maxFret - ugsChordBuilder.settings.fretBoard.numFrets + 1;
+		for (var i = 1; i <= lastValue; i++) {
+			s += '<option value="' + i + '">' + i + '</option>';
+		}
+		ele.innerHTML = s;
+	};
+
+	/**
+	 * @method
+	 * @private
+	 * @return {void}
+	 */
+	var onNameChange = function(evt) {
+		_currentName = this.value;
+		exportDefinition();
+	};
+
+	/**
+	 * @method
+	 * @private
+	 * @return {void}
+	 */
+	var onFretChange = function(evt) {
+		_startingFret = parseInt(this.value, 10);
+		exportDefinition();
+		redraw();
+	};
+
+	/**
+	 * Needs to watch for closed chords!
+	 * @method
+	 * @private
+	 * @return {void}
+	 */
+	var slide = function(evt) {
+		evt.preventDefault();
+		var moveAllowed = false;
+		var numSteps = evt.target.getAttribute('data-direction') == 'up' ? -1 : +1;
+		if (ugsChordBuilder.fretDots.slide(numSteps)) {
+			moveAllowed = true;
+		}
+		else {
+			var newStart = _startingFret + numSteps;
+			var lastValue = ugsChordBuilder.settings.fretBoard.maxFret - ugsChordBuilder.settings.fretBoard.numFrets + 1;
+			if ((newStart >= 1) && (newStart <= lastValue)) {
+				_startingFret = newStart;
+				document.getElementById(_ids.startingFret).value = newStart;
+				moveAllowed = true;
+			}
+		}
+
+		if (moveAllowed) {
+			redraw();
+			exportDefinition();
+		}
+	};
+
+	/**
+	 * @method
+	 * @private
+	 * @return {void}
+	 */
+	var onMouseMove = function(evt) {
+		ugsChordBuilder.cursorCanvas.draw(getPosition(this, evt));
+	};
+
+	/**
+	 * @method
+	 * @private
+	 * @return {void}
+	 */
+	var onMouseClick = function(evt) {
+		var pos = getPosition(_cursorCanvas, evt);
+		var dot = ugsChordBuilder.tracking.toDot(pos);
+		if (!dot) {
+			return;
+		}
+
+		if (_isDotToolActive) {
+			ugsChordBuilder.fretDots.toggleDot(dot);
+			redraw(pos);
+			exportDefinition();
+		}
+		else if (ugsChordBuilder.fretDots.toggleFinger(dot, _finger)) {
+			redraw(pos);
+			exportDefinition();
+		}
+	};
+
+	/**
+	 * @method
+	 * @private
+	 * @return {void}
+	 */
+	var getPosition = function(canvas, evt) {
+		var rect = canvas.getBoundingClientRect();
+		return new ugsChordBuilder.entities.Position(
+			evt.clientX - rect.left,
+			evt.clientY - rect.top
+		);
+	};
+
+	/**
+	 * @method
+	 * @private
+	 * @return {void}
+	 */
+	var redraw = function(pos) {
+		pos = pos || new ugsChordBuilder.entities.Position(0, 0);
+		ugsChordBuilder.chordCanvas.draw(pos, _startingFret);
+	};
+
+	/**
+	 * @method
+	 * @private
+	 * @return {void}
+	 */
+	var exportDefinition = function() {
+		document.getElementById(_ids.output).innerHTML = ugsChordBuilder.export.getDefinitionHtml(_currentName, _startingFret);
+	};
+
+	this.reload = function() {
+		reset();
+		ugsChordBuilder.chooserList.reset();
+		ugsChordBuilder.chooserList.show(true);
+	};
+
+};
+;/*jslint browser: true, eqeqeq: true, bitwise: true, newcap: true, immed: true, regexp: false */
+
+/**
+LazyLoad makes it easy and painless to lazily load one or more external
+JavaScript or CSS files on demand either during or after the rendering of a web
+page.
+
+Supported browsers include Firefox 2+, IE6+, Safari 3+ (including Mobile
+Safari), Google Chrome, and Opera 9+. Other browsers may or may not work and
+are not officially supported.
+
+Visit https://github.com/rgrove/lazyload/ for more info.
+
+Copyright (c) 2011 Ryan Grove <ryan@wonko.com>
+All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the 'Software'), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+@module lazyload
+@class LazyLoad
+@static
+*/
+
+LazyLoad = (function (doc) {
+  // -- Private Variables ------------------------------------------------------
+
+  // User agent and feature test information.
+  var env,
+
+  // Reference to the <head> element (populated lazily).
+  head,
+
+  // Requests currently in progress, if any.
+  pending = {},
+
+  // Number of times we've polled to check whether a pending stylesheet has
+  // finished loading. If this gets too high, we're probably stalled.
+  pollCount = 0,
+
+  // Queued requests.
+  queue = {css: [], js: []},
+
+  // Reference to the browser's list of stylesheets.
+  styleSheets = doc.styleSheets;
+
+  // -- Private Methods --------------------------------------------------------
+
+  /**
+  Creates and returns an HTML element with the specified name and attributes.
+
+  @method createNode
+  @param {String} name element name
+  @param {Object} attrs name/value mapping of element attributes
+  @return {HTMLElement}
+  @private
+  */
+  function createNode(name, attrs) {
+    var node = doc.createElement(name), attr;
+
+    for (attr in attrs) {
+      if (attrs.hasOwnProperty(attr)) {
+        node.setAttribute(attr, attrs[attr]);
+      }
+    }
+
+    return node;
+  }
+
+  /**
+  Called when the current pending resource of the specified type has finished
+  loading. Executes the associated callback (if any) and loads the next
+  resource in the queue.
+
+  @method finish
+  @param {String} type resource type ('css' or 'js')
+  @private
+  */
+  function finish(type) {
+    var p = pending[type],
+        callback,
+        urls;
+
+    if (p) {
+      callback = p.callback;
+      urls     = p.urls;
+
+      urls.shift();
+      pollCount = 0;
+
+      // If this is the last of the pending URLs, execute the callback and
+      // start the next request in the queue (if any).
+      if (!urls.length) {
+        callback && callback.call(p.context, p.obj);
+        pending[type] = null;
+        queue[type].length && load(type);
+      }
+    }
+  }
+
+  /**
+  Populates the <code>env</code> variable with user agent and feature test
+  information.
+
+  @method getEnv
+  @private
+  */
+  function getEnv() {
+    var ua = navigator.userAgent;
+
+    env = {
+      // True if this browser supports disabling async mode on dynamically
+      // created script nodes. See
+      // http://wiki.whatwg.org/wiki/Dynamic_Script_Execution_Order
+      async: doc.createElement('script').async === true
+    };
+
+    (env.webkit = /AppleWebKit\//.test(ua))
+      || (env.ie = /MSIE|Trident/.test(ua))
+      || (env.opera = /Opera/.test(ua))
+      || (env.gecko = /Gecko\//.test(ua))
+      || (env.unknown = true);
+  }
+
+  /**
+  Loads the specified resources, or the next resource of the specified type
+  in the queue if no resources are specified. If a resource of the specified
+  type is already being loaded, the new request will be queued until the
+  first request has been finished.
+
+  When an array of resource URLs is specified, those URLs will be loaded in
+  parallel if it is possible to do so while preserving execution order. All
+  browsers support parallel loading of CSS, but only Firefox and Opera
+  support parallel loading of scripts. In other browsers, scripts will be
+  queued and loaded one at a time to ensure correct execution order.
+
+  @method load
+  @param {String} type resource type ('css' or 'js')
+  @param {String|Array} urls (optional) URL or array of URLs to load
+  @param {Function} callback (optional) callback function to execute when the
+    resource is loaded
+  @param {Object} obj (optional) object to pass to the callback function
+  @param {Object} context (optional) if provided, the callback function will
+    be executed in this object's context
+  @private
+  */
+  function load(type, urls, callback, obj, context) {
+    var _finish = function () { finish(type); },
+        isCSS   = type === 'css',
+        nodes   = [],
+        i, len, node, p, pendingUrls, url;
+
+    env || getEnv();
+
+    if (urls) {
+      // If urls is a string, wrap it in an array. Otherwise assume it's an
+      // array and create a copy of it so modifications won't be made to the
+      // original.
+      urls = typeof urls === 'string' ? [urls] : urls.concat();
+
+      // Create a request object for each URL. If multiple URLs are specified,
+      // the callback will only be executed after all URLs have been loaded.
+      //
+      // Sadly, Firefox and Opera are the only browsers capable of loading
+      // scripts in parallel while preserving execution order. In all other
+      // browsers, scripts must be loaded sequentially.
+      //
+      // All browsers respect CSS specificity based on the order of the link
+      // elements in the DOM, regardless of the order in which the stylesheets
+      // are actually downloaded.
+      if (isCSS || env.async || env.gecko || env.opera) {
+        // Load in parallel.
+        queue[type].push({
+          urls    : urls,
+          callback: callback,
+          obj     : obj,
+          context : context
+        });
+      } else {
+        // Load sequentially.
+        for (i = 0, len = urls.length; i < len; ++i) {
+          queue[type].push({
+            urls    : [urls[i]],
+            callback: i === len - 1 ? callback : null, // callback is only added to the last URL
+            obj     : obj,
+            context : context
+          });
+        }
+      }
+    }
+
+    // If a previous load request of this type is currently in progress, we'll
+    // wait our turn. Otherwise, grab the next item in the queue.
+    if (pending[type] || !(p = pending[type] = queue[type].shift())) {
+      return;
+    }
+
+    head || (head = doc.head || doc.getElementsByTagName('head')[0]);
+    pendingUrls = p.urls.concat();
+
+    for (i = 0, len = pendingUrls.length; i < len; ++i) {
+      url = pendingUrls[i];
+
+      if (isCSS) {
+          node = env.gecko ? createNode('style') : createNode('link', {
+            href: url,
+            rel : 'stylesheet'
+          });
+      } else {
+        node = createNode('script', {src: url});
+        node.async = false;
+      }
+
+      node.className = 'lazyload';
+      node.setAttribute('charset', 'utf-8');
+
+      if (env.ie && !isCSS && 'onreadystatechange' in node && !('draggable' in node)) {
+        node.onreadystatechange = function () {
+          if (/loaded|complete/.test(node.readyState)) {
+            node.onreadystatechange = null;
+            _finish();
+          }
+        };
+      } else if (isCSS && (env.gecko || env.webkit)) {
+        // Gecko and WebKit don't support the onload event on link nodes.
+        if (env.webkit) {
+          // In WebKit, we can poll for changes to document.styleSheets to
+          // figure out when stylesheets have loaded.
+          p.urls[i] = node.href; // resolve relative URLs (or polling won't work)
+          pollWebKit();
+        } else {
+          // In Gecko, we can import the requested URL into a <style> node and
+          // poll for the existence of node.sheet.cssRules. Props to Zach
+          // Leatherman for calling my attention to this technique.
+          node.innerHTML = '@import "' + url + '";';
+          pollGecko(node);
+        }
+      } else {
+        node.onload = node.onerror = _finish;
+      }
+
+      nodes.push(node);
+    }
+
+    for (i = 0, len = nodes.length; i < len; ++i) {
+      head.appendChild(nodes[i]);
+    }
+  }
+
+  /**
+  Begins polling to determine when the specified stylesheet has finished loading
+  in Gecko. Polling stops when all pending stylesheets have loaded or after 10
+  seconds (to prevent stalls).
+
+  Thanks to Zach Leatherman for calling my attention to the @import-based
+  cross-domain technique used here, and to Oleg Slobodskoi for an earlier
+  same-domain implementation. See Zach's blog for more details:
+  http://www.zachleat.com/web/2010/07/29/load-css-dynamically/
+
+  @method pollGecko
+  @param {HTMLElement} node Style node to poll.
+  @private
+  */
+  function pollGecko(node) {
+    var hasRules;
+
+    try {
+      // We don't really need to store this value or ever refer to it again, but
+      // if we don't store it, Closure Compiler assumes the code is useless and
+      // removes it.
+      hasRules = !!node.sheet.cssRules;
+    } catch (ex) {
+      // An exception means the stylesheet is still loading.
+      pollCount += 1;
+
+      if (pollCount < 200) {
+        setTimeout(function () { pollGecko(node); }, 50);
+      } else {
+        // We've been polling for 10 seconds and nothing's happened. Stop
+        // polling and finish the pending requests to avoid blocking further
+        // requests.
+        hasRules && finish('css');
+      }
+
+      return;
+    }
+
+    // If we get here, the stylesheet has loaded.
+    finish('css');
+  }
+
+  /**
+  Begins polling to determine when pending stylesheets have finished loading
+  in WebKit. Polling stops when all pending stylesheets have loaded or after 10
+  seconds (to prevent stalls).
+
+  @method pollWebKit
+  @private
+  */
+  function pollWebKit() {
+    var css = pending.css, i;
+
+    if (css) {
+      i = styleSheets.length;
+
+      // Look for a stylesheet matching the pending URL.
+      while (--i >= 0) {
+        if (styleSheets[i].href === css.urls[0]) {
+          finish('css');
+          break;
+        }
+      }
+
+      pollCount += 1;
+
+      if (css) {
+        if (pollCount < 200) {
+          setTimeout(pollWebKit, 50);
+        } else {
+          // We've been polling for 10 seconds and nothing's happened, which may
+          // indicate that the stylesheet has been removed from the document
+          // before it had a chance to load. Stop polling and finish the pending
+          // request to prevent blocking further requests.
+          finish('css');
+        }
+      }
+    }
+  }
+
+  return {
+
+    /**
+    Requests the specified CSS URL or URLs and executes the specified
+    callback (if any) when they have finished loading. If an array of URLs is
+    specified, the stylesheets will be loaded in parallel and the callback
+    will be executed after all stylesheets have finished loading.
+
+    @method css
+    @param {String|Array} urls CSS URL or array of CSS URLs to load
+    @param {Function} callback (optional) callback function to execute when
+      the specified stylesheets are loaded
+    @param {Object} obj (optional) object to pass to the callback function
+    @param {Object} context (optional) if provided, the callback function
+      will be executed in this object's context
+    @static
+    */
+    css: function (urls, callback, obj, context) {
+      load('css', urls, callback, obj, context);
+    },
+
+    /**
+    Requests the specified JavaScript URL or URLs and executes the specified
+    callback (if any) when they have finished loading. If an array of URLs is
+    specified and the browser supports it, the scripts will be loaded in
+    parallel and the callback will be executed after all scripts have
+    finished loading.
+
+    Currently, only Firefox and Opera support parallel loading of scripts while
+    preserving execution order. In other browsers, scripts will be
+    queued and loaded one at a time to ensure correct execution order.
+
+    @method js
+    @param {String|Array} urls JS URL or array of JS URLs to load
+    @param {Function} callback (optional) callback function to execute when
+      the specified scripts are loaded
+    @param {Object} obj (optional) object to pass to the callback function
+    @param {Object} context (optional) if provided, the callback function
+      will be executed in this object's context
+    @static
+    */
+    js: function (urls, callback, obj, context) {
+      load('js', urls, callback, obj, context);
+    }
+
+  };
+})(this.document);
+
 /**
  * @license AngularJS v1.5.3
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -33362,85 +44997,78 @@ app.factory("Song", function SongFactory($http) {
 app.controller('SongController', 
 	['$scope', '$http', '$route', '$routeParams', '$location', '$sce', 'Song',
 	function($scope, $http, $route, $routeParams, $location, $sce,  Song)  {
-		$scope.songs = null;
-		
-		$scope.load = function( id ) {
+
+		this.load = function( id ) {
 			if (id == null) {
 				Song.all()
 				.success( function(data) {
 					$scope.songs = data;
 				});
 			} else {
-				$scope.id = id;
+				Song.read(id)
+					.success( function(data) {
+						$scope.song = data;
+					});
 			}
 		};
-		switch($scope.action) {
-			case "new":
-				$scope.keys = ['C', 'F', 'B♭', 'E♭', 'A♭', 'D♭', 'C♯', 'G♭', 'F♯', 'B', 'E', 'A', 'D', 'G', 'Cm','Fm','B♭m','E♭m','A♭m','D♭m','C♯m','G♭m','F♯m','Bm','Em','Am','Dm','Gm'];
-				$scope.song = Song.song;
-				$scope.song._token = $scope.csrf;
-				$scope.saveSong = function() {
-					Song.create($scope.song)
-						.success( function(data) {
-							window.location.replace('/songs/' + data.slug);
-						});
-				};
 
-				break;
-			case "load":
-				if ($scope.id) {
-					window.location.replace('/songs/' + $scope.id);
-				} else {
-					window.location.replace('/');
-				}
-				break;
-			default:
-				$scope.load();
-				break;
-		}
-	
+		this.createNew = function() {
+			$scope.keys = ['C', 'F', 'B♭', 'E♭', 'A♭', 'D♭', 'C♯', 'G♭', 'F♯', 'B', 'E', 'A', 'D', 'G', 'Cm','Fm','B♭m','E♭m','A♭m','D♭m','C♯m','G♭m','F♯m','Bm','Em','Am','Dm','Gm'];
+			$scope.song = Song.song;
+			$scope.song._token = $scope.csrf;
+			$scope.saveSong = function() {
+				Song.create($scope.song)
+					.success( function(data) {
+						window.location.replace('/songs/' + data.slug);
+					});
+			};
+		};
+
+		return this;
 }]);
 
 
-app.directive('ukulelesong', ['$sce', 'Song', function($sce, Song) {
+app.directive('songs', ['$sce', 'Song', function($sce, Song) {
     return {
         // Restrict it to be an element in this case
         restrict: 'E',
-        replace: true,
-        transclude: true,
-        controller: ['$sce', '$scope', 'Song', function($sce, $scope, Song) {
-        	Song.read($scope.id)
-			.success( function(data) {
-				$scope.song = data;
-				console.log(	ukeGeeks.cpmParser().parse(data.song));
-				$scope.song.song = $sce.trustAsHtml(ukeGeeks.chordParser().parse(data.song));
-
-			});
-        }],
-        templateUrl: '/app/templates/songs/song.html',
-        scope: {
-        	id: '=id',
-        }
-    };
-}])
-.directive('songs', ['$sce', function($sce, Song) {
-    return {
-        // Restrict it to be an element in this case
-        restrict: 'E',
-        controller: 'SongController',
+        controller: "SongController",
+        link: function(scope, element, attrs, SongCtrl) {
+            scope.songs = SongCtrl.load();
+        },
         templateUrl: '/app/templates/songs/index.html',
     };
 }])
-.directive('song', ['$sce', 'Song', function($sce, Song) {
+.directive('newSong', ['$sce', 'Song', function($sce, Song) {
         return {
             // Restrict it to be an element in this case
             restrict: 'E',
             controller: 'SongController',
             templateUrl: '/app/templates/songs/new.html',
             scope: {
-                action: '@action',
                 csrf: '@csrf',
             }
         };
+}])
+.directive('song', ['$compile', '$sce', 'Song', function($compile, $sce, Song) {
+    return {
+        // Restrict it to be an element in this case
+        restrict: 'E',
+        templateUrl: '/app/templates/songs/view.html',
+        controller: "SongController",
+        scope: {
+            id: '=song',
+        }, 
+        link: function(scope, element, attrs) {
+            Song.read(scope.id).success(function(data) {
+                data.song = $sce.trustAsHtml(data.song);
+                scope.song = data;
+            });
+
+            $('body').append($compile("<song />")(scope));
+            scope.$apply();
+
+        }
+    }
 }]);
 //# sourceMappingURL=all.js.map

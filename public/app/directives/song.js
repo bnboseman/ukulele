@@ -1,41 +1,44 @@
-app.directive('ukulelesong', ['$sce', 'Song', function($sce, Song) {
+app.directive('songs', ['$sce', 'Song', function($sce, Song) {
     return {
         // Restrict it to be an element in this case
         restrict: 'E',
-        replace: true,
-        transclude: true,
-        controller: ['$sce', '$scope', 'Song', function($sce, $scope, Song) {
-        	Song.read($scope.id)
-			.success( function(data) {
-				$scope.song = data;
-				console.log(	ukeGeeks.cpmParser().parse(data.song));
-				$scope.song.song = $sce.trustAsHtml(ukeGeeks.chordParser().parse(data.song));
-
-			});
-        }],
-        templateUrl: '/app/templates/songs/song.html',
-        scope: {
-        	id: '=id',
-        }
-    };
-}])
-.directive('songs', ['$sce', function($sce, Song) {
-    return {
-        // Restrict it to be an element in this case
-        restrict: 'E',
-        controller: 'SongController',
+        controller: "SongController",
+        link: function(scope, element, attrs, SongCtrl) {
+            scope.songs = SongCtrl.load();
+        },
         templateUrl: '/app/templates/songs/index.html',
     };
 }])
-.directive('song', ['$sce', 'Song', function($sce, Song) {
+.directive('newSong', ['$sce', 'Song', function($sce, Song) {
         return {
             // Restrict it to be an element in this case
             restrict: 'E',
             controller: 'SongController',
             templateUrl: '/app/templates/songs/new.html',
             scope: {
-                action: '@action',
                 csrf: '@csrf',
             }
         };
+}])
+.directive('song', ['$compile', '$sce', 'Song', function($compile, $sce, Song) {
+    return {
+        // Restrict it to be an element in this case
+        restrict: 'E',
+        templateUrl: '/app/templates/songs/view.html',
+        controller: "SongController",
+        scope: {
+            id: '=song',
+        }, 
+        link: function(scope, element, attrs) {
+            Song.read(scope.id).success(function(data) {
+                data.song = $sce.trustAsHtml(data.song);
+                scope.song = data;
+                console.log(data);  `ch`
+            });
+
+            $('body').append($compile("<song />")(scope));
+            scope.$apply();
+
+        }
+    }
 }]);

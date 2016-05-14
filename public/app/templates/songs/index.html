@@ -1,3 +1,10 @@
+<h1 class="pull-left">Songs</h1>
+<div class="col-md-4 input-group pull-right search-bar">
+	<input class="form-control" ng-model="search" name="search" id="search" placeholder="Search">
+			<span class="input-group-addon" id="search-icon">
+			<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+			</span>
+</div>
 <table class="table table-responsive table-hover table-bordered">
     <thead class="thead-inverse">
 		<tr>
@@ -6,7 +13,7 @@
 		    <th>Key</th>
 		</tr>
     </thead>
-    
+
     <tbody>
 	    <tr dir-paginate="song in songs  | itemsPerPage: 10 |filter: search" ng-click="console.log(song);">
 	        <td>
@@ -18,6 +25,6 @@
 	    </tr>
     </tbody>
 </table>
-   
+
 
 <dir-pagination-controls></dir-pagination-controls>

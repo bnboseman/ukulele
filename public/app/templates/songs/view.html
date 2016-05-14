@@ -1,3 +1,8 @@
-<div class="col-md-12">
-   <ukulelesong id="id"></ukulelesong>
+<div>
+    <h1 class="ugsSongTitle"><% song.title %> </h1>
+    <div id="ukeSongContainer-<% song.slug %>" class="ugsLayoutOneColumn ugs-song-wrap">
+        <aside id="ukeChordsCanvas-<% song.slug %>" class="ugs-diagrams-wrap ugs-grouped"></aside>
+        <article id="ukeSongText-<% song.slug %>" class="ugs-source-wrap"><pre  ng-bind-html="song.song"></pre></article>
+    </div>
+
 </div>
